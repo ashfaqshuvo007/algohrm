@@ -225,5 +225,5 @@
                 {{ csrf_field() }}
             </form>
         </li>
-    </ul>
+   
 </div>
