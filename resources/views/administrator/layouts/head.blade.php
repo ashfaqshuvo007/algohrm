@@ -42,5 +42,6 @@
     <link rel="stylesheet" href="{{ asset('public/backend/mystyle.css') }}">
     <!-- /My Stylesheet -->
 
+
 <script src="{{ asset('public/backend/bower_components/jquery/dist/jquery.min.js') }}"></script>
 </head>
