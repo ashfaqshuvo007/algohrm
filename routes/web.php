@@ -28,7 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
-	
+
 
 	// Leave Category Section //
 	Route::get('/setting/leave_categories', 'LeaveCatController@index');
@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/setting/leave_categories/edit/{id}', 'LeaveCatController@edit');
 	Route::post('/setting/leave_categories/update/{id}', 'LeaveCatController@update');
 	Route::get('/setting/leave_categories/delete/{id}', 'LeaveCatController@destroy');
-	
+
 	//Application Listes//
 	Route::get('/hrm/application_lists', 'LeaveAppController@apllicationLists');
 	Route::get('/hrm/leave_application/approved/{id}', 'LeaveAppController@approved');
@@ -54,8 +54,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/hrm/leave_application/{id}', 'LeaveAppController@show');
 	Route::get('/hrm/leave-reports', 'LeaveAppController@reports');
 	Route::get('/hrm/leave-reports/pdf-reports', 'LeaveAppController@pdf_reports');
-	
-	
+
+
 
 	// Designations Section //
 	Route::get('/setting/designations', 'EmpDesignationController@index');
@@ -81,7 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/people/clients/edit/{id}', 'CustomerController@edit');
 	Route::post('/people/clients/update/{id}', 'CustomerController@update');
 	Route::get('/people/clients/delete/{id}', 'CustomerController@destroy');
-	
+
 	// Customer Types Section //
 	Route::get('/setting/client-types', 'CustomerTypeController@index');
 	Route::get('/setting/client-types/create', 'CustomerTypeController@create');
@@ -233,7 +233,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Noyon
 
-	//working daya
+	//working days
 	Route::get('/setting/working-days', 'WorkingDayController@index');
 	Route::post('/setting/working-days/update/', 'WorkingDayController@update');
 
@@ -269,7 +269,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/hrm/notice/show', 'NoticeController@show');
 
-	
+
 
 	//expence managements//
 	Route::get('/hrm/expence/category/add', 'ExpenceManagementController@expCategoryAdd');
@@ -306,4 +306,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/hrm/employee-awards/details/{id}', 'EmployeeAwardController@show');
 	Route::get('/hrm/employee-awards/delete/{id}', 'EmployeeAwardController@destroy');
 
+	//Employee Grades
+	Route::get('setting/employee_grades', 'PaymentGradeController@index');
+	Route::get('/setting/employee_grades/create', 'PaymentGradeController@create');
 });

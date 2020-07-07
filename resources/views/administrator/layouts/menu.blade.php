@@ -205,6 +205,7 @@
                 <li><a href="{{ url('/setting/client-types') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Client Types') }} </a></li>
                 <li><a href="{{ url('/setting/departments') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Departments') }} </a></li>
                 <li><a href="{{ url('/setting/designations') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Designations') }} </a></li>
+                <li><a href="{{ url('/setting/employee_grades') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Employee Grades') }}</a></li>
                 <li><a href="{{ url('/setting/leave_categories') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Leave Categories') }} </a></li>
                 <li><a href="{{ url('/setting/working-days') }}"><i class="fa fa-circle-o"></i> {{ __('Set Working Day') }}</a></li>
                 <li><a href="{{ url('/setting/holidays') }}"><i class="fa fa-circle-o"></i>{{ __('Holiday List') }} </a></li>
