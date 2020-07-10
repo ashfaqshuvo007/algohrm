@@ -15,6 +15,14 @@ class CreatePaymentGradesTable extends Migration
     {
         Schema::create('payment_grades', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('grade');
+            $table->bigInteger('created_by');
+            $table->string('basic_salary');
+            $table->string('yearly_increment_rate');
+            $table->string('house_rent');
+            $table->string('medical_allowance');
+            $table->string('travel_allowance');
+            $table->string('food_allowance');
             $table->timestamps();
         });
     }

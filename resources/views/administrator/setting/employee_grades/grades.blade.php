@@ -54,37 +54,41 @@
                     <table  class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>{{ __('SL#') }}</th>
-                                <th>{{ __('Award Name/Title') }}</th>
-                                <th class="text-center">{{ __('Create By') }}</th>
-                                <th class="text-center">{{ __('Status') }}</th>
+                                <th class="text-center">{{ __('SL#') }}</th>
+                                <th class="text-center">{{ __('Grade') }}</th>
+                                <th class="text-center">{{ __('Created By') }}</th>
+                                <th class="text-center">{{ __('Basic Salary') }}</th>
+                                <th class="text-center">{{ __('Yearly Increment Rate') }}</th>
+                                <th class="text-center">{{ __('House Rent') }}</th>
+                                <th class="text-center">{{ __('Medical Allowance') }}</th>
+                                <th class="text-center">{{ __('Travel Allowance') }}</th>
+                                <th class="text-center">{{ __('Food Allowance') }}</th>
+                                <th class="text-center">{{ __('Total Salary Payable') }}</th>
                                 <th class="text-center">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
-                        {{-- <tbody id="myTable">
+                        <tbody id="myTable">
                             @php($sl = 1)
-                            @foreach($award_categorys as $award_category)
-
+                            @foreach($grades as $g)
                             <tr>
-                                <td>{{ $sl++ }}</td>
-                                <td>{{ $award_category['award_title'] }}</td>
-                                <td>{{ $award_category['name'] }}</td>
+                                <td class="text-center">{{ $sl++ }}</td>
+                                <td class="text-center">{{ $g['grade'] }}</td>
+                                <td class="text-center">{{ $g['created_by'] }}</td>
+                                <td class="text-center">{{ $g['basic_salary'] }}</td>
+                                <td class="text-center">{{ $g['yearly_increment_rate'] }}</td>
+                                <td class="text-center">{{ $g['house_rent'] }}</td>
+                                <td class="text-center">{{ $g['medical_allowance'] }}</td>
+                                <td class="text-center">{{ $g['travel_allowance'] }}</td>
+                                <td class="text-center">{{ $g['food_allowance'] }}</td>
+                                <td class="text-center">{{ $g['basic_salary'] + $g['medical_allowance'] + $g['travel_allowance'] + $g['food_allowance']  + $g['house_rent'] }}</td>
                                 <td class="text-center">
-                                    @if($award_category['publication_status'] == 1)
-                                    <span class="label label-success">{{ __('Published') }}</span>
-                                @else
-                                <span class="label label-warning">{{ __('Unpublished') }}</span>
-                                    @endif
-
-                                </td>
-                                <td class="text-center">
-                                  <a href="{{ url('/setting/award_categories/edit/' . $award_category['id']) }}"><i class="icon fa fa-edit"></i>{{ __('Edit') }} </a>
+                                  <a href="{{ url('/setting/employee_grades/edit/' . $g['id']) }}"><i class="icon fa fa-edit"></i>{{ __('Edit') }} </a>
                                 </td>
                             </tr>
                             @endforeach
 
 
-                        </tbody> --}}
+                        </tbody>
                     </table>
                 </div>
             </div>

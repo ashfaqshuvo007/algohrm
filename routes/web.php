@@ -309,4 +309,7 @@ Route::group(['middleware' => 'auth'], function () {
 	//Employee Grades
 	Route::get('setting/employee_grades', 'PaymentGradeController@index');
 	Route::get('/setting/employee_grades/create', 'PaymentGradeController@create');
+	Route::post('/setting/employee_grades/store', 'PaymentGradeController@store');
+	Route::get('/setting/employee_grades/edit/{id}', 'PaymentGradeController@edit');
+	Route::post('/setting/employee_grades/update', 'PaymentGradeController@update');
 });

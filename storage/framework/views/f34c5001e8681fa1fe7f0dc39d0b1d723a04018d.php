@@ -42,5 +42,6 @@
     <link rel="stylesheet" href="<?php echo e(asset('public/backend/mystyle.css')); ?>">
     <!-- /My Stylesheet -->
 
+
 <script src="<?php echo e(asset('public/backend/bower_components/jquery/dist/jquery.min.js')); ?>"></script>
 </head><?php /**PATH /Users/ashfaqhahmed/Sites/laraProjects/hrm-demo/resources/views/administrator/layouts/head.blade.php ENDPATH**/ ?>

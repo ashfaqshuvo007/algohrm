@@ -12,7 +12,7 @@
       <li><a href="{{ url('/dashboard') }}"><i class="fa fa-dashboard"></i> {{ __('Dashboard') }}</a></li>
       <li><a>{{ __('Setting') }}</a></li>
       <li><a href="{{ url('/setting/employee_grades') }}">{{ __('Employee Grade Lists') }}</a></li>
-      <li class="active">{{ __('Add Employee Grade') }}</li>
+      <li class="active">{{ __('Edit Employee Grade') }}</li>
     </ol>
   </section>
 
@@ -22,7 +22,7 @@
     <!-- SELECT2 EXAMPLE -->
     <div class="box box-default">
       <div class="box-header with-border">
-        <h3 class="box-title">{{ __('Add Employee Grade') }}</h3>
+        <h3 class="box-title">{{ __('Edit Employee Grade') }}</h3>
 
         <div class="box-tools pull-right">
           <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -30,9 +30,8 @@
         </div>
       </div>
       <!-- /.box-header -->
-      <form action="{{ url('/setting/employee_grades/store') }}" method="post" name="grade_add_form">
-        {{-- {{ csrf_field() }} --}}
-        @csrf
+      <form action="{{ url('/setting/employee_grades/update') }}" method="post" name="grade_edit_form">
+        {{ csrf_field() }}
         <div class="box-body">
           <div class="row">
             <!-- Notification Box -->
@@ -52,11 +51,11 @@
               @endif
             </div>
             <!-- /.Notification Box -->
-
+            <input type="hidden" name="grade_id" id="grade_id" value="{{ $grade->id }}" >
             <div class="col-md-6">
               <label for="grade">{{ __('Grade') }} <span class="text-danger">*</span></label>
               <div class="form-group{{ $errors->has('grade') ? ' has-error' : '' }} has-feedback">
-                <input type="text" name="grade" id="grade" class="form-control" value="{{ old('grade') }}" placeholder="{{ __('Enter Grade') }}">
+                <input type="text" name="grade" id="grade" class="form-control" value="{{ $grade->grade }}" placeholder="{{ __('Enter Grade') }}" disabled>
                 @if ($errors->has('grade'))
                 <span class="help-block">
                   <strong>{{ $errors->first('grade') }}</strong>
@@ -67,7 +66,7 @@
 
               <label for="basic_salary">{{ __('Basic Salary') }} <span class="text-danger">*</span></label>
               <div class="form-group{{ $errors->has('basic_salary') ? ' has-error' : '' }} has-feedback">
-                <input type="text" name="basic_salary" id="basic_salary" class="form-control" value="{{ old('basic_salary') }}" placeholder="{{ __('Enter Basic Salary') }}">
+                <input type="text" name="basic_salary" id="basic_salary" class="form-control" value="{{ $grade->basic_salary }}" placeholder="{{ __('Enter Basic Salary') }}">
                 @if ($errors->has('basic_salary'))
                 <span class="help-block">
                   <strong>{{ $errors->first('basic_salary') }}</strong>
@@ -77,9 +76,9 @@
               <!-- /.form-group -->
 
 
-              <label for="yearly_increment_rate">{{ __('Yearly Increment Rate (in %)') }} <span class="text-danger">*</span></label>
+              <label for="yearly_increment_rate">{{ __('Yearly Increment Rate(in %)') }} <span class="text-danger">*</span></label>
               <div class="form-group{{ $errors->has('yearly_increment_rate') ? ' has-error' : '' }} has-feedback">
-                <input type="text" name="yearly_increment_rate" id="yearly_increment_rate" class="form-control" value="{{ old('yearly_increment_rate') }}" placeholder="{{ __('Enter Yearly Increment Rate') }}">
+                <input type="text" name="yearly_increment_rate" id="yearly_increment_rate" class="form-control" value="{{ $grade->yearly_increment_rate }}" placeholder="{{ __('Enter Yearly Increment Rate') }}">
                 @if ($errors->has('yearly_increment_rate'))
                 <span class="help-block">
                   <strong>{{ $errors->first('yearly_increment_rate') }}</strong>
@@ -90,7 +89,7 @@
 
               <label for="house_rent">{{ __('House Rent (40% of basic salary)') }} <span class="text-danger">*</span></label>
               <div class="form-group{{ $errors->has('house_rent') ? ' has-error' : '' }} has-feedback">
-                <input type="text" name="house_rent" id="house_rent" class="form-control" value="{{ old('house_rent') }}" placeholder="{{ __('Enter House Rent') }}">
+                <input type="text" name="house_rent" id="house_rent" class="form-control" value="{{ $grade->house_rent }}" placeholder="{{ __('Enter House Rent') }}">
                 @if ($errors->has('house_rent'))
                 <span class="help-block">
                   <strong>{{ $errors->first('house_rent') }}</strong>
@@ -101,7 +100,7 @@
 
               <label for="medical_allowance">{{ __('Medical Allowance') }} <span class="text-danger">*</span></label>
               <div class="form-group{{ $errors->has('medical_allowance') ? ' has-error' : '' }} has-feedback">
-                <input type="text" name="medical_allowance" id="medical_allowance" class="form-control" value="{{ old('medical_allowance') }}" placeholder="{{ __('Medical Allowance') }}">
+                <input type="text" name="medical_allowance" id="medical_allowance" class="form-control" value="{{ $grade->medical_allowance }}" placeholder="{{ __('Medical Allowance') }}">
                 @if ($errors->has('medical_allowance'))
                 <span class="help-block">
                   <strong>{{ $errors->first('medical_allowance') }}</strong>
@@ -113,7 +112,7 @@
 
                <label for="travel_allowance">{{ __('Travel Allowance') }} <span class="text-danger">*</span></label>
               <div class="form-group{{ $errors->has('travel_allowance') ? ' has-error' : '' }} has-feedback">
-                <input type="text" name="travel_allowance" id="travel_allowance" class="form-control" value="{{ old('travel_allowance') }}" placeholder="{{ __('Enter Travel Allowance') }}">
+                <input type="text" name="travel_allowance" id="travel_allowance" class="form-control" value="{{ $grade->travel_allowance }}" placeholder="{{ __('Enter Travel Allowance') }}">
                 @if ($errors->has('travel_allowance'))
                 <span class="help-block">
                   <strong>{{ $errors->first('travel_allowance') }}</strong>
@@ -124,7 +123,7 @@
 
                <label for="food_allowance">{{ __('Food Allowance') }} <span class="text-danger">*</span></label>
               <div class="form-group{{ $errors->has('food_allowance') ? ' has-error' : '' }} has-feedback">
-                <input type="text" name="food_allowance" id="food_allowance" class="form-control" value="{{ old('food_allowance') }}" placeholder="{{ __('Enter Food Allowance') }}">
+                <input type="text" name="food_allowance" id="food_allowance" class="form-control" value="{{ $grade->food_allowance }}" placeholder="{{ __('Enter Food Allowance') }}">
                 @if ($errors->has('food_allowance'))
                 <span class="help-block">
                   <strong>{{ $errors->first('food_allowance') }}</strong>
@@ -143,7 +142,7 @@
         <!-- /.box-body -->
         <div class="box-footer">
           <a href="{{ url('/setting/employee_grades') }}" class="btn btn-danger btn-flat"><i class="icon fa fa-close"></i> {{ __('Cancel') }}</a>
-          <button type="submit" class="btn btn-primary btn-flat"><i class="icon fa fa-plus"></i> {{ __('Add Employee Grade') }}</button>
+          <button type="submit" class="btn btn-primary btn-flat"><i class="icon fa fa-plus"></i> {{ __('Edit Employee Grade') }}</button>
         </div>
       </form>
     </div>

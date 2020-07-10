@@ -84,13 +84,8 @@
 
 
 
-
-
-
-
-
 <!-- =================Statistics start ========================-->
-<script src="<?php echo e(asset('/public/backend/Chart.bundle.js')); ?>"></script>
+<script src="<?php echo e(asset('/public/backend/chart.bundle.js')); ?>"></script>
 <?php
 $notics= \App\Notice::all();
 $holidays= \App\Holiday::all();
