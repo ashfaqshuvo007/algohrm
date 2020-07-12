@@ -56,6 +56,7 @@
                             <tr>
                                 <th>{{ __('SL#') }}</th>
                                 <th>{{ __('Designation') }}</th>
+                                <th>{{ __('Grade') }}</th>
                                 <th>{{ __('Department') }}</th>
                                 <th>{{ __('Designation Description') }}</th>
                                 <th class="text-center">{{ __('Added By') }}</th>
@@ -64,12 +65,14 @@
                                 <th class="text-center">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
+                      
                         <tbody id="myTable">
                             @php ($sl = 1)
                             @foreach($designations as $designation)
                             <tr>
                                 <td>{{ $sl++ }}</td>
                                 <td>{{ $designation['designation'] }}</td>
+                                <td>{{ $designation['grade_id'] }}</td>
                                 <td>{{ $designation['department'] }}</td>
                                 <td>{{ str_limit($designation['designation_description'], 65) }}</td>
                                 <td>{{ $designation['name'] }}</td>

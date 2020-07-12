@@ -17,7 +17,8 @@ class CreateDesignationsTable extends Migration
             $table->increments('id');
             $table->integer('created_by');
             $table->integer('department_id');
-            $table->string('designation',100)->unique();
+            $table->integer('grade_id');
+            $table->string('designation', 100)->unique();
             $table->text('designation_description');
             $table->tinyInteger('publication_status');
             $table->tinyInteger('deletion_status')->default(0);

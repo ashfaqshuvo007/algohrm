@@ -5,27 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Designation;
 use App\Department;
+use App\PaymentGrade;
 
-class EmpDesignationController extends Controller {
+class EmpDesignationController extends Controller
+{
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         $designations = Designation::query()
-        ->leftjoin('departments as dept','dept.id', '=', 'designations.department_id')
-        ->leftjoin('users as users','users.id', '=', 'designations.created_by')
-        ->orderBy('designations.designation', 'ASC')
-        ->where('designations.deletion_status', 0)
-        ->get([
-            'designations.*', 
-            'dept.department',
-            'users.name',
-        ])
-        ->toArray();
-
+            ->leftjoin('departments as dept', 'dept.id', '=', 'designations.department_id')
+            ->leftjoin('payment_grades as grade', 'grade.id', '=', 'designations.grade_id')
+            ->leftjoin('users as users', 'users.id', '=', 'designations.created_by')
+            ->orderBy('designations.designation', 'ASC')
+            ->where('designations.deletion_status', 0)
+            ->get([
+                'designations.*',
+                'dept.department',
+                'users.name',
+                'grade.grade'
+            ])
+            ->toArray();
         return view('administrator.setting.designation.manage_designations', compact('designations'));
     }
 
@@ -34,12 +38,15 @@ class EmpDesignationController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         $departments = Department::all()
-                ->sortByDesc('job_type')
-                ->where('deletion_status', 0)
-                ->toArray();
-        return view('administrator.setting.designation.add_designation', compact('departments'));
+            ->sortByDesc('job_type')
+            ->where('deletion_status', 0)
+            ->toArray();
+
+        $grades = PaymentGrade::all();
+        return view('administrator.setting.designation.add_designation', compact('departments', 'grades'));
     }
 
     /**
@@ -48,14 +55,17 @@ class EmpDesignationController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $designation = $this->validate(request(), [
             'designation' => 'required|unique:designations|max:100',
             'department_id' => 'required',
+            'grade_id' => 'required',
             'publication_status' => 'required',
             'designation_description' => 'required',
-        ],[
+        ], [
             'department_id.required' => 'The department field is required.',
+            'grade_id.required' => 'The grade field is required.',
         ]);
 
         $result = Designation::create($designation + ['created_by' => auth()->user()->id]);
@@ -74,9 +84,10 @@ class EmpDesignationController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function published($id) {
+    public function published($id)
+    {
         $affected_row = Designation::where('id', $id)
-                ->update(['publication_status' => 1]);
+            ->update(['publication_status' => 1]);
 
         if (!empty($affected_row)) {
             return redirect('/setting/designations')->with('message', 'Published successfully.');
@@ -91,9 +102,10 @@ class EmpDesignationController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function unpublished($id) {
+    public function unpublished($id)
+    {
         $affected_row = Designation::where('id', $id)
-                ->update(['publication_status' => 0]);
+            ->update(['publication_status' => 0]);
 
         if (!empty($affected_row)) {
             return redirect('/setting/designations')->with('message', 'Unpublished successfully.');
@@ -107,18 +119,19 @@ class EmpDesignationController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         $designation = Designation::query()
-        ->leftjoin('departments as dept','dept.id', '=', 'designations.department_id')
-        ->leftjoin('users as users','users.id', '=', 'designations.created_by')
-        ->orderBy('designations.designation', 'ASC')
-        ->where('designations.id', $id)
-        ->first([
-            'designations.*', 
-            'dept.department',
-            'users.name',
-        ])
-        ->toArray();
+            ->leftjoin('departments as dept', 'dept.id', '=', 'designations.department_id')
+            ->leftjoin('users as users', 'users.id', '=', 'designations.created_by')
+            ->orderBy('designations.designation', 'ASC')
+            ->where('designations.id', $id)
+            ->first([
+                'designations.*',
+                'dept.department',
+                'users.name',
+            ])
+            ->toArray();
         return view('administrator.setting.designation.show_designation', compact('designation'));
     }
 
@@ -128,13 +141,15 @@ class EmpDesignationController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $designation = Designation::find($id)->toArray();
         $departments = Department::all()
-                ->sortByDesc('job_type')
-                ->where('deletion_status', 0)
-                ->toArray();
-        return view('administrator.setting.designation.edit_designation', compact('designation', 'departments'));
+            ->sortByDesc('job_type')
+            ->where('deletion_status', 0)
+            ->toArray();
+        $grades = PaymentGrade::all();
+        return view('administrator.setting.designation.edit_designation', compact('designation', 'departments', 'grades'));
     }
 
     /**
@@ -144,19 +159,23 @@ class EmpDesignationController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $designation = Designation::find($id);
         $this->validate(request(), [
             'designation' => 'required|max:100',
             'department_id' => 'required',
+            'grade_id' => 'required',
             'publication_status' => 'required',
             'designation_description' => 'required',
-        ],[
+        ], [
             'department_id.required' => 'The department field is required.',
+            'grade_id.required' => 'The department field is required.',
         ]);
 
         $designation->designation = $request->get('designation');
         $designation->department_id = $request->get('department_id');
+        $designation->grade_id = $request->get('grade_id');
         $designation->designation_description = $request->get('designation_description');
         $designation->publication_status = $request->get('publication_status');
         $affected_row = $designation->save();
@@ -173,14 +192,14 @@ class EmpDesignationController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $affected_row = Designation::where('id', $id)
-                ->update(['deletion_status' => 1]);
+            ->update(['deletion_status' => 1]);
 
         if (!empty($affected_row)) {
             return redirect('/setting/designations')->with('message', 'Delete successfully.');
         }
         return redirect('/setting/designations')->with('exception', 'Operation failed !');
     }
-
 }

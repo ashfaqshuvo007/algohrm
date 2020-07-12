@@ -32,7 +32,7 @@
         <div class="icon">
           
         </div>
-        <a href="{{ url('/people/clients') }}" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ url('/people/employees') }}" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -40,14 +40,14 @@
       <!-- small box -->
       <div class="small-box bg-orange">
         <div class="inner">
-         <h3><i class="fa fa-envelope"></i> {{ count($references) }}</h3>
+         <h3><i class="fa fa-envelope"></i> {{ count($departments) }}</h3>
 
-          <center><b>{{ __('References') }}</b></center>
+          <center><b>{{ __('Departments') }}</b></center>
         </div>
         <div class="icon">
           
         </div>
-        <a href="{{ url('/people/references') }}" class="small-box-footer">{{ __('More info ') }}<i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ url('/setting/departments') }}" class="small-box-footer">{{ __('More info ') }}<i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -55,14 +55,14 @@
       <!-- small box -->
       <div class="small-box bg-blue">
         <div class="inner">
-          <h3><i class="fa fa-file"></i> {{ count($clients) }}</h3>
+        <h3><i class="fa fa-file"></i> {{ count($grades)}}</h3>
 
-            <center><b>{{ __('Clients') }}</b></center>
+            <center><b>{{ __('Employee Grades') }}</b></center>
         </div>
         <div class="icon">
           
         </div>
-        <a href="{{ url('/people/employees') }}" class="small-box-footer">{{ __('More info ') }}<i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ url('/setting/employee_grades') }}" class="small-box-footer">{{ __('More info ') }}<i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->

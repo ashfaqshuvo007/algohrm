@@ -2,28 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Department;
 use App\File;
+use App\PaymentGrade;
 use App\PersonalEvent;
 use App\User;
 use Carbon;
 
-class HomeController extends Controller {
+class HomeController extends Controller
+{
 
-/**
- * Create a new controller instance.
- *
- * @return void
- */
-	public function __construct() {
+	/**
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
+	public function __construct()
+	{
 		$this->middleware('auth');
 	}
 
-/**
- * Show the application dashboard.
- *
- * @return \Illuminate\Http\Response
- */
-	public function index() {
+	/**
+	 * Show the application dashboard.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
 		$today = Carbon\Carbon::now();
 		$date_today = $today->toDateString();
 
@@ -37,13 +42,9 @@ class HomeController extends Controller {
 				'users.name',
 			]);
 
-		$clients = User::where('access_label', 5)
-			->where('deletion_status', 0)
-			->get();
+		$departments = Department::all();
 
-		$references = User::where('access_label', 4)
-			->where('deletion_status', 0)
-			->get();
+		$grades = PaymentGrade::all();
 
 		$employees = User::where('access_label', '>=', 2)
 			->where('access_label', '<=', 3)
@@ -53,7 +54,6 @@ class HomeController extends Controller {
 		$files = File::where('deletion_status', 0)
 			->get();
 
-		return view('administrator.dashboard.dashboard', compact('clients', 'references', 'employees', 'personal_events', 'files'));
+		return view('administrator.dashboard.dashboard', compact('departments', 'grades', 'employees', 'personal_events', 'files'));
 	}
-
 }

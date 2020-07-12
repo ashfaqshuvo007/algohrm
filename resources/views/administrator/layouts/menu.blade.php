@@ -18,7 +18,7 @@
                 <li><a href="{{ url('/people/employees/create') }}"><i class="fa fa-circle-o"></i>{{ __(' New Employee') }}</a></li>
                 <li><a href="{{ url('/people/employees') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Employee') }}</a></li>
                 @endpermission
-                @permission('manage-clients')
+                {{-- @permission('manage-clients')
                  <li><a href="{{ url('people/clients/create') }}"><i class="fa fa-circle-o"></i>{{ __(' New Customer') }}</a></li>
                 <li><a href="{{ url('/people/clients') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Clients') }}</a></li>
                 @endpermission
@@ -26,7 +26,7 @@
                 
                 <li><a href="{{ url('people/references/create') }}"><i class="fa fa-circle-o"></i>{{ __(' New Reference') }}</a></li>
                 <li><a href="{{ url('/people/references') }}"><i class="fa fa-circle-o"></i>{{ __(' Manage References') }}</a></li>
-                @endpermission
+                @endpermission --}}
             </ul>
         </li>
         @endpermission
@@ -93,7 +93,7 @@
         </li>
         @endpermission
        
-       @permission('manage-expense')
+       {{-- @permission('manage-expense')
         <li class="treeview">
             <a href="#">
                 <i class="fa fa-minus text-purple"></i> <span>{{ __('Expense Management') }}</span>
@@ -110,7 +110,7 @@
                 @endpermission
             </ul>
         </li>
-         @endpermission
+         @endpermission --}}
         @permission('leave-application')
         <li class="treeview">
             <a href="#">
@@ -136,7 +136,7 @@
             </ul>
         </li>
         @endpermission
-         @permission('manage-award')
+         {{-- @permission('manage-award')
          <li class="treeview">
             <a href="#">
                 <i class="fa fa-trophy text-purple"></i> <span>{{ __('Award Management') }}</span>
@@ -151,7 +151,7 @@
                 @endpermission
             </ul>
         </li>
-        @endpermission
+        @endpermission --}}
         @permission('notice')
         <li class="treeview">
             <a href="#">

@@ -75,6 +75,27 @@
                                 </span>
                                 @endif
                             </div>
+
+
+                            <label for="grade_id">{{ __('Payment Grade') }} <span class="text-danger">*</span></label>
+                            <div class="form-group{{ $errors->has('grade_id') ? ' has-error' : '' }} has-feedback">
+                                <select name="grade_id" id="grade_id" class="form-control">
+                                    <option value="" selected disabled>{{ __('Select one') }}</option>
+                                    @foreach($grades as $g)
+                                    <option value="{{ $g['id'] }}">{{ $g['grade'] }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('grade_id'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('grade_id') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+
+
+
+
+
                             <!-- /.form-group -->
                             <label for="publication_status">{{ __('Publication Status ') }}<span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('publication_status') ? ' has-error' : '' }} has-feedback">
