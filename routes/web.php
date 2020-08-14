@@ -65,29 +65,29 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/setting/designations/delete/{id}', 'EmpDesignationController@destroy');
 
     // Customer Section //
-    Route::get('/people/clients', 'CustomerController@index');
-    Route::get('/people/clients/print', 'CustomerController@print');
-    Route::get('/people/clients/clients-pdf', 'CustomerController@clients_pdf');
-    Route::get('/people/clients/create', 'CustomerController@create');
-    Route::post('/people/clients/store', 'CustomerController@store');
-    Route::get('/people/clients/active/{id}', 'CustomerController@active');
-    Route::get('/people/clients/deactive/{id}', 'CustomerController@deactive');
-    Route::get('/people/clients/details/{id}', 'CustomerController@show');
-    Route::get('/people/clients/download-pdf/{id}', 'CustomerController@pdf');
-    Route::get('/people/clients/edit/{id}', 'CustomerController@edit');
-    Route::post('/people/clients/update/{id}', 'CustomerController@update');
-    Route::get('/people/clients/delete/{id}', 'CustomerController@destroy');
+    // Route::get('/people/clients', 'CustomerController@index');
+    // Route::get('/people/clients/print', 'CustomerController@print');
+    // Route::get('/people/clients/clients-pdf', 'CustomerController@clients_pdf');
+    // Route::get('/people/clients/create', 'CustomerController@create');
+    // Route::post('/people/clients/store', 'CustomerController@store');
+    // Route::get('/people/clients/active/{id}', 'CustomerController@active');
+    // Route::get('/people/clients/deactive/{id}', 'CustomerController@deactive');
+    // Route::get('/people/clients/details/{id}', 'CustomerController@show');
+    // Route::get('/people/clients/download-pdf/{id}', 'CustomerController@pdf');
+    // Route::get('/people/clients/edit/{id}', 'CustomerController@edit');
+    // Route::post('/people/clients/update/{id}', 'CustomerController@update');
+    // Route::get('/people/clients/delete/{id}', 'CustomerController@destroy');
 
     // Customer Types Section //
-    Route::get('/setting/client-types', 'CustomerTypeController@index');
-    Route::get('/setting/client-types/create', 'CustomerTypeController@create');
-    Route::post('/setting/client-types/store', 'CustomerTypeController@store');
-    Route::get('/setting/client-types/published/{id}', 'CustomerTypeController@published');
-    Route::get('/setting/client-types/unpublished/{id}', 'CustomerTypeController@unpublished');
-    Route::get('/setting/client-types/details/{id}', 'CustomerTypeController@show');
-    Route::get('/setting/client-types/edit/{id}', 'CustomerTypeController@edit');
-    Route::post('/setting/client-types/update/{id}', 'CustomerTypeController@update');
-    Route::get('/setting/client-types/delete/{id}', 'CustomerTypeController@destroy');
+    // Route::get('/setting/client-types', 'CustomerTypeController@index');
+    // Route::get('/setting/client-types/create', 'CustomerTypeController@create');
+    // Route::post('/setting/client-types/store', 'CustomerTypeController@store');
+    // Route::get('/setting/client-types/published/{id}', 'CustomerTypeController@published');
+    // Route::get('/setting/client-types/unpublished/{id}', 'CustomerTypeController@unpublished');
+    // Route::get('/setting/client-types/details/{id}', 'CustomerTypeController@show');
+    // Route::get('/setting/client-types/edit/{id}', 'CustomerTypeController@edit');
+    // Route::post('/setting/client-types/update/{id}', 'CustomerTypeController@update');
+    // Route::get('/setting/client-types/delete/{id}', 'CustomerTypeController@destroy');
 
     // Departments Section //
     Route::get('/setting/departments', 'EmplDepartmentController@index');
@@ -101,18 +101,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/setting/departments/delete/{id}', 'EmplDepartmentController@destroy');
 
     // Employee Reference Section //
-    Route::get('/people/references', 'EmpReferenceController@index');
-    Route::get('/people/references/print', 'EmpReferenceController@print');
-    Route::get('/people/references/references-pdf', 'EmpReferenceController@references_pdf');
-    Route::get('/people/references/create', 'EmpReferenceController@create');
-    Route::post('/people/references/store', 'EmpReferenceController@store');
-    Route::get('/people/references/active/{id}', 'EmpReferenceController@active');
-    Route::get('/people/references/deactive/{id}', 'EmpReferenceController@deactive');
-    Route::get('/people/references/details/{id}', 'EmpReferenceController@show');
-    Route::get('/people/references/download-pdf/{id}', 'EmpReferenceController@pdf');
-    Route::get('/people/references/edit/{id}', 'EmpReferenceController@edit');
-    Route::post('/people/references/update/{id}', 'EmpReferenceController@update');
-    Route::get('/people/references/delete/{id}', 'EmpReferenceController@destroy');
+    // Route::get('/people/references', 'EmpReferenceController@index');
+    // Route::get('/people/references/print', 'EmpReferenceController@print');
+    // Route::get('/people/references/references-pdf', 'EmpReferenceController@references_pdf');
+    // Route::get('/people/references/create', 'EmpReferenceController@create');
+    // Route::post('/people/references/store', 'EmpReferenceController@store');
+    // Route::get('/people/references/active/{id}', 'EmpReferenceController@active');
+    // Route::get('/people/references/deactive/{id}', 'EmpReferenceController@deactive');
+    // Route::get('/people/references/details/{id}', 'EmpReferenceController@show');
+    // Route::get('/people/references/download-pdf/{id}', 'EmpReferenceController@pdf');
+    // Route::get('/people/references/edit/{id}', 'EmpReferenceController@edit');
+    // Route::post('/people/references/update/{id}', 'EmpReferenceController@update');
+    // Route::get('/people/references/delete/{id}', 'EmpReferenceController@destroy');
 
     // Employee Section //
     Route::get('/people/employees', 'EmplController@index');
@@ -304,4 +304,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/setting/employee_grades/store', 'PaymentGradeController@store');
     Route::get('/setting/employee_grades/edit/{id}', 'PaymentGradeController@edit');
     Route::post('/setting/employee_grades/update', 'PaymentGradeController@update');
+
+    //Device Management Routes
+    Route::get('/device/show_users', 'DeviceAttendanceController@getDeviceUsers');
+
 });

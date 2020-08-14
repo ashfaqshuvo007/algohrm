@@ -52,10 +52,10 @@
                         <!-- /.Notification Box -->
 
                         <?php 
-                       
+                    //         dump(count($deviceUsers) + 1);
 
-                      $users = \App\User::orderBy('id', 'desc')->first();
-                             $sl=$users->id;
+                    //   $users = \App\User::orderBy('id', 'desc')->first();
+                    //          $sl=$users->id;
 
                         ?>
 
@@ -63,10 +63,8 @@
                             <label for="employee_id">{{ __('ID') }} <span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('employee_id') ? ' has-error' : '' }} has-feedback">
 
-                                <input type="hidden" name="employee_id" value="{{$sl}}">
-                                <input type="text" class="form-control" value="{{ __('EMPID') }}{{$sl}}" disabled>
-
-
+                                <input type="hidden" name="employee_id" value="{{count($deviceUsers)+1}}">
+                                <input type="text" class="form-control" value="{{ __('EMPID') }}{{count($deviceUsers)+1}}" disabled>
 
                             </div>
                             <!-- /.form-group -->
@@ -117,7 +115,7 @@
 
                             <label for="email">{{ __('Email') }} <span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} has-feedback">
-                                <input type="text" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="{{ __('Enter email address..') }}">
+                                <input type="text" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="{{ __('Enter email address..') }}" >
                                 @if ($errors->has('email'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('email') }}</strong>
@@ -148,7 +146,7 @@
                             </div>
                             <!-- /.form-group -->
 
-                            <label for="web">{{ __('Web') }}</label>
+                            {{-- <label for="web">{{ __('Web') }}</label>
                             <div class="form-group{{ $errors->has('web') ? ' has-error' : '' }} has-feedback">
                                 <input type="text" name="web" id="web" class="form-control" value="{{ old('web') }}" placeholder="{{ __('Enter web..') }}">
                                 @if ($errors->has('web'))
@@ -156,7 +154,7 @@
                                     <strong>{{ $errors->first('web') }}</strong>
                                 </span>
                                 @endif
-                            </div>
+                            </div> --}}
                             <!-- /.form-group -->
 
                             <label for="gender">{{ __('Gender') }} <span class="text-danger">*</span></label>
@@ -261,40 +259,40 @@
                             </div>
                             <!-- /.form-group -->
 
-                            <label for="joining_position">{{ __('Department') }} <span class="text-danger">*</span></label>
-                            <div class="form-group{{ $errors->has('joining_position') ? ' has-error' : '' }} has-feedback">
-                                <select name="joining_position" id="joining_position" class="form-control">
+                            <label for="department_id">{{ __('Department') }} <span class="text-danger">*</span></label>
+                            <div class="form-group{{ $errors->has('department_id') ? ' has-error' : '' }} has-feedback">
+                                <select name="department_id" id="department_id" class="form-control">
                                     <option value="" selected disabled>{{ __('Select one') }}</option>
                                     <?php $departments= \App\Department::all();?>
                                     @foreach($departments as $department)
                                     <option value="{{ $department['id'] }}">{{ $department['department'] }}</option>
                                     @endforeach
                                 </select>
-                                @if ($errors->has('joining_position'))
+                                @if ($errors->has('department_id'))
                                 <span class="help-block">
-                                    <strong>{{ $errors->first('joining_position') }}</strong>
+                                    <strong>{{ $errors->first('department_id') }}</strong>
                                 </span>
                                 @endif
                             </div>
                             <!-- /.form-group -->
 
                     <!-- /.form-group -->
-                    <label for="joining_position">{{ __('Reference ') }}<span class="text-danger">*</span></label>
+                    {{-- <label for="joining_position">{{ __('Reference ') }}<span class="text-danger">*</span></label>
                     <div class="form-group{{ $errors->has('joining_position') ? ' has-error' : '' }} has-feedback">
                         <select name="reference" id="joining_position" class="form-control">
                             <option value="" selected disabled>{{ __('Select one') }}</option>
-                            <?php $references = \App\User::where('access_label', 4)
-                            ->where('deletion_status', 0)
-                            ->select('id', 'name', 'present_address', 'contact_no_one', 'created_at', 'activation_status')
-                            ->orderBy('id', 'DESC')
-                            ->get()
-                            ->toArray();?>
+                             //$references = \App\User::where('access_label', 4)
+                            //->where('deletion_status', 0)
+                            //->select('id', 'name', 'present_address', 'contact_no_one', 'created_at', 'activation_status')
+                            //->orderBy('id', 'DESC')
+                            //->get()
+                            //->toArray();?
                             @foreach($references as $reference)
                             <option value="{{ $reference['name'] }}">{{ $reference['name'] }}</option>
                             @endforeach
                         </select>
                         
-                    </div>
+                    </div> --}}
                     <!-- /.form-group -->
 
                             <label for="marital_status">{{ __('Marital Status') }} </label>

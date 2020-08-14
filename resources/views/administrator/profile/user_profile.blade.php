@@ -79,7 +79,7 @@
                             </div>
                             <!-- /.form-group -->
 
-                            <label for="web">{{ __('Web') }} <span class="text-danger">*</span></label>
+                            {{-- <label for="web">{{ __('Web') }} <span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('web') ? ' has-error' : '' }} has-feedback">
                                 <input type="text" name="web" id="web" class="form-control" value="{{ $user['web'] }}" placeholder="{{ __('Enter contact no..') }}">
                                 @if ($errors->has('web'))
@@ -87,7 +87,7 @@
                                     <strong>{{ $errors->first('web') }}</strong>
                                 </span>
                                 @endif
-                            </div>
+                            </div> --}}
                             <!-- /.form-group -->
 
                             <label for="avatar">{{ __('Profile Picture') }} <span class="text-danger">*</span></label>

@@ -47,7 +47,7 @@
                 <i class="icon fa fa-warning"></i> {{ Session::get('exception') }}
               </div>
               @else
-              <p class="text-yellow">{{ __('Enter holidays details. All field are required.') }} </p>
+              <p class="text-yellow">{{ __('Enter holidays details. All fields are required.') }} </p>
               @endif
             </div>
             <!-- /.Notification Box -->

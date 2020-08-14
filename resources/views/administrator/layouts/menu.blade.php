@@ -16,7 +16,7 @@
 
                 @permission('manage-employee')
                 <li><a href="{{ url('/people/employees/create') }}"><i class="fa fa-circle-o"></i>{{ __(' New Employee') }}</a></li>
-                <li><a href="{{ url('/people/employees') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Employee') }}</a></li>
+                <li><a href="{{ url('/people/employees') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Employees') }}</a></li>
                 @endpermission
                 {{-- @permission('manage-clients')
                  <li><a href="{{ url('people/clients/create') }}"><i class="fa fa-circle-o"></i>{{ __(' New Customer') }}</a></li>
@@ -50,9 +50,9 @@
                 <li><a href="{{ url('/hrm/payroll/increment/search') }}"><i class="fa fa-circle-o"></i>{{ __(' New Increment') }}</a></li>
                 <li><a href="{{ url('/hrm/payroll/increment/list') }}"><i class="fa fa-circle-o"></i> {{ __('Increment List') }}</a></li>
 
-                @permission('make-payment')
+                {{-- @permission('make-payment')
                 <li><a href="{{ url('/hrm/salary-payments') }}"><i class="fa fa-circle-o"></i>{{ __(' Make Payment') }}</a></li>
-                @endpermission
+                @endpermission --}}
                 @permission('generate-payslip')
                 <li><a href="{{ url('/hrm/generate-payslips/') }}"><i class="fa fa-circle-o"></i> {{ __(' Generate Payslip') }}</a></li>
                 @endpermission
@@ -62,12 +62,12 @@
                 @permission('manage-deduction')
                 <li><a href="{{ url('/hrm/deductions') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Deduction') }}</a></li>
                 @endpermission
-                @permission('loan-management')
+                {{-- @permission('loan-management')
                 <li><a href="{{ url('/hrm/loans') }}"><i class="fa fa-circle-o"></i>{{ __(' Loan Management') }}</a></li>
-                @endpermission
-                @permission('provident-fund')
+                @endpermission --}}
+                {{-- @permission('provident-fund')
                 <li><a href="{{ url('/hrm/provident-funds') }}"><i class="fa fa-circle-o"></i>{{ __(' Provident Fund') }}</a></li>
-                @endpermission
+                @endpermission --}}
             </ul>
         </li>
         @endpermission
@@ -190,9 +190,9 @@
             </ul>
          </li>
          @endpermission
-       @permission('file-upload')
+       {{-- @permission('file-upload')
         <li><a href="{{ url('/hrm/salary/statement/search') }}"><i class="fa fa-certificate"></i> <span>{{ __('Salary Statement') }}</span></a></li>
-        @endpermission
+        @endpermission --}}
 
         @permission('hrm-setting')
         <li class="treeview">
@@ -203,15 +203,15 @@
                 </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="{{ url('/setting/client-types') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Client Types') }} </a></li>
+                {{-- <li><a href="{{ url('/setting/client-types') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Client Types') }} </a></li> --}}
                 <li><a href="{{ url('/setting/departments') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Departments') }} </a></li>
                 <li><a href="{{ url('/setting/designations') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Designations') }} </a></li>
                 <li><a href="{{ url('/setting/employee_grades') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Employee Grades') }}</a></li>
                 <li><a href="{{ url('/setting/leave_categories') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Leave Categories') }} </a></li>
                 <li><a href="{{ url('/setting/working-days') }}"><i class="fa fa-circle-o"></i> {{ __('Set Working Day') }}</a></li>
                 <li><a href="{{ url('/setting/holidays') }}"><i class="fa fa-circle-o"></i>{{ __('Holiday List') }} </a></li>
-                <li><a href="{{ url('/setting/personal-events') }}"><i class="fa fa-circle-o"></i>{{ __('Personal Event') }} </a></li>
-                <li><a href="{{ url('/setting/award_categories') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Award Categories') }}</a></li>
+                {{-- <li><a href="{{ url('/setting/personal-events') }}"><i class="fa fa-circle-o"></i>{{ __('Personal Event') }} </a></li> --}}
+                {{-- <li><a href="{{ url('/setting/award_categories') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Award Categories') }}</a></li> --}}
                 @permission('role')
                 <li><a href="{{ route('setting.role.index') }}"><i class="fa fa-circle-o"></i>{{ __('Role') }}</a></li>
                 @endpermission

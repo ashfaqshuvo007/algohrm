@@ -54,7 +54,7 @@
                         <div class="col-md-6">
                             <label for="employee_id">{{ __(' ID') }} <span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('employee_id') ? ' has-error' : '' }} has-feedback">
-                                <input type="text" name="employee_id" id="employee_id" class="form-control" value="{{ $employee['employee_id'] }}">
+                                <input type="text" name="employee_id" id="employee_id" class="form-control" value="{{ $employee['employee_id'] }}" disabled>
                                 @if ($errors->has('employee_id'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('employee_id') }}</strong>
