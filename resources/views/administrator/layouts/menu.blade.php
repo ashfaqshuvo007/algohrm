@@ -88,6 +88,7 @@
                 @permission('attendance-report')
                 <li><a href="{{ url('/hrm/attendance/details/report/go') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Statement') }}</a></li>
                 <li><a href="{{ url('/hrm/attendance/report') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Report') }}</a></li>
+                <li><a href="{{ url('/hrm/attendance/device') }}"><i class="fa fa-circle-o"></i>{{ __(' Device Attendance') }}</a></li>
                 @endpermission
             </ul>
         </li>

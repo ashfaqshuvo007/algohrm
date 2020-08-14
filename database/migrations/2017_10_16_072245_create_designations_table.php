@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDesignationsTable extends Migration
 {
@@ -17,7 +17,7 @@ class CreateDesignationsTable extends Migration
             $table->increments('id');
             $table->integer('created_by');
             $table->integer('department_id');
-            $table->integer('grade_id');
+            $table->integer('grade_id')->default(null);
             $table->string('designation', 100)->unique();
             $table->text('designation_description');
             $table->tinyInteger('publication_status');
