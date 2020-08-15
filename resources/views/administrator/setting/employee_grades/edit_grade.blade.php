@@ -89,7 +89,7 @@
 
               <label for="house_rent">{{ __('House Rent (40% of basic salary)') }} <span class="text-danger">*</span></label>
               <div class="form-group{{ $errors->has('house_rent') ? ' has-error' : '' }} has-feedback">
-                <input type="text" name="house_rent" id="house_rent" class="form-control" value="{{ $grade->house_rent }}" placeholder="{{ __('Enter House Rent') }}">
+                <input type="text" name="house_rent" id="house_rent" class="form-control" value="{{ $grade->house_rent }}" readonly>
                 @if ($errors->has('house_rent'))
                 <span class="help-block">
                   <strong>{{ $errors->first('house_rent') }}</strong>
@@ -110,12 +110,12 @@
               <!-- /.form-group -->
 
 
-               <label for="travel_allowance">{{ __('Travel Allowance') }} <span class="text-danger">*</span></label>
-              <div class="form-group{{ $errors->has('travel_allowance') ? ' has-error' : '' }} has-feedback">
-                <input type="text" name="travel_allowance" id="travel_allowance" class="form-control" value="{{ $grade->travel_allowance }}" placeholder="{{ __('Enter Travel Allowance') }}">
-                @if ($errors->has('travel_allowance'))
+               <label for="convayence">{{ __('Convayence') }} <span class="text-danger">*</span></label>
+              <div class="form-group{{ $errors->has('convayence') ? ' has-error' : '' }} has-feedback">
+                <input type="text" name="convayence" id="convayence" class="form-control" value="{{ $grade->convayence }}" placeholder="{{ __('Convayence') }}">
+                @if ($errors->has('convayence'))
                 <span class="help-block">
-                  <strong>{{ $errors->first('travel_allowance') }}</strong>
+                  <strong>{{ $errors->first('convayence') }}</strong>
                 </span>      
                 @endif
               </div>
@@ -152,5 +152,23 @@
   </section>
   <!-- /.content -->
 </div>
+<script>
+   $(document).ready(function(){
+    calculation();
+  });
 
+  //For Calculation
+  $(document).on("keyup", "#basic_salary", function() {
+    calculation();
+  });
+
+  function calculation() {
+    var basic_salary = $("#basic_salary").val();
+
+    var house_rent = basic_salary * 0.4;
+    // console.log();
+    $("#house_rent").val(house_rent.toFixed(2));
+  }
+
+</script>
 @endsection

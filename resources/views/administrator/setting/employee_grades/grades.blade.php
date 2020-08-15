@@ -61,7 +61,7 @@
                                 <th class="text-center">{{ __('Yearly Increment Rate') }}</th>
                                 <th class="text-center">{{ __('House Rent') }}</th>
                                 <th class="text-center">{{ __('Medical Allowance') }}</th>
-                                <th class="text-center">{{ __('Travel Allowance') }}</th>
+                                <th class="text-center">{{ __('Convayence') }}</th>
                                 <th class="text-center">{{ __('Food Allowance') }}</th>
                                 <th class="text-center">{{ __('Total Salary Payable') }}</th>
                                 <th class="text-center">{{ __('Actions') }}</th>
@@ -73,14 +73,14 @@
                             <tr>
                                 <td class="text-center">{{ $sl++ }}</td>
                                 <td class="text-center">{{ $g['grade'] }}</td>
-                                <td class="text-center">{{ $g['created_by'] }}</td>
+                                <td class="text-center">{{ $g['name'] }}</td>
                                 <td class="text-center">{{ $g['basic_salary'] }}</td>
                                 <td class="text-center">{{ $g['yearly_increment_rate'] }}</td>
                                 <td class="text-center">{{ $g['house_rent'] }}</td>
                                 <td class="text-center">{{ $g['medical_allowance'] }}</td>
-                                <td class="text-center">{{ $g['travel_allowance'] }}</td>
+                                <td class="text-center">{{ $g['convayence'] }}</td>
                                 <td class="text-center">{{ $g['food_allowance'] }}</td>
-                                <td class="text-center">{{ $g['basic_salary'] + $g['medical_allowance'] + $g['travel_allowance'] + $g['food_allowance']  + $g['house_rent'] }}</td>
+                                <td class="text-center">{{ $g['basic_salary'] + $g['medical_allowance'] + $g['convayence'] + $g['food_allowance']  + $g['house_rent'] }}</td>
                                 <td class="text-center">
                                   <a href="{{ url('/setting/employee_grades/edit/' . $g['id']) }}"><i class="icon fa fa-edit"></i>{{ __('Edit') }} </a>
                                 </td>

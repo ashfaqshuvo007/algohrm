@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PaymentGrade;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,10 @@ class PaymentGradeController extends Controller
      */
     public function index()
     {
-        $grades = PaymentGrade::all();
+        $grades = PaymentGrade::leftjoin('users', 'payment_grades.created_by', '=', 'users.id')
+            ->select('payment_grades.*', 'users.name')
+            ->get()
+            ->toArray();
         return view('administrator.setting.employee_grades.grades', compact('grades'));
     }
 
@@ -37,21 +41,21 @@ class PaymentGradeController extends Controller
      */
     public function store(Request $request)
     {
-        $validData = $this->validate($request , [
+        $validData = $this->validate($request, [
             'grade' => 'required',
             'basic_salary' => 'required',
             'yearly_increment_rate' => 'required',
             'house_rent' => 'required',
             'medical_allowance' => 'required',
-            'travel_allowance' => 'required',
+            'conveyence' => 'required',
             'food_allowance' => 'required',
         ]);
 
         $result = PaymentGrade::create($validData + ['created_by' => auth()->user()->id]);
         $inserted_id = $result->id;
-        if(!empty($inserted_id)){
+        if (!empty($inserted_id)) {
             return redirect('/setting/employee_grades/create')->with('message', 'Added Successfully!');
-        }else{
+        } else {
             return redirect('/setting/employee_grades/create')->with('exception', 'Operation Failed!');
         }
     }
@@ -75,8 +79,8 @@ class PaymentGradeController extends Controller
      */
     public function edit($id)
     {
-        $grade = PaymentGrade::where('id',$id)->first();
-        return view('administrator.setting.employee_grades.edit_grade',compact('grade'));
+        $grade = PaymentGrade::where('id', $id)->first();
+        return view('administrator.setting.employee_grades.edit_grade', compact('grade'));
     }
 
     /**
@@ -94,14 +98,14 @@ class PaymentGradeController extends Controller
             'yearly_increment_rate' => 'required',
             'house_rent' => 'required',
             'medical_allowance' => 'required',
-            'travel_allowance' => 'required',
+            'conveyence' => 'required',
             'food_allowance' => 'required',
         ]);
         $grade->basic_salary = $request->basic_salary;
         $grade->yearly_increment_rate = $request->yearly_increment_rate;
         $grade->house_rent = $request->house_rent;
         $grade->medical_allowance = $request->medical_allowance;
-        $grade->travel_allowance = $request->travel_allowance;
+        $grade->conveyence = $request->conveyence;
         $grade->food_allowance = $request->food_allowance;
         $affected_row = $grade->save();
         if (!empty($affected_row)) {
