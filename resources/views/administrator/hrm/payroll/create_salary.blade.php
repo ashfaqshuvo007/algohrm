@@ -158,13 +158,13 @@
                 </span>
                 @endif
               </div>
-              <div class="form-group{{ $errors->has('travel_allowance') ? ' has-error' : '' }}">
-                <label for="travel_allowance">{{ __('Travel Allowance') }}</label>
-                {{-- <input type="number" name="special_allowance" value="{{ old('special_allowance') }}" class="form-control" id="travel_allowance" placeholder="{{ __('Enter special allowance..') }}"> --}}
-                <input type="number" name="travel_allowance" value="{{ $employees[0]['travel_allowance'] }}" class="form-control" id="travel_allowance" placeholder="{{ __('Enter travel allowance..') }}">
-                @if ($errors->has('travel_allowance'))
+              <div class="form-group{{ $errors->has('convayence') ? ' has-error' : '' }}">
+                <label for="convayence">{{ __('Convayence') }}</label>
+                {{-- <input type="number" name="special_allowance" value="{{ old('special_allowance') }}" class="form-control" id="convayence" placeholder="{{ __('Enter special allowance..') }}"> --}}
+                <input type="number" name="convayence" value="{{ $employees[0]['convayence'] }}" class="form-control" id="convayence" placeholder="{{ __('Enter travel allowance..') }}">
+                @if ($errors->has('convayence'))
                 <span class="help-block">
-                  <strong>{{ $errors->first('travel_allowance') }}</strong>
+                  <strong>{{ $errors->first('convayence') }}</strong>
                 </span>
                 @endif
               </div>
@@ -315,7 +315,7 @@
     // var special_allowance = $("#special_allowance").val();
     var food_allowance = $("#food_allowance").val();
 
-    var travel_allowance = $("#travel_allowance").val();
+    var conveyance = $("#convayence").val();
 
     // var provident_fund_contribution = $("#provident_fund_contribution").val();
     // var other_allowance = $("#other_allowance").val();
@@ -324,14 +324,14 @@
     // var other_deduction = $("#other_deduction").val();
 
     // var gross_salary = (+basic_salary + +house_rent_allowance + +medical_allowance + +special_allowance + +other_allowance);
-    var gross_salary = (+basic_salary + +house_rent + +medical_allowance + +food_allowance + +travel_allowance);
+    var gross_salary = (+basic_salary + +house_rent + +medical_allowance + +food_allowance + +conveyance);
 
     // var total_deduction = (+tax_deduction + +provident_fund_deduction + +other_deduction);
 
     // $("#total_provident_fund").val(+provident_fund_contribution + +provident_fund_deduction);
 
     $("#gross_salary").val(gross_salary);
-    $("#total_deduction").val(total_deduction);
+    // $("#total_deduction").val(total_deduction);
     // $("#net_salary").val(+gross_salary - +total_deduction);
   }
 </script>

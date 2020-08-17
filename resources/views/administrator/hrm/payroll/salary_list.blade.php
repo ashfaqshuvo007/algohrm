@@ -86,11 +86,11 @@
                                     @endif
                                 </td>
                                 <td>
-                                @php($gross_salary = $salary['basic_salary'] + $salary['house_rent_allowance'] + $salary['medical_allowance'] + $salary['special_allowance'] + $salary['other_allowance'])
+                                @php($gross_salary = $salary['basic_salary'] + $salary['house_rent'] + $salary['medical_allowance'] + $salary['food_allowance'] + $salary['convayence'])
                                 {{ $gross_salary }}
                                 </td>
                                 <td>
-                                @php($total_deduction = $salary['tax_deduction'] + $salary['provident_fund_deduction'] + $salary['other_deduction'])
+                                @php($total_deduction = $salary['absent_deduction'] + $salary['other_deduction'])
                                 {{ $total_deduction }}
                                 </td>
                                 <td>{{ $gross_salary - $total_deduction }}</td>

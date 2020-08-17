@@ -128,19 +128,19 @@
           </div>
         </div>
         <!-- /.end.col -->
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="box box-success">
             <div class="box-header with-border">
               <h3 class="box-title">{{ __('Allowances') }}</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <div class="form-group{{ $errors->has('house_rent_allowance') ? ' has-error' : '' }}">
-                <label for="house_rent_allowance">{{ __('House Rent Allowance') }}</label>
-                <input type="number" name="house_rent_allowance" value="{{ $salary['house_rent_allowance'] }}" class="form-control" id="house_rent_allowance" placeholder="{{ __('Enter house rent allowance..') }}">
-                @if ($errors->has('house_rent_allowance'))
+              <div class="form-group{{ $errors->has('house_rent') ? ' has-error' : '' }}">
+                <label for="house_rent">{{ __('House Rent') }}</label>
+                <input type="number" name="house_rent" value="{{ $salary['house_rent'] }}" class="form-control" id="house_rent" placeholder="{{ __('Enter house rent allowance..') }}">
+                @if ($errors->has('house_rent'))
                 <span class="help-block">
-                  <strong>{{ $errors->first('house_rent_allowance') }}</strong>
+                  <strong>{{ $errors->first('house_rent') }}</strong>
                 </span>
                 @endif
               </div>
@@ -153,16 +153,28 @@
                 </span>
                 @endif
               </div>
-              <div class="form-group{{ $errors->has('special_allowance') ? ' has-error' : '' }}">
-                <label for="special_allowance">{{ __('Special Allowance') }}</label>
-                <input type="number" name="special_allowance" value="{{ $salary['special_allowance'] }}" class="form-control" id="special_allowance" placeholder="{{ __('Enter special allowance..') }}">
-                @if ($errors->has('special_allowance'))
+
+              <div class="form-group{{ $errors->has('convayence') ? ' has-error' : '' }}">
+                <label for="convayence">{{ __('Convayence') }}</label>
+                <input type="number" name="convayence" value="{{ $salary['convayence'] }}" class="form-control" id="convayence" placeholder="{{ __('Enter special allowance..') }}">
+                @if ($errors->has('convayence'))
                 <span class="help-block">
-                  <strong>{{ $errors->first('special_allowance') }}</strong>
+                  <strong>{{ $errors->first('convayence') }}</strong>
                 </span>
                 @endif
               </div>
-              <div class="form-group{{ $errors->has('provident_fund_contribution') ? ' has-error' : '' }}">
+
+              <div class="form-group{{ $errors->has('food_allowance') ? ' has-error' : '' }}">
+                <label for="food_allowance">{{ __('Food Allowance') }}</label>
+                <input type="number" name="food_allowance" value="{{ $salary['food_allowance'] }}" class="form-control" id="food_allowance" placeholder="{{ __('Enter special allowance..') }}">
+                @if ($errors->has('food_allowance'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('food_allowance') }}</strong>
+                </span>
+                @endif
+              </div>
+              
+              {{-- <div class="form-group{{ $errors->has('provident_fund_contribution') ? ' has-error' : '' }}">
                 <label for="provident_fund_contribution">{{ __('Provident Fund Contribution') }}</label>
                 <input type="number" name="provident_fund_contribution" value="{{ $salary['provident_fund_contribution'] }}" class="form-control" id="provident_fund_contribution" placeholder="{{ __('Enter special allowance..') }}">
                 @if ($errors->has('provident_fund_contribution'))
@@ -180,28 +192,28 @@
                 </span>
                 @endif
               </div>
-            </div>
+            </div> --}}
             <!-- /.box-body -->
           </div>
         </div>
         <!-- /.end.col -->
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="box box-warning">
             <div class="box-header with-border">
               <h3 class="box-title">{{ __('Deductions') }}</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <div class="form-group{{ $errors->has('tax_deduction') ? ' has-error' : '' }}">
-                <label for="tax_deduction">{{ __('Tax Deduction') }}</label>
-                <input type="number" name="tax_deduction" value="{{ $salary['tax_deduction'] }}" class="form-control" id="tax_deduction" placeholder="{{ __('Enter tax deduction..') }}">
-                @if ($errors->has('tax_deduction'))
+              <div class="form-group{{ $errors->has('absent_deduction') ? ' has-error' : '' }}">
+                <label for="absent_deduction">{{ __('Tax Deduction') }}</label>
+                <input type="number" name="absent_deduction" value="{{ $salary['absent_deduction'] }}" class="form-control" id="absent_deduction" placeholder="{{ __('Enter tax deduction..') }}">
+                @if ($errors->has('absent_deduction'))
                 <span class="help-block">
-                  <strong>{{ $errors->first('tax_deduction') }}</strong>
+                  <strong>{{ $errors->first('absent_deduction') }}</strong>
                 </span>
                 @endif
               </div>
-              <div class="form-group{{ $errors->has('provident_fund_deduction') ? ' has-error' : '' }}">
+              {{-- <div class="form-group{{ $errors->has('provident_fund_deduction') ? ' has-error' : '' }}">
                 <label for="provident_fund_deduction">{{ __('Provident Fund Deduction') }}</label>
                 <input type="number" name="provident_fund_deduction" value="{{ $salary['provident_fund_deduction'] }}" class="form-control" id="provident_fund_deduction" placeholder="{{ __('Enter tax deduction..') }}">
                 @if ($errors->has('provident_fund_deduction'))
@@ -209,7 +221,7 @@
                   <strong>{{ $errors->first('provident_fund_deduction') }}</strong>
                 </span>
                 @endif
-              </div>
+              </div> --}}
               <div class="form-group{{ $errors->has('other_deduction') ? ' has-error' : '' }}">
                 <label for="other_deduction">{{ __('Other Deduction') }}</label>
                 <input type="number" name="other_deduction" value="{{ $salary['other_deduction'] }}" class="form-control" id="other_deduction" placeholder="{{ __('Enter other deduction..') }}">
@@ -225,7 +237,7 @@
         </div>
         <!-- /.end.col -->
 
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
           <div class="box box-success">
             <div class="box-header with-border">
               <h3 class="box-title">{{ __('Provident Fund') }}</h3>
@@ -239,10 +251,10 @@
             </div>
             <!-- /.box-body -->
           </div>
-        </div>
+        </div> --}}
         <!-- /.end.col -->
 
-        <div class="col-md-offset-6 col-md-6">
+        <div class="col-md-12">
           <div class="box box-danger">
             <div class="box-header with-border">
               <h3 class="box-title">{{ __('Total Salary Details') }}</h3>
@@ -295,21 +307,25 @@
   function calculation() {
     var sum = 0;
     var basic_salary = $("#basic_salary").val();
-    var house_rent_allowance = $("#house_rent_allowance").val();
+    var house_rent = $("#house_rent").val();
     var medical_allowance = $("#medical_allowance").val();
-    var special_allowance = $("#special_allowance").val();
-    var provident_fund_contribution = $("#provident_fund_contribution").val();
-    var provident_fund = $("#provident_fund").val();
-    var other_allowance = $("#other_allowance").val();
-    var tax_deduction = $("#tax_deduction").val();
-    var provident_fund_deduction = $("#provident_fund_deduction").val();
+    // var special_allowance = $("#special_allowance").val();
+    var food_allowance = $("#food_allowance").val();
+    var convayence = $("#convayence").val();
+    // var provident_fund_contribution = $("#provident_fund_contribution").val();
+    // // var provident_fund = $("#provident_fund").val();
+    // var other_allowance = $("#other_allowance").val();
+    var absent_deduction = $("#absent_deduction").val();
+    // var provident_fund_deduction = $("#provident_fund_deduction").val();
     var other_deduction = $("#other_deduction").val();
 
-    var gross_salary = (+basic_salary + +house_rent_allowance + +medical_allowance + +special_allowance + +other_allowance);
+    // var gross_salary = (+basic_salary + +house_rent + +medical_allowance + +special_allowance + +other_allowance);
+    var gross_salary = (+basic_salary + +house_rent + +medical_allowance + +food_allowance + +convayence);
 
-    var total_deduction = (+tax_deduction + +provident_fund_deduction + +other_deduction);
+    // var total_deduction = (+absent_deduction + +provident_fund_deduction + +other_deduction);
+    var total_deduction = (+absent_deduction +  +other_deduction);
 
-    $("#total_provident_fund").val(+provident_fund_contribution + +provident_fund_deduction);
+    // $("#total_provident_fund").val(+provident_fund_contribution + +provident_fund_deduction);
 
     $("#gross_salary").val(gross_salary);
     $("#total_deduction").val(total_deduction);

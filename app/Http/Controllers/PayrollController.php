@@ -86,13 +86,11 @@ class PayrollController extends Controller
         $salary = request()->validate([
             'employee_type' => 'required',
             'basic_salary' => 'required|numeric',
-            'house_rent_allowance' => 'nullable|numeric',
+            'house_rent' => 'nullable|numeric',
             'medical_allowance' => 'nullable|numeric',
-            'special_allowance' => 'nullable|numeric',
-            'provident_fund_contribution' => 'nullable|numeric',
-            'other_allowance' => 'nullable|numeric',
-            'tax_deduction' => 'nullable|numeric',
-            'provident_fund_deduction' => 'nullable|numeric',
+            'food_allowance' => 'nullable|numeric',
+            'convayence' => 'nullable|numeric',
+            'absent_deduction' => 'nullable|numeric',
             'other_deduction' => 'nullable|numeric',
         ]);
 
