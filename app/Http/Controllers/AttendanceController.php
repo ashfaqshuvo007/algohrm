@@ -37,20 +37,19 @@ class AttendanceController extends Controller
         $attendance_day = date("D", strtotime($request->date));
 
         $weekly_holidays = WorkingDay::where('working_status', 0)
-            ->get(['day'])
+            ->pluck('day')
             ->toArray();
 
         $monthly_holidays = Holiday::where('date', '=', $request->date)
-            ->first(['date']);
+            ->pluck('date')
+            ->toArray();
 
-        if ($monthly_holidays['date'] == $request->date) {
-            return redirect('/hrm/attendance/manage')->with('exception', 'You select a holiday !');
+        if (in_array($request->date, $monthly_holidays)) {
+            return redirect('/hrm/attendance/manage')->with('exception', 'You have selected a holiday !');
         }
 
-        foreach ($weekly_holidays as $weekly_holiday) {
-            if ($attendance_day == $weekly_holiday['day']) {
-                return redirect('/hrm/attendance/manage')->with('exception', 'You select a holiday !');
-            }
+        if (in_array($attendance_day, $weekly_holidays)) {
+            return redirect('/hrm/attendance/manage')->with('exception', 'You have selected a holiday !');
         }
 
         $employees = User::query()

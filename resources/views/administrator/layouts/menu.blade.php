@@ -82,13 +82,11 @@
             <ul class="treeview-menu">
                 @permission('manage-attendance')
                 <li><a href="{{ url('/hrm/attendance/manage') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Attendance') }} </a></li>
-
-
+                <li><a href="{{ url('/hrm/attendance/device') }}"><i class="fa fa-circle-o"></i>{{ __(' Device Attendance') }}</a></li>
                 @endpermission
                 @permission('attendance-report')
                 <li><a href="{{ url('/hrm/attendance/details/report/go') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Statement') }}</a></li>
                 <li><a href="{{ url('/hrm/attendance/report') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Report') }}</a></li>
-                <li><a href="{{ url('/hrm/attendance/device') }}"><i class="fa fa-circle-o"></i>{{ __(' Device Attendance') }}</a></li>
                 @endpermission
             </ul>
         </li>
@@ -125,7 +123,7 @@
                 @permission('manage-leave-application')
                 <li><a href="{{ url('/setting/leave_categories/create') }}"><i class="fa fa-circle-o"></i>{{ __('New Leave Category') }}</a></li>
                 <li><a href="{{ url('/setting/leave_categories') }}"><i class="fa fa-circle-o"></i>{{ __('Leave Category List') }}</a></li>
-                <li><a href="{{ url('/hrm/application_lists') }}"><i class="fa fa-circle-o"></i> <span>{{ __('Leave Application List') }}</span></a></li>
+                {{-- <li><a href="{{ url('/hrm/application_lists') }}"><i class="fa fa-circle-o"></i> <span>{{ __('Leave Application List') }}</span></a></li> --}}
                 @endpermission
                 @permission('my-leave-application')
                 <li><a href="{{ url('/hrm/leave_application/create') }}"><i class="fa fa-circle-o"></i> <span>{{ __('New Leave Application') }}</span></a></li>
