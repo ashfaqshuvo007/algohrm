@@ -44,7 +44,8 @@
                 <li><a href="{{ url('/hrm/payroll') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Salary') }}</a></li>
                 @endpermission
                 @permission('salary-list')
-                <li><a href="{{ url('/hrm/payroll/salary-list') }}"><i class="fa fa-circle-o"></i> {{ __('Salary List') }}</a></li>
+                {{-- <li><a href="{{ url('/hrm/payroll/salary-list') }}"><i class="fa fa-circle-o"></i> {{ __('Salary List') }}</a></li> --}}
+                <li><a href="{{ url('/hrm/payroll/wages-list') }}"><i class="fa fa-circle-o"></i> {{ __('Wages List') }}</a></li>
                 @endpermission
 
                 <li><a href="{{ url('/hrm/payroll/increment/search') }}"><i class="fa fa-circle-o"></i>{{ __(' New Increment') }}</a></li>

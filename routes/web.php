@@ -173,7 +173,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/hrm/payroll/go', 'PayrollController@go');
     Route::get('/hrm/payroll/manage-salary/{id}', 'PayrollController@create');
     Route::post('/hrm/payroll/store', 'PayrollController@store');
-    Route::get('/hrm/payroll/salary-list', 'PayrollController@list');
+    // Route::get('/hrm/payroll/salary-list', 'PayrollController@list');
+    Route::get('/hrm/payroll/wages-list', 'PayrollController@wagelist');
     Route::get('/hrm/payroll/details/{id}', 'PayrollController@show');
     Route::post('/hrm/payroll/update/{id}', 'PayrollController@update');
 

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Holiday;
 use App\Payroll;
 use App\User;
+use App\WorkingDay;
 use Illuminate\Http\Request;
 
 class PayrollController extends Controller
@@ -121,6 +123,43 @@ class PayrollController extends Controller
             ])
             ->toArray();
         return view('administrator.hrm.payroll.salary_list', compact('salaries'));
+    }
+
+    public function wagelist()
+    {
+        $monthly_holidays = Holiday::whereMonth('date', '=', date("m"))
+            ->pluck('date')
+            ->toArray();
+
+        $holidayCount = count($monthly_holidays);
+
+        $weekly_holidays = WorkingDay::where('working_status', 0)
+            ->pluck('day')
+            ->toArray();
+        // dump($weekly_holidays);
+
+        $month = date('m');
+        $year = date('Y');
+
+        $numDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+        $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
+
+        $salaries = Payroll::query()
+            ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
+            ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+            ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+            ->orderBy('users.name', 'ASC')
+            ->where('users.deletion_status', 0)
+            ->get([
+                'payrolls.*',
+                'users.name', 'users.joining_date', 'users.id_number',
+                'designations.designation', 'designations.grade_id',
+                'payment_grades.grade',
+            ])
+            ->toArray();
+        // dd($salaries);
+        return view('administrator.hrm.payroll.wage_list', compact('salaries', 'totalHolidays'));
     }
 
     /**
