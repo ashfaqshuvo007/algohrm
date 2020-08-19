@@ -235,15 +235,39 @@
         <div class="col-md-6">
           <div class="box box-success">
             <div class="box-header with-border">
-              <h3 class="box-title">{{ __('Bonus Details') }}</h3>
+              <h3 class="box-title">{{ __('Overtime Details') }}</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <div class="form-group">
-                <label for="attendance_bonus">{{ __('Attendance Bonus') }}</label>
-                <input type="number" class="form-control" id="attendance_bonus" readonly>
+              <div class="form-group{{ $errors->has('overtime_hours') ? ' has-error' : '' }}">
+                <label for="overtime_hours">{{ __('Overtime Hours ') }}</label>
+                <input type="number" name="overtime_hours" value="{{ old('overtime_hours')}}" class="form-control" id="overtime_hours" placeholder="{{ __('Enter Overtime Hours') }}">
+                @if ($errors->has('overtime_hours'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('overtime_hours') }}</strong>
+                </span>
+                @endif
               </div>
-            </div>
+              <div class="form-group{{ $errors->has('overtime_rate') ? ' has-error' : '' }}">
+                <label for="overtime_rate">{{ __('Overtime Rate') }}</label>
+                <input type="number" name="overtime_rate" value="{{ old('overtime_rate') }}" class="form-control" id="overtime_rate" placeholder="{{ __('Enter Overtime Rate..') }}">
+                @if ($errors->has('overtime_rate'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('overtime_rate') }}</strong>
+                </span>
+                @endif
+              </div>
+
+              <div class="form-group{{ $errors->has('overtime_taka') ? ' has-error' : '' }}">
+                <label for="overtime_taka">{{ __('Overtime Toatal Amount (BDT)') }}</label>
+                <input type="number" name="overtime_taka" value="{{ old('overtime_taka') }}" class="form-control" id="overtime_taka" placeholder="{{ __('Enter Overtime Amount in tk..') }}" readonly>
+                @if ($errors->has('overtime_taka'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('overtime_taka') }}</strong>
+                </span>
+                @endif
+              </div>
+          </div>
             <!-- /.box-body -->
           </div>
         </div>
@@ -317,6 +341,9 @@
 
     var conveyance = $("#convayence").val();
 
+    var overtime_hours = $("#overtime_hours").val();
+    var overtime_rate = $("#overtime_rate").val();
+
     // var provident_fund_contribution = $("#provident_fund_contribution").val();
     // var other_allowance = $("#other_allowance").val();
     // var tax_deduction = $("#tax_deduction").val();
@@ -330,8 +357,11 @@
 
     // $("#total_provident_fund").val(+provident_fund_contribution + +provident_fund_deduction);
 
+    var overtime_taka = (overtime_hours * overtime_rate);
+
     $("#gross_salary").val(gross_salary);
-    // $("#total_deduction").val(total_deduction);
+    $("#overtime_taka").val(overtime_taka);
+    $("#total_deduction").val(total_deduction);
     // $("#net_salary").val(+gross_salary - +total_deduction);
   }
 </script>

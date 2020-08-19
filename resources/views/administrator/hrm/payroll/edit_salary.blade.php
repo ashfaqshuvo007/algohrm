@@ -11,7 +11,7 @@
     <ol class="breadcrumb">
       <li><a href="{{ url('/dashboard') }}"><i class="fa fa-dashboard"></i>{{ __('Dashboard') }} </a></li>
       <li><a>{{ __('Payroll') }}</a></li>
-      <li class="active">{{ __('Manage Salary Details') }}</li>
+      <li class="active">{{ __('Manage Wages Details') }}</li>
     </ol>
   </section>
 
@@ -22,7 +22,7 @@
         <!-- Default box -->
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">{{ __('Manage Salary Details') }}</h3>
+            <h3 class="box-title">{{ __('Manage Wages Details') }}</h3>
 
             <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
@@ -197,6 +197,48 @@
           </div>
         </div>
         <!-- /.end.col -->
+
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">{{ __('Overtime Details') }}</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="form-group{{ $errors->has('overtime_hours') ? ' has-error' : '' }}">
+                <label for="overtime_hours">{{ __('Overtime Hours ') }}</label>
+                <input type="number" name="overtime_hours" value="{{ $salary['overtime_hours'] }}" class="form-control" id="overtime_hours" placeholder="{{ __('Enter Overtime Hours') }}">
+                @if ($errors->has('overtime_hours'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('overtime_hours') }}</strong>
+                </span>
+                @endif
+              </div>
+              <div class="form-group{{ $errors->has('overtime_rate') ? ' has-error' : '' }}">
+                <label for="overtime_rate">{{ __('Overtime Rate') }}</label>
+                <input type="number" name="overtime_rate" value="{{ $salary['overtime_rate'] }}" class="form-control" id="overtime_rate" placeholder="{{ __('Enter Overtime Rate..') }}">
+                @if ($errors->has('overtime_rate'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('overtime_rate') }}</strong>
+                </span>
+                @endif
+              </div>
+
+              <div class="form-group{{ $errors->has('overtime_taka') ? ' has-error' : '' }}">
+                <label for="overtime_taka">{{ __('Overtime Toatal Amount (BDT)') }}</label>
+                <input type="number" name="overtime_taka" value="{{ $salary['overtime_taka'] }}" class="form-control" id="overtime_taka" placeholder="{{ __('Enter Overtime Amount in tk..') }}" readonly>
+                @if ($errors->has('overtime_taka'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('overtime_taka') }}</strong>
+                </span>
+                @endif
+              </div>
+          </div>
+        </div>
+        </div>
+        <!-- /.end.col -->
+
+
         <div class="col-md-12">
           <div class="box box-warning">
             <div class="box-header with-border">
@@ -205,23 +247,14 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="form-group{{ $errors->has('absent_deduction') ? ' has-error' : '' }}">
-                <label for="absent_deduction">{{ __('Tax Deduction') }}</label>
-                <input type="number" name="absent_deduction" value="{{ $salary['absent_deduction'] }}" class="form-control" id="absent_deduction" placeholder="{{ __('Enter tax deduction..') }}">
+                <label for="absent_deduction">{{ __('Absent Deduction') }}</label>
+                <input type="number" name="absent_deduction" value="{{ $salary['absent_deduction'] }}" class="form-control" id="absent_deduction" placeholder="{{ __('Enter Attendance deduction..') }}">
                 @if ($errors->has('absent_deduction'))
                 <span class="help-block">
                   <strong>{{ $errors->first('absent_deduction') }}</strong>
                 </span>
                 @endif
               </div>
-              {{-- <div class="form-group{{ $errors->has('provident_fund_deduction') ? ' has-error' : '' }}">
-                <label for="provident_fund_deduction">{{ __('Provident Fund Deduction') }}</label>
-                <input type="number" name="provident_fund_deduction" value="{{ $salary['provident_fund_deduction'] }}" class="form-control" id="provident_fund_deduction" placeholder="{{ __('Enter tax deduction..') }}">
-                @if ($errors->has('provident_fund_deduction'))
-                <span class="help-block">
-                  <strong>{{ $errors->first('provident_fund_deduction') }}</strong>
-                </span>
-                @endif
-              </div> --}}
               <div class="form-group{{ $errors->has('other_deduction') ? ' has-error' : '' }}">
                 <label for="other_deduction">{{ __('Other Deduction') }}</label>
                 <input type="number" name="other_deduction" value="{{ $salary['other_deduction'] }}" class="form-control" id="other_deduction" placeholder="{{ __('Enter other deduction..') }}">
@@ -237,25 +270,8 @@
         </div>
         <!-- /.end.col -->
 
-        {{-- <div class="col-md-6">
-          <div class="box box-success">
-            <div class="box-header with-border">
-              <h3 class="box-title">{{ __('Provident Fund') }}</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="form-group">
-                <label for="total_provident_fund">{{ __('Total Provident Fund') }}</label>
-                <input type="number" class="form-control" id="total_provident_fund" readonly>
-              </div>
-            </div>
-            <!-- /.box-body -->
-          </div>
-        </div> --}}
-        <!-- /.end.col -->
-
         <div class="col-md-12">
-          <div class="box box-danger">
+          <div class="box box-success">
             <div class="box-header with-border">
               <h3 class="box-title">{{ __('Total Salary Details') }}</h3>
             </div>
@@ -309,6 +325,8 @@
     var basic_salary = $("#basic_salary").val();
     var house_rent = $("#house_rent").val();
     var medical_allowance = $("#medical_allowance").val();
+    var overtime_hours = $("#overtime_hours").val();
+    var overtime_rate = $("#overtime_rate").val();
     // var special_allowance = $("#special_allowance").val();
     var food_allowance = $("#food_allowance").val();
     var convayence = $("#convayence").val();
@@ -327,8 +345,12 @@
 
     // $("#total_provident_fund").val(+provident_fund_contribution + +provident_fund_deduction);
 
+    var overtime_taka = (overtime_hours * overtime_rate);
+
+
     $("#gross_salary").val(gross_salary);
     $("#total_deduction").val(total_deduction);
+    $("#overtime_taka").val(overtime_taka);
     $("#net_salary").val(+gross_salary - +total_deduction);
   }
 </script>

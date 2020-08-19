@@ -111,6 +111,20 @@
         </li>
         @endpermission
 
+        @permission('audit_panel_settings')
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-calendar-check-o text-purple"></i> <span>{{ __('Audit Mangement') }}</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="{{ url('/audit/wages') }}"><i class="fa fa-circle-o"></i>{{ __(' Wages List') }}</a></li>
+            </ul>
+        </li>
+        @endpermission
+
        
        {{-- @permission('manage-expense')
         <li class="treeview">
