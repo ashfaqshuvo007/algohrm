@@ -144,6 +144,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/profile/change-password', 'ProfileController@change_password');
     Route::post('/profile/update-password', 'ProfileController@update_password');
 
+    //Device Management
+    Route::get('/device/manage', 'DeviceAttendanceController@manageDevices');
+    Route::get('/device/add', 'DeviceAttendanceController@addDevice');
+    Route::get('/device/{device_id}/attendance', 'DeviceAttendanceController@checkDeviceConnection');
+    Route::get('/device/attendance', 'DeviceAttendanceController@deviceAttendance');
+
     //Custom Invoice
     Route::get('/custom-invoice', 'InvoiceController@index');
     Route::post('/make-invoice', 'InvoiceController@create');
@@ -165,10 +171,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/hrm/attendance/details/report/go', 'AttendanceController@attDetailsReportGo');
     Route::get('/hrm/attendance/details/report/all', 'AttendanceController@attDetailsReport');
     Route::get('/hrm/attendance/details/report/pdf', 'AttendanceController@attDetailsReportPdf');
-    // New Routes
-    Route::get('/hrm/attendance/device', 'DeviceAttendanceController@deviceAttendance');
 
-    // Payroll Section
+    // Payroll/Wages Section
     Route::get('/hrm/payroll', 'PayrollController@index');
     Route::post('/hrm/payroll/go', 'PayrollController@go');
     Route::get('/hrm/payroll/manage-salary/{id}', 'PayrollController@create');

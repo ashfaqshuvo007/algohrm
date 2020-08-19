@@ -41,7 +41,7 @@
             </a>
             <ul class="treeview-menu">
                 @permission('manage-salary')
-                <li><a href="{{ url('/hrm/payroll') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Salary') }}</a></li>
+                <li><a href="{{ url('/hrm/payroll') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Wage') }}</a></li>
                 @endpermission
                 @permission('salary-list')
                 {{-- <li><a href="{{ url('/hrm/payroll/salary-list') }}"><i class="fa fa-circle-o"></i> {{ __('Salary List') }}</a></li> --}}
@@ -83,7 +83,7 @@
             <ul class="treeview-menu">
                 @permission('manage-attendance')
                 <li><a href="{{ url('/hrm/attendance/manage') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Attendance') }} </a></li>
-                <li><a href="{{ url('/hrm/attendance/device') }}"><i class="fa fa-circle-o"></i>{{ __(' Device Attendance') }}</a></li>
+                {{-- <li><a href="{{ url('/hrm/attendance/device') }}"><i class="fa fa-circle-o"></i>{{ __(' Device Attendance') }}</a></li> --}}
                 @endpermission
                 @permission('attendance-report')
                 <li><a href="{{ url('/hrm/attendance/details/report/go') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Statement') }}</a></li>
@@ -92,6 +92,25 @@
             </ul>
         </li>
         @endpermission
+
+        @permission('device-setting')
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-id-badge text-purple"></i> <span>{{ __('Device Management') }}</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="{{ url('/device/add') }}"><i class="fa fa-circle-o"></i>{{ __(' Add New Device') }}</a></li>
+                <li><a href="{{ url('/device/manage') }}"><i class="fa fa-circle-o"></i>{{ __(' Manage Devices') }}</a></li>
+                <li><a href="{{ url('/device/{device_id}/check-connection') }}"><i class="fa fa-circle-o"></i>{{ __(' Check Device Connection') }}</a></li>
+                <li><a href="{{ url('/device/attendance') }}"><i class="fa fa-circle-o"></i>{{ __(' Device Attendance') }}</a></li>
+                {{-- <li><a href="{{ url('/device') }}"><i class="fa fa-circle-o"></i>{{ __(' Device Attendance') }}</a></li> --}}
+            </ul>
+        </li>
+        @endpermission
+
        
        {{-- @permission('manage-expense')
         <li class="treeview">

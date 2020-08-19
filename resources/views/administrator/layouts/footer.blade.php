@@ -1,6 +1,6 @@
 <footer class="main-footer">
     <div class="pull-right hidden-xs">
-        <b>{{ __('Version') }}</b> 0.0.4
+        <b>{{ __('Version') }}</b> 0.0.1
     </div>
-    <strong>{{ __('Copyright') }} &copy; {{ date('Y')}} <a href="https://algodevs.com" target="_blank">{{ __('Algo HRM') }}</a>.</strong> {{ __('All rights reserved.') }}
-</footer>
+    <strong>{{ __('Copyright') }} &copy; {{ date('Y')}} <a href="#" target="_blank">{{ __('CTSuite-HRM') }}</a>.</strong> {{ __('All rights reserved.') }}
+</footer>men
