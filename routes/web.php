@@ -147,8 +147,16 @@ Route::group(['middleware' => 'auth'], function () {
     //Device Management
     Route::get('/device/manage', 'DeviceAttendanceController@manageDevices');
     Route::get('/device/add', 'DeviceAttendanceController@addDevice');
-    Route::get('/device/{device_id}/attendance', 'DeviceAttendanceController@checkDeviceConnection');
-    Route::get('/device/attendance', 'DeviceAttendanceController@deviceAttendance');
+    Route::post('/device/info/go', 'DeviceAttendanceController@getDeviceInfo');
+    Route::post('/device/create', 'DeviceAttendanceController@storeDevice');
+    Route::get('/device/{device_id}/edit', 'DeviceAttendanceController@editDeviceInfo');
+    Route::get('/device/{device_id}/clearAttData', 'DeviceAttendanceController@clearAttData');
+    Route::post('/device/users', 'DeviceAttendanceController@getDeviceUsers');
+    Route::get('/device/getUsers/select', 'DeviceAttendanceController@selectDevice');
+    Route::get('/device/getAttendance/select', 'DeviceAttendanceController@selectAttendanceDevice');
+    Route::post('/device/attendance', 'DeviceAttendanceController@deviceAttendance');
+    Route::post('/device/update', 'DeviceAttendanceController@updateDeviceInfo');
+    Route::get('/device/{device_id}/check', 'DeviceAttendanceController@checkDeviceConnection');
 
     //Custom Invoice
     Route::get('/custom-invoice', 'InvoiceController@index');

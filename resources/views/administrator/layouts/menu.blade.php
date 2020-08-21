@@ -105,8 +105,8 @@
                 <li><a href="{{ url('/device/add') }}"><i class="fa fa-circle-o"></i>{{ __(' Add New Device') }}</a></li>
                 <li><a href="{{ url('/device/manage') }}"><i class="fa fa-circle-o"></i>{{ __(' Manage Devices') }}</a></li>
                 <li><a href="{{ url('/device/{device_id}/check-connection') }}"><i class="fa fa-circle-o"></i>{{ __(' Check Device Connection') }}</a></li>
-                <li><a href="{{ url('/device/attendance') }}"><i class="fa fa-circle-o"></i>{{ __(' Device Attendance') }}</a></li>
-                {{-- <li><a href="{{ url('/device') }}"><i class="fa fa-circle-o"></i>{{ __(' Device Attendance') }}</a></li> --}}
+                <li><a href="{{ url('/device/getAttendance/select') }}"><i class="fa fa-circle-o"></i>{{ __('Get Device Attendance') }}</a></li>
+                <li><a href="{{ url('/device/getUsers/select') }}"><i class="fa fa-circle-o"></i>{{ __(' Get Device Users') }}</a></li>
             </ul>
         </li>
         @endpermission

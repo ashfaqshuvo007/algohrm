@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDeviceAttendacesTable extends Migration
 {
@@ -15,7 +15,12 @@ class CreateDeviceAttendacesTable extends Migration
     {
         Schema::create('device_attendaces', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('uuid');
+            $table->bigInteger('employee_id');
+            $table->integer('state');
+            $table->dateTime('date_time');
             $table->timestamps();
+
         });
     }
 
