@@ -68,6 +68,23 @@
                 @endif
               </div>
               <!-- /.form-group -->
+              @if($userRole)
+              <label for="user_id">{{ __('Select User') }}<span class="text-danger">*</span></label>
+              <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }} has-feedback">
+                <select name="user_id_id"  class="form-control">
+                  <option value="" selected disabled>{{ __('Select one') }}</option>
+                  @foreach( $employees as $user)
+                  <option value="{{ $user->id }}"> {{ $user_id->name }} </option>
+                  @endforeach
+                </select>
+                @if ($errors->has('user_id'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('user_id') }}</strong>
+                </span>
+                @endif
+              </div>
+              @endif
+              <!-- /.form-group -->
 
               <div class="col-md-6">
                 <div class="form-group">

@@ -35,6 +35,12 @@
                 <div  class="col-md-6">
                     <input type="text" id="myInput" class="form-control" placeholder="{{ __('Search..') }}">
                 </div>
+                <div  class="col-md-3">
+                    <button type="button" class="tip btn btn-primary btn-flat" title="Export Excel" data-original-title="Label Export As Excel" id="btnExport">
+                          <i class="fa fa-print"></i>
+                          <span class="hidden-sm hidden-xs"> {{ __('Export As Excel') }}</span>
+                      </button>
+                  </div>
                 <!-- Notification Box -->
                 <div class="col-md-12">
                     @if (!empty(Session::get('message')))
@@ -51,7 +57,7 @@
                 </div>
                 <!-- /.Notification Box -->
                 <div class="col-md-12 table-responsive">
-                    <table  class="table table-bordered table-striped">
+                    <table  class="table table-bordered table-striped" id="printable_area">
                         <thead>
                             <tr>
                                 <th>{{ __('SL#') }}</th>
@@ -86,9 +92,17 @@
                                 {{-- <th class="text-center">{{ __('Actions') }}</th> --}}
                             </tr>
                         </thead>
+                       
                         <tbody id="myTable">
-                            @php ($sl = 1)
+                            @php $sl = 1; @endphp
                             @foreach($salaries as $salary)
+                            @php
+                                $present = \App\Attendance::where('employee_id',$salary['employee_id'])->whereMonth('created_at',$salryMonth)->first()->toArray();
+                                // dd((int)$present['overtime_hours']);
+                                $presentCount = count($present);
+                                $workingDays = date("t") - $totalHolidays;
+                                $absent_days = $workingDays - $presentCount;
+                            @endphp
                             <tr>
                                 <td>{{ $sl++ }}</td>
                                 <td>{{ $salary['name'] }}</td>
@@ -98,7 +112,7 @@
                                 <td>{{ $salary['grade_id'] }}</td>
                                 
                                 <td>
-                                @php($gross_salary = $salary['basic_salary'] + $salary['house_rent'] + $salary['medical_allowance'] + $salary['food_allowance'] + $salary['convayence'])
+                                @php $gross_salary = (int)$salary['basic_salary'] + (int)$salary['house_rent'] + (int)$salary['medical_allowance'] + (int)$salary['food_allowance'] + (int)$salary['convayence'] ; @endphp
                                 {{ $gross_salary }}
                                 </td>
                                 <td>{{ date("t") }}</td>
@@ -107,20 +121,38 @@
                                 <td>0</td>
                                 <td>0</td>
                                 <td>0</td>
-                                <td>0</td>
+                                <td>{{  $absent_days }}</td>
                                 <td>{{$salary['basic_salary']}}</td>
                                 <td>{{$salary['house_rent']}}</td>
                                 <td>{{$salary['medical_allowance']}}</td>
                                 <td>{{$salary['food_allowance']}}</td>
                                 <td>{{$salary['convayence']}}</td>
                                 <td>{{$salary['absent_deduction']}}</td>
-                                @php($total_deduction = $salary['absent_deduction'] + $salary['other_deduction'])
+                                @php $total_deduction = ((int)$salary['absent_deduction'] * ($workingDays - $presentCount)); @endphp
                                 <td>{{ $gross_salary - $total_deduction }}</td>
-                                <td>30</td>
-                                <td>61.86</td>
-                                <td>1988</td>
-                                <td>0</td>
-                                <td>0</td>
+                                <td>
+                                    @php
+                                        if($present['overtime_hours'] < 0){
+                                            $overtime_hours = 0;
+                                        }else{
+                                            $overtime_hours = $present['overtime_hours'];
+                                        }
+                                    @endphp
+                                    {{ $overtime_hours }}
+                                </td>
+                                <td>{{$salary['overtime_rate']}}</td>
+                                <td>{{ $overtime_hours * (int)$salary['overtime_rate'] }}</td>
+                                <td>{{($salary['increment_amount'] == null) ? 0 : $salary['increment_amount']}}</td><td>
+                                    @php
+                                      if($absent_days > 0){
+                                          $bonus = 0;
+                                      }else{
+                                        $bonus = $salary['att_bonus'];
+
+                                      }   
+                                    @endphp
+                                    {{$bonus}}
+                                </td>
                                 <td>1988</td>
 
                                 <td>{{ $gross_salary + 1988 }}</td>
@@ -142,4 +174,20 @@
     </section>
     <!-- /.content -->
 </div>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+<script>
+$(document).ready(function(){
+    $("#btnExport").click(function() {
+        var d = new Date();
+        var date = d.getDate();
+        let table = document.getElementsByTagName("table");
+        TableToExcel.convert(table[0], { // html code may contain multiple tables so here we are refering to 1st table tag
+           name: `WageList.xlsx`, // fileName you could use any name
+           sheet: {
+              name: 'Sheet 1' // sheetName
+           }
+        });
+    });
+});
+</script>
 @endsection

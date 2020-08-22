@@ -9,6 +9,7 @@ use App\SetTime;
 use App\User;
 use App\WorkingDay;
 use Auth;
+use Carbon;
 use DB;
 use Illuminate\Http\Request;
 use PDF;
@@ -52,11 +53,25 @@ class AttendanceController extends Controller
         $past_att = Attendance::where('attendance_date', $attendance_date)->first();
         if (empty($past_att)) {
             foreach ($groupedAttendance as $att) {
+                // $check_in = new DateTime($att[0]->date_time);
+                // $check_out = new DateTime($att[1]->date_time);
+                // $H1 = $check_in->format('H');
+                // $H2 = $check_out->format('H');
+                // $H = $check_in - $check_out;
+                // $overtimeHours = $H - 9;
+                $check_in = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $att[0]->date_time);
+                $check_out = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $att[1]->date_time);
+                $diff_in_hours = $check_in->diffInHours($check_out);
+                $overtimeHours = $diff_in_hours - 9;
+                // print_r($diff_in_hours);
+
                 $data = [
                     'employee_id' => $att[0]->employee_id,
                     'attendance_date' => $attendance_date,
-                    'check_in' => $att[0]->date_time,
-                    'check_out' => $att[1]->date_time,
+                    'check_in' => $check_in,
+                    'check_out' => $check_out,
+                    'total_hours' => $diff_in_hours,
+                    'overtime_hours' => $overtimeHours,
                 ];
                 $result = Attendance::create($data + ['created_by' => auth()->user()->id]);
             }

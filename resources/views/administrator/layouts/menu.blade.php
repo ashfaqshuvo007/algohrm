@@ -45,7 +45,7 @@
                 @endpermission
                 @permission('salary-list')
                 {{-- <li><a href="{{ url('/hrm/payroll/salary-list') }}"><i class="fa fa-circle-o"></i> {{ __('Salary List') }}</a></li> --}}
-                <li><a href="{{ url('/hrm/payroll/wages-list') }}"><i class="fa fa-circle-o"></i> {{ __('Wages List') }}</a></li>
+                <li><a href="{{ url('/hrm/payroll/generate-wages-list') }}"><i class="fa fa-circle-o"></i> {{ __('Wages List') }}</a></li>
                 @endpermission
 
                 <li><a href="{{ url('/hrm/payroll/increment/search') }}"><i class="fa fa-circle-o"></i>{{ __(' New Increment') }}</a></li>
@@ -120,7 +120,7 @@
                 </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="{{ url('/audit/wages') }}"><i class="fa fa-circle-o"></i>{{ __(' Wages List') }}</a></li>
+                {{-- <li><a href="{{ url('/audit/wages') }}"><i class="fa fa-circle-o"></i>{{ __(' Wages List') }}</a></li> --}}
             </ul>
         </li>
         @endpermission
@@ -144,8 +144,8 @@
             </ul>
         </li>
          @endpermission --}}
-        @permission('leave-application')
-        <li class="treeview">
+        {{--@permission('leave-application')
+         <li class="treeview">
             <a href="#">
                 <i class="glyphicon glyphicon-send text-purple"></i> <span>{{ __('Leave Management') }}</span>
                 <span class="pull-right-container">
@@ -154,21 +154,21 @@
             </a>
             <ul class="treeview-menu">
              
-                @permission('manage-leave-application')
+                {{-- @permission('manage-leave-application')
                 <li><a href="{{ url('/setting/leave_categories/create') }}"><i class="fa fa-circle-o"></i>{{ __('New Leave Category') }}</a></li>
                 <li><a href="{{ url('/setting/leave_categories') }}"><i class="fa fa-circle-o"></i>{{ __('Leave Category List') }}</a></li>
                 {{-- <li><a href="{{ url('/hrm/application_lists') }}"><i class="fa fa-circle-o"></i> <span>{{ __('Leave Application List') }}</span></a></li> --}}
-                @endpermission
-                @permission('my-leave-application')
+                {{--@endpermission --}}
+                {{-- @permission('my-leave-application')
                 <li><a href="{{ url('/hrm/leave_application/create') }}"><i class="fa fa-circle-o"></i> <span>{{ __('New Leave Application') }}</span></a></li>
                 <li><a href="{{ url('/hrm/leave_application') }}"><i class="fa fa-circle-o"></i> <span>{{ __('Leave Application Manage') }}</span></a></li>
-                @endpermission
-                @permission('leave-reports')
+                @endpermission --}}
+                {{-- @permission('leave-reports')
                 <li><a href="{{ url('/hrm/leave-reports') }}"><i class="fa fa-circle-o"></i> <span>{{ __('Leave Reports') }}</span></a></li>
-                @endpermission
+                @endpermission 
             </ul>
-        </li>
-        @endpermission
+        </li> -
+        @endpermission --}}
          {{-- @permission('manage-award')
          <li class="treeview">
             <a href="#">

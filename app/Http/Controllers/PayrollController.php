@@ -57,15 +57,17 @@ class PayrollController extends Controller
             ->leftjoin('designations as designations', 'users.designation_id', '=', 'designations.id')
             ->leftjoin('payment_grades as grades', 'designations.grade_id', '=', 'grades.id')
             ->orderBy('users.name', 'ASC')
-            ->where('users.access_label', '>=', 2)
-            ->where('users.access_label', '<=', 3)
+            ->where('users.id', $employee_id)
             ->select('designations.designation', 'grades.*', 'users.name', 'users.id')
             ->get()
             ->toArray();
+        $user_emp_id = User::where('id', $user_id)->pluck('employee_id');
 
-        // dump($employees);
+        // $emp_attendance = Attendance::where('employee_id',$user_emp_id[0])->get();
+        // $att_count =
+        //     // dump($employees);
 
-        $salary = Payroll::where('user_id', $employee_id)
+        $salary = Payroll::where('user_id', $user_id)
             ->first();
 
         // dd($salary);
@@ -93,16 +95,19 @@ class PayrollController extends Controller
             'food_allowance' => 'nullable|numeric',
             'convayence' => 'nullable|numeric',
             'absent_deduction' => 'nullable|numeric',
-            'other_deduction' => 'nullable|numeric',
+            'overtime_rate' => 'nullable|numeric',
+            'att_bonus' => 'nullable|numeric',
+            'increment_amount' => 'nullable|numeric',
+
         ]);
 
         $result = Payroll::create($salary + ['created_by' => auth()->user()->id, 'user_id' => $request->user_id]);
         $inserted_id = $result->id;
 
         if (!empty($inserted_id)) {
-            return redirect('/hrm/payroll/salary-list')->with('message', 'Add successfully.');
+            return redirect('/hrm/payroll')->with('message', 'Add successfully.');
         }
-        return redirect('/hrm/payroll/salary-list')->with('exception', 'Operation failed !');
+        return redirect('/hrm/payroll')->with('exception', 'Operation failed !');
     }
 
     /**
@@ -125,9 +130,17 @@ class PayrollController extends Controller
         return view('administrator.hrm.payroll.salary_list', compact('salaries'));
     }
 
-    public function wagelist()
+    ///hrm/payroll/generate-wages-list
+    public function generate_wages_list()
     {
-        $monthly_holidays = Holiday::whereMonth('date', '=', date("m"))
+        return view('administrator.hrm.payroll.generate_wage_list');
+    }
+
+    public function generateWageList(Request $r)
+    {
+        $salryMonth = date('m', strtotime($r->salary_month));
+
+        $monthly_holidays = Holiday::whereMonth('date', '=', $salryMonth)
             ->pluck('date')
             ->toArray();
 
@@ -136,15 +149,13 @@ class PayrollController extends Controller
         $weekly_holidays = WorkingDay::where('working_status', 0)
             ->pluck('day')
             ->toArray();
-        // dump($weekly_holidays);
 
-        $month = date('m');
-        $year = date('Y');
+        $month = date('m', strtotime($r->salary_month));
+        $year = date('Y', strtotime($r->salary_month));
 
         $numDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
         $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
-
         $salaries = Payroll::query()
             ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
             ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
@@ -153,13 +164,14 @@ class PayrollController extends Controller
             ->where('users.deletion_status', 0)
             ->get([
                 'payrolls.*',
-                'users.name', 'users.joining_date', 'users.id_number',
+                'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
                 'designations.designation', 'designations.grade_id',
                 'payment_grades.grade',
             ])
             ->toArray();
         // dd($salaries);
-        return view('administrator.hrm.payroll.wage_list', compact('salaries', 'totalHolidays'));
+
+        return view('administrator.hrm.payroll.wage_list', compact('salaries', 'totalHolidays', 'salryMonth'));
     }
 
     /**
@@ -201,39 +213,32 @@ class PayrollController extends Controller
         request()->validate([
             'employee_type' => 'required',
             'basic_salary' => 'required|numeric',
-            'house_rent_allowance' => 'nullable|numeric',
+            'house_rent' => 'nullable|numeric',
             'medical_allowance' => 'nullable|numeric',
-            'special_allowance' => 'nullable|numeric',
-            'provident_fund_contribution' => 'nullable|numeric',
-            'other_allowance' => 'nullable|numeric',
-            'tax_deduction' => 'nullable|numeric',
-            'provident_fund_deduction' => 'nullable|numeric',
-            'other_deduction' => 'nullable|numeric',
+            'food_allowance' => 'nullable|numeric',
+            'convayence' => 'nullable|numeric',
+            'overtime_rate' => 'nullable|numeric',
+            'absent_deduction' => 'nullable|numeric',
+            'att_bonus' => 'nullable|numeric',
+            'increment_amount' => 'nullable|numeric',
+
         ]);
 
         $salary->employee_type = $request->get('employee_type');
         $salary->basic_salary = $request->get('basic_salary');
-        $salary->house_rent_allowance = $request->get('house_rent_allowance');
+        $salary->house_rent = $request->get('house_rent');
         $salary->medical_allowance = $request->get('medical_allowance');
-        $salary->special_allowance = $request->get('special_allowance');
-        $salary->provident_fund_contribution = $request->get('provident_fund_contribution');
-        $salary->other_allowance = $request->get('other_allowance');
-        $salary->tax_deduction = $request->get('tax_deduction');
-        $salary->provident_fund_deduction = $request->get('provident_fund_deduction');
-        $salary->other_deduction = $request->get('other_deduction');
+        $salary->food_allowance = $request->get('food_allowance');
+        $salary->convayence = $request->get('convayence');
+        $salary->overtime_rate = $request->get('overtime_rate');
+        $salary->absent_deduction = $request->get('absent_deduction');
+        $salary->att_bonus = $request->get('att_bonus');
+        $salary->increment_amount = $request->get('increment_amount');
         $affected_row = $salary->save();
 
         if (!empty($affected_row)) {
-            return redirect('/hrm/payroll/salary-list')->with('message', 'Update successfully.');
+            return redirect('/hrm/payroll/')->with('message', 'Update successfully.');
         }
-        return redirect('/hrm/payroll/salary-list')->with('exception', 'Operation failed !');
-
-        $result = Payroll::create($salary + ['created_by' => auth()->user()->id, 'user_id' => $request->user_id]);
-        $inserted_id = $result->id;
-
-        if (!empty($inserted_id)) {
-            return redirect('/hrm/payroll/salary-list')->with('message', 'Add successfully.');
-        }
-        return redirect('/hrm/payroll/salary-list')->with('exception', 'Operation failed !');
+        return redirect('/hrm/payroll/')->with('exception', 'Operation failed !');
     }
 }
