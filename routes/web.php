@@ -155,6 +155,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/device/getUsers/select', 'DeviceAttendanceController@selectDevice');
     Route::get('/device/getAttendance/select', 'DeviceAttendanceController@selectAttendanceDevice');
     Route::post('/device/attendance', 'DeviceAttendanceController@deviceAttendance');
+    Route::get('/device/pullAttendance', 'DeviceAttendanceController@pullDeviceAttendance');
+    Route::post('/device/saveDeviceAttendance', 'DeviceAttendanceController@saveDeviceAttendance');
     Route::post('/device/update', 'DeviceAttendanceController@updateDeviceInfo');
     Route::get('/device/{device_id}/check', 'DeviceAttendanceController@checkDeviceConnection');
 
@@ -169,7 +171,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Attendance Section
     Route::get('/hrm/attendance/manage', 'AttendanceController@index');
-    Route::post('/hrm/attendance/set', 'AttendanceController@set_attendance');
+    Route::post('/hrm/attendance/show', 'AttendanceController@set_attendance');
     Route::post('/hrm/attendance/store', 'AttendanceController@store');
     Route::post('/hrm/attendance/update', 'AttendanceController@update');
     Route::get('/hrm/attendance/report', 'AttendanceController@report');

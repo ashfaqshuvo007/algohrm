@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Attendance;
+use App\DeviceAttendance;
 use App\Holiday;
-use App\LeaveCategory;
 use App\SetTime;
 use App\User;
 use App\WorkingDay;
@@ -34,45 +34,36 @@ class AttendanceController extends Controller
     public function set_attendance(Request $request)
     {
 
-        $attendance_day = date("D", strtotime($request->date));
-
-        $weekly_holidays = WorkingDay::where('working_status', 0)
-            ->pluck('day')
-            ->toArray();
-
-        $monthly_holidays = Holiday::where('date', '=', $request->date)
-            ->pluck('date')
-            ->toArray();
-
-        if (in_array($request->date, $monthly_holidays)) {
-            return redirect('/hrm/attendance/manage')->with('exception', 'You have selected a holiday !');
-        }
-
-        if (in_array($attendance_day, $weekly_holidays)) {
-            return redirect('/hrm/attendance/manage')->with('exception', 'You have selected a holiday !');
-        }
-
-        $employees = User::query()
-            ->leftjoin('designations as designations', 'users.designation_id', '=', 'designations.id')
-            ->orderBy('users.name', 'ASC')
-            ->where('users.access_label', '>=', 2)
-            ->where('users.access_label', '<=', 3)
-            ->get(['designations.designation', 'users.name', 'users.id'])
-            ->toArray();
-
-        $leave_categories = LeaveCategory::get()
-            ->where('deletion_status', 0)
-            ->toArray();
+        $attendance_date = date("Y-m-d", strtotime($request->date));
+        $att_user_details = DeviceAttendance::leftjoin('users', 'device_attendances.employee_id', '=', 'users.employee_id')
+            ->whereDate('device_attendances.date_time', $request->date)
+            ->select([
+                'users.id',
+                'users.name',
+                'device_attendances.*',
+            ])
+            ->get();
         $date = $request->date;
 
-        $attendances = Attendance::where('attendance_date', $date)
-            ->get()
-            ->toArray();
-
-        if (empty($attendances)) {
-            return view('administrator.hrm.attendance.set_attendance', compact('employees', 'leave_categories', 'date'));
+        //grouping the data for each employee
+        $groupedAttendance = $att_user_details->mapToGroups(function ($item, $key) {
+            return [$item['employee_id'] => $item];
+        });
+        $past_att = Attendance::where('attendance_date', $attendance_date)->first();
+        if (empty($past_att)) {
+            foreach ($groupedAttendance as $att) {
+                $data = [
+                    'employee_id' => $att[0]->employee_id,
+                    'attendance_date' => $attendance_date,
+                    'check_in' => $att[0]->date_time,
+                    'check_out' => $att[1]->date_time,
+                ];
+                $result = Attendance::create($data + ['created_by' => auth()->user()->id]);
+            }
         }
-        return view('administrator.hrm.attendance.edit_attendance', compact('employees', 'leave_categories', 'date', 'attendances'));
+
+        return view('administrator.hrm.attendance.set_attendance', compact('attendance_date', 'groupedAttendance', 'date'));
+
     }
 
     /**
@@ -83,7 +74,7 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-
+        dd($request);
         // return $request;
         for ($i = 0; $i < count($request->user_id); $i++) {
             Attendance::create([

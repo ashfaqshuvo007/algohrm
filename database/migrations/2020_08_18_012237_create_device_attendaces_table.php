@@ -15,6 +15,7 @@ class CreateDeviceAttendacesTable extends Migration
     {
         Schema::create('device_attendaces', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('device_id');
             $table->integer('uuid');
             $table->bigInteger('employee_id');
             $table->integer('state');

@@ -1,6 +1,8 @@
 @extends('administrator.master')
 @section('title', __('Set Attendance'))
-
+@php
+    dump($att_user_details);
+@endphp
 @section('main_content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -28,10 +30,14 @@
                 </div>
             </div>
             <div class="box-body">
-                <div class="col-md-12">                    
-                    <div class=" col-sm-3">
-                        <p class="">Set Attendance For : <span class="text-primary h4">{{ $date }}</span></p>
-                    </div>                   
+                <div class="col-md-12">
+                    
+                        <div class="form-group">
+                            <div class=" col-sm-6">
+                            <p class="">Set Attendance For : <span class="text-primary h4">{{ $date }}</span></p>
+                                
+                          </div>
+                        </div>
               </div>
               <!-- /. end col -->
               <div class="col-md-12">
@@ -51,7 +57,7 @@
             <!-- /.Notification Box -->
             <form action="{{ url('/hrm/attendance/store') }}" method="post">
                 {{ csrf_field() }}
-                <table class="table table-bordered table-striped" id="printable_area">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>{{ __('SL#') }}</th>
@@ -78,8 +84,101 @@
                         </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7"><button type="submit" class="btn btn-primary btn-flat pull-right"><i class="icon fa fa-save"></i> {{ __('Save') }}</button></td>
+                        </tr>
+                    </tfoot>
                     </table>
                 </form>
+
+
+<!-- ===============================/.modal============================== -->
+      <div class="modal fade" id="modal-sm">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header settime">
+              <h4 class="modal-title">{{ __('Set of both New Time') }}  </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+              
+     @if($setimes->count()>0)
+
+
+        <form action="{{ url('/hrm/attendance/time/set') }}" method="post">
+            {{ csrf_field() }}
+            <div class="modal-body">
+
+                <input type="hidden" name="id" value="{{$id}}">
+               
+                
+                <label>{{ __('In Time') }} <span class="text-danger">*</span></label>
+                <div class="form-group">
+                    <input type="text" name="in_time" class="form-control" value="{{$intime}}">
+                </div>
+                <label>{{ __('Out Time') }}<span class="text-danger">*</span></label>
+                <div class="form-group">
+                    <input type="text" name="out_time" class="form-control" value="{{$outtime}}">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Close') }}</button>
+                <button type="submit" class="btn btn-primary">{{ __('Save changes') }}</button>
+            </div>
+        </form>
+
+          @else
+
+        <form action="{{ url('/hrm/attendance/time/set') }}" method="post">
+            {{ csrf_field() }}
+            <div class="modal-body">
+               
+                
+                <label>{{ __('In Time') }} <span class="text-danger">*</span></label>
+                <div class="form-group">
+                    <input type="text" name="in_time" class="form-control" value="09:12:00">
+                </div>
+                <label>{{ __('Out Time') }}<span class="text-danger">*</span></label>
+                <div class="form-group">
+                    <input type="text" name="out_time" class="form-control" value="17:12:00">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Close') }}</button>
+                <button type="submit" class="btn btn-primary">{{ __('Save changes') }}</button>
+            </div>
+        </form>
+        @endif
+
+
+
+
+
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- ================================/.modal =============================-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     </div>
     <!-- /.box-body -->
@@ -88,4 +187,9 @@
 </section>
 <!-- /.content -->
 </div>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+    });
+</script>
 @endsection

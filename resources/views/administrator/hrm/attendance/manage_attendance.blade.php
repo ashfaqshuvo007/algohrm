@@ -44,7 +44,7 @@
                 </div>
                 <!-- /.Notification Box -->
                 <div class="col-md-12">
-                    <form action="{{ url('/hrm/attendance/set') }}" method="post">
+                    <form action="{{ url('/hrm/attendance/show') }}" method="post">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">

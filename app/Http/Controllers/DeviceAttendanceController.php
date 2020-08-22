@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Device;
+use App\DeviceAttendance;
 use Illuminate\Http\Request;
 use \ZKLib\ZKLib;
 
@@ -148,6 +149,48 @@ class DeviceAttendanceController extends Controller
     {
         $devices = Device::all();
         return view('administrator.device.select_att_device', compact('devices'));
+    }
+
+    //pullDeviceAttendance and save
+    public function pullDeviceAttendance()
+    {
+        $devices = Device::all();
+        return view('administrator.device.select_att_pull_device', compact('devices'));
+    }
+
+    //saveDeviceAttendance
+    public function saveDeviceAttendance(Request $r)
+    {
+
+        $device = Device::where('id', $r->device_id)->first();
+        $port = (string) $device->device_port_public_h;
+        $ip = (string) $device->device_ip_hidden;
+
+        //Emloyee details from Device
+        $zklib = new ZKLib($ip, $port, 'TCP');
+        $zklib->connect();
+        $zklib->disableDevice();
+        $attendances = $zklib->getAttendance();
+        $zklib->enableDevice();
+        $zklib->disconnect();
+
+        // dd($attendances);
+        $past_att = DeviceAttendance::whereDate('created_at', date('Y-m-d'))->first();
+        if (empty($past_att)) {
+            foreach ($attendances as $key => $val) {
+                $device_att = new DeviceAttendance;
+                $device_att->device_id = $r->device_id;
+                $device_att->uuid = $val[0];
+                $device_att->employee_id = $val[1];
+                $device_att->state = $val[2];
+                $device_att->date_time = $val[3];
+
+                $device_att->save();
+            }
+            return redirect('/hrm/attendance/manage')->with('message', 'Data Saved Successfully!');
+        } else {
+            return redirect('/device/getAttendance/select')->with('exception', 'Data already exists for this date!');
+        }
     }
 
     //Get device attendance

@@ -175,7 +175,7 @@
      document.body.innerHTML = printContents;
      window.print();
      document.body.innerHTML = originalContents;
- }
+    }
 </script>
 <!-- For Active Menu -->
 <script type="text/javascript">
