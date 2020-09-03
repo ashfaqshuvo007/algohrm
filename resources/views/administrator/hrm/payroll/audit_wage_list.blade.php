@@ -146,7 +146,7 @@
                                     {{ $actual_overtime_hours  }}
                                 </td>
                                 <td>{{$salary['overtime_rate']}}</td>
-                                <td>{{ $overtime_hours * (int)$salary['overtime_rate'] }}</td>
+                                <td>{{ $actual_overtime_hours * (int)$salary['overtime_rate'] }}</td>
                                 <td>{{($salary['increment_amount'] == null) ? 0 : $salary['increment_amount']}}</td><td>
                                     @php
                                       if($absent_days > 0){
@@ -158,9 +158,13 @@
                                     @endphp
                                     {{$bonus}}
                                 </td>
-                                <td>1988</td>
+                                @php
+                                    $total_additional = ($actual_overtime_hours * (int)$salary['overtime_rate']) + $bonus + $salary['increment_amount'] ;
+                                    $net_payable = $gross_salary + $total_additional;
+                                @endphp
+                                <td>{{ $total_additional}}</td>
 
-                                <td>{{ $gross_salary + 1988 }}</td>
+                                <td>{{ $net_payable }}</td>
 
 
                                 {{-- <td class="text-center">{{ date("d F Y", strtotime($salary['updated_at'])) }}</td> --}}

@@ -190,6 +190,8 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::get('/hrm/payroll/salary-list', 'PayrollController@list');
     Route::post('/hrm/payroll/wages-list', 'PayrollController@generateWageList');
     Route::get('/hrm/payroll/generate-wages-list', 'PayrollController@generate_wages_list');
+    Route::get('/hrm/audit/generate-wages-list', 'PayrollController@generate_audit_wages_list');
+    Route::post('/hrm/audit/wages-list', 'PayrollController@generateAuditWageList');
 
     Route::get('/hrm/payroll/details/{id}', 'PayrollController@show');
     Route::post('/hrm/payroll/update/{id}', 'PayrollController@update');

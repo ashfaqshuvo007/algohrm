@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->integer('created_by')->nullable();
             $table->string('employee_id')->nullable();
+            $table->string('office_id')->nullable();
             $table->string('name');
             $table->string('father_name')->nullable();
             $table->string('mother_name')->nullable();

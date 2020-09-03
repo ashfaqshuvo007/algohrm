@@ -60,14 +60,23 @@
                         ?>
 
                         <div class="col-md-6">
-                            <label for="employee_id">{{ __('ID') }} <span class="text-danger">*</span></label>
+                            <label for="employee_id">{{ __('Device ID') }} <span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('employee_id') ? ' has-error' : '' }} has-feedback">
 
                                 <input type="hidden" name="employee_id" value="{{count($deviceUsers)+1}}">
-                                <input type="text" class="form-control" value="{{ __('EMPID') }}{{count($deviceUsers)+1}}" disabled>
+                                <input type="text" class="form-control" value="{{count($deviceUsers)+1}}" disabled>
 
                             </div>
                             <!-- /.form-group -->
+                            <label for="office_id">{{ __('Official Employee Id') }} <span class="text-danger"></span></label>
+                            <div class="form-group{{ $errors->has('office_id') ? ' has-error' : '' }} has-feedback">
+                                <input type="text" name="office_id" id="office_id" class="form-control" value="{{ old('office_id') }}" placeholder="{{ __('Enter Official Employee ID..') }}">
+                                @if ($errors->has('office_id'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('office_id') }}</strong>
+                                </span>
+                                @endif
+                            </div>
 
                             <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} has-feedback">
@@ -325,18 +334,85 @@
                                 @endif
                             </div>
                             <!-- /.form-group -->
+                            <label for="physical_ability">{{ __('Physical Ability') }}<span class="text-danger">*</span></label>
+                            <div class="form-group{{ $errors->has('physical_ability') ? ' has-error' : '' }} has-feedback">
+                                <select name="physical_ability" id="physical_ability" class="form-control">
+                                    <option value="" selected>{{ __('Select Employee Ability') }}</option>
+                                    <option value="able">{{ __('Able') }}</option>
+                                    <option value="disable">{{ __('Disable') }}</option>
+                                   
+                                </select>
+                                @if ($errors->has('physical_ability'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('physical_ability') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <!-- /.form-group -->
+
+                            <label for="employee_type">{{ __('Employee Type') }}<span class="text-danger">*</span></label>
+                            <div class="form-group{{ $errors->has('employee_type') ? ' has-error' : '' }} has-feedback">
+                                <select name="employee_type" id="employee_type" class="form-control">
+                                    <option value="" selected>{{ __('Select Employee Type') }}</option>
+                                    <option value="executive">{{ __('Executive') }}</option>
+                                    <option value="stuff">{{ __('Stuff') }}</option>
+                                    <option value="worker">{{ __('Worker') }}</option>
+                                    
+                                </select>
+                                @if ($errors->has('employee_type'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('employee_type') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <!-- /.form-group -->
 
                             <label for="role">{{ __('Role') }}<span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }} has-feedback">
                                 <select name="role" id="role" class="form-control">
-                                    <option value="" selected disabled>{{ __('Select one') }}</option>
-                                    @foreach($roles as $role)
-                                    <option value="{{ $role->name }}">{{ $role->display_name }}</option>
-                                    @endforeach
+                                    <option value="employee">{{ __('Employee') }}</option>
                                 </select>
                                 @if ($errors->has('role'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('role') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <!-- /.form-group -->
+
+                            <label for="height">{{ __('Height(in cm)') }}</label>
+                            <div class="form-group{{ $errors->has('height') ? ' has-error' : '' }} has-feedback">
+                                <input type="text" name="height" id="height" class="form-control" value="{{ old('height') }}" placeholder="{{ __('Enter height...') }}">
+                                
+                                @if ($errors->has('height'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('height') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <!-- /.form-group -->
+
+                            <label for="insurance">{{ __('Insurance') }}</label>
+                            <div class="form-group{{ $errors->has('insurance') ? ' has-error' : '' }} has-feedback">
+                                <select name="insurance" id="insurance" class="form-control">
+                                    <option value="yes">{{ __('Yes') }}</option>
+                                    <option value="no">{{ __('No') }}</option>
+                                </select>
+                                @if ($errors->has('insurance'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('insurance') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <!-- /.form-group -->
+
+                            <label for="weight">{{ __('Weight(in kg)') }}</label>
+                            <div class="form-group{{ $errors->has('weight') ? ' has-error' : '' }} has-feedback">
+                                <input type="text" name="weight" id="weight" class="form-control" value="{{ old('weight') }}" placeholder="{{ __('Enter Weight...') }}">
+                                
+                                @if ($errors->has('weight'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('weight') }}</strong>
                                 </span>
                                 @endif
                             </div>

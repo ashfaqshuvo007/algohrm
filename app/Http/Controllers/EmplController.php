@@ -81,20 +81,21 @@ class EmplController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
 
-        //return $request;
         $url = '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/';
 
         $employee = request()->validate([
             'employee_id' => 'required|max:250',
+            'office_id' => 'nullable|max:250',
             'name' => 'required|max:100',
             'father_name' => 'nullable|max:100',
             'mother_name' => 'nullable|max:100',
             'spouse_name' => 'nullable|max:100',
-            // 'email' => 'required|email|unique:users|max:100',
+            // 'email' => 'nullable|email|unique:users|max:100',
             'contact_no_one' => 'required|max:20',
             'emergency_contact' => 'nullable|max:20',
-            'web' => 'nullable|max:150|regex:' . $url,
+            // 'web' => 'nullable|max:150|regex:' . $url,
             'gender' => 'required',
             'date_of_birth' => 'nullable|date',
             'present_address' => 'required|max:250',
@@ -103,8 +104,13 @@ class EmplController extends Controller
             'academic_qualification' => 'nullable',
             'professional_qualification' => 'nullable',
             'experience' => 'nullable',
-            'reference' => 'nullable',
-            'joining_date' => 'nullable',
+            'height' => 'nullable',
+            'weight' => 'nullable',
+            'insurance' => 'required',
+            'employee_type' => 'required',
+            'physical_ability' => 'required',
+            // 'reference' => 'nullable',
+            'joining_date' => 'required',
             'designation_id' => 'required|numeric',
             'department_id' => 'required|numeric',
             'marital_status' => 'nullable',
@@ -122,16 +128,16 @@ class EmplController extends Controller
         $result = User::create($employee + ['created_by' => auth()->user()->id, 'access_label' => 2, 'password' => bcrypt(12345678)]);
         $inserted_id = $result->id;
 
-        // Enter Details to Device
-        $zklib = new ZKLib('192.168.0.201', 4370, 'TCP');
-        $zklib->connect();
+        // // Enter Details to Device
+        // $zklib = new ZKLib('192.168.0.201', 4370, 'TCP');
+        // $zklib->connect();
 
-        $zklib->disableDevice();
-        $deviceUsersCount = count($zklib->getUser());
-        $zklib->setUser($deviceUsersCount + 1, $deviceUsersCount + 1, $request->name, '12345678', 0);
+        // $zklib->disableDevice();
+        // $deviceUsersCount = count($zklib->getUser());
+        // $zklib->setUser($deviceUsersCount + 1, $deviceUsersCount + 1, $request->name, '12345678', 0);
 
-        $zklib->enableDevice();
-        $zklib->disconnect();
+        // $zklib->enableDevice();
+        // $zklib->disconnect();
 
         $result->attachRole(Role::where('name', $request->role)->first());
 
@@ -260,19 +266,20 @@ class EmplController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request);
         $employee = User::find($id);
 
         $url = '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/';
 
         request()->validate([
             'name' => 'required|max:100',
+
             'father_name' => 'nullable|max:100',
             'mother_name' => 'nullable|max:100',
             'spouse_name' => 'nullable|max:100',
             'email' => 'required|email|max:100',
             'contact_no_one' => 'required|max:20',
             'emergency_contact' => 'nullable|max:20',
-            'web' => 'nullable|max:150|regex:' . $url,
             'gender' => 'required',
             'date_of_birth' => 'nullable|date',
             'present_address' => 'required|max:250',
@@ -281,14 +288,16 @@ class EmplController extends Controller
             'academic_qualification' => 'nullable',
             'professional_qualification' => 'nullable',
             'experience' => 'nullable',
-            'reference' => 'nullable',
+            'height' => 'nullable',
+            'weight' => 'nullable',
+            'insurance' => 'required',
+            'employee_type' => 'required',
+            'physical_ability' => 'required',
             'joining_date' => 'nullable',
             'designation_id' => 'required|numeric',
-            'joining_position' => 'required|numeric',
             'marital_status' => 'nullable',
             'id_name' => 'nullable',
             'id_number' => 'nullable|max:100',
-            'role' => 'required',
         ], [
             'designation_id.required' => 'The designation field is required.',
             'contact_no_one.required' => 'The contact no field is required.',
@@ -325,9 +334,9 @@ class EmplController extends Controller
         $employee->role = $request->get('role');
         $affected_row = $employee->save();
 
-        DB::table('role_user')
-            ->where('user_id', $id)
-            ->update(['role_id' => $request->input('role')]);
+        // DB::table('role_user')
+        //     ->where('user_id', $id)
+        //     ->update(['role_id' => $request->input('role')]);
 
         if (!empty($affected_row)) {
             return redirect('/people/employees')->with('message', 'Update successfully.');
