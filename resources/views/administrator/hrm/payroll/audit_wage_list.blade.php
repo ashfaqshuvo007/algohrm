@@ -137,10 +137,7 @@
                                         }else{
                                             $overtime_hours = $present['overtime_hours'];
                                         }
-                                        if($overtime_hours > 30 ){
-                                            
-                                        }
-                                        $audit_overtime_hours = 30;
+                                        $audit_overtime_hours = 60;
                                         $actual_overtime_hours = $overtime_hours > $audit_overtime_hours ? $audit_overtime_hours : $overtime_hours;
                                     @endphp
                                     {{ $actual_overtime_hours  }}
