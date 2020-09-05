@@ -48,21 +48,21 @@
                 <li><a href="{{ url('/hrm/payroll/generate-wages-list') }}"><i class="fa fa-circle-o"></i> {{ __('Wages List') }}</a></li>
                 @endpermission
 
-                <li><a href="{{ url('/hrm/payroll/increment/search') }}"><i class="fa fa-circle-o"></i>{{ __(' New Increment') }}</a></li>
-                <li><a href="{{ url('/hrm/payroll/increment/list') }}"><i class="fa fa-circle-o"></i> {{ __('Increment List') }}</a></li>
+                {{-- <li><a href="{{ url('/hrm/payroll/increment/search') }}"><i class="fa fa-circle-o"></i>{{ __(' New Increment') }}</a></li>
+                <li><a href="{{ url('/hrm/payroll/increment/list') }}"><i class="fa fa-circle-o"></i> {{ __('Increment List') }}</a></li> --}}
 
                 {{-- @permission('make-payment')
                 <li><a href="{{ url('/hrm/salary-payments') }}"><i class="fa fa-circle-o"></i>{{ __(' Make Payment') }}</a></li>
                 @endpermission --}}
-                @permission('generate-payslip')
+                {{-- @permission('generate-payslip')
                 <li><a href="{{ url('/hrm/generate-payslips/') }}"><i class="fa fa-circle-o"></i> {{ __(' Generate Payslip') }}</a></li>
-                @endpermission
-                @permission('manage-bonus')
+                @endpermission --}}
+                {{-- @permission('manage-bonus')
                 <li><a href="{{ url('/hrm/bonuses') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Bonus') }}</a></li>
                 @endpermission
                 @permission('manage-deduction')
                 <li><a href="{{ url('/hrm/deductions') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Deduction') }}</a></li>
-                @endpermission
+                @endpermission --}}
                 {{-- @permission('loan-management')
                 <li><a href="{{ url('/hrm/loans') }}"><i class="fa fa-circle-o"></i>{{ __(' Loan Management') }}</a></li>
                 @endpermission --}}
@@ -85,10 +85,10 @@
                 <li><a href="{{ url('/hrm/attendance/manage') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Attendance') }} </a></li>
                 <li><a href="{{ url('/device/pullAttendance') }}"><i class="fa fa-circle-o"></i>{{ __(' Pull Device Attendance') }}</a></li>
                 @endpermission
-                @permission('attendance-report')
+                {{-- @permission('attendance-report')
                 <li><a href="{{ url('/hrm/attendance/details/report/go') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Statement') }}</a></li>
                 <li><a href="{{ url('/hrm/attendance/report') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Report') }}</a></li>
-                @endpermission
+                @endpermission --}}
             </ul>
         </li>
         @endpermission
@@ -104,9 +104,9 @@
             <ul class="treeview-menu">
                 <li><a href="{{ url('/device/add') }}"><i class="fa fa-circle-o"></i>{{ __(' Add New Device') }}</a></li>
                 <li><a href="{{ url('/device/manage') }}"><i class="fa fa-circle-o"></i>{{ __(' Manage Devices') }}</a></li>
-                <li><a href="{{ url('/device/{device_id}/check-connection') }}"><i class="fa fa-circle-o"></i>{{ __(' Check Device Connection') }}</a></li>
+                {{-- <li><a href="{{ url('/device/{device_id}/check-connection') }}"><i class="fa fa-circle-o"></i>{{ __(' Check Device Connection') }}</a></li> --}}
                 <li><a href="{{ url('/device/getAttendance/select') }}"><i class="fa fa-circle-o"></i>{{ __('Get Device Attendance') }}</a></li>
-                <li><a href="{{ url('/device/getUsers/select') }}"><i class="fa fa-circle-o"></i>{{ __(' Get Device Users') }}</a></li>
+                {{-- <li><a href="{{ url('/device/getUsers/select') }}"><i class="fa fa-circle-o"></i>{{ __(' Get Device Users') }}</a></li> --}}
             </ul>
         </li>
         @endpermission
