@@ -31,7 +31,10 @@
                 <div class="col-md-12">                    
                     <div class=" col-sm-3">
                         <p class="">Set Attendance For : <span class="text-primary h4">{{ $date }}</span></p>
-                    </div>                   
+                    </div>  
+                    <div  class="col-md-6">
+                        <input type="text" id="myInput2" class="form-control" placeholder="{{ __('Search by name or official employee id..') }}">
+                    </div>                 
               </div>
               <!-- /. end col -->
               <div class="col-md-12">
@@ -61,13 +64,13 @@
                             <th>{{ __('Out Time') }}</a></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="search_area">
                         
                         @php ($sl = 1)
                         @foreach($groupedAttendance as $employee)
                         <tr>
                             <td>{{ $sl++ }}</td>
-                            <td>{{ $employee[0]->employee_id}}
+                            <td>{{ $employee[0]->office_id}}
                                 {{-- <a href="{{ url('/hrm/attendance/details/' . $employee['id']) }}">{{ $employee['name'] }}</a>
                                 <input type="hidden" name="user_id[]" value="{{ $employee['id'] }}">
                                 <input type="hidden" name="attendance_date[]" value="{{ $date }}"> --}}

@@ -199,6 +199,18 @@
                  });
                 });
                 </script>
+
+                <script>
+                    $(document).ready(function(){
+                        $("#myInput2").on("keyup", function() {
+                            var value = $(this).val().toLowerCase();
+                            $("#search_area tr").filter(function() {
+                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                            });
+                        });
+                    });
+                    </script>
+
  <!-- =================Data Search================== -->
 
 

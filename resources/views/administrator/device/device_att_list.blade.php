@@ -35,6 +35,7 @@
                     <span class="hidden-sm hidden-xs"> {{ __('Print') }}</span>
                 </button>
             </div>
+           
                 <!-- Notification Box -->
                 <div class="col-md-12">
                     @if (!empty(Session::get('message')))

@@ -39,7 +39,7 @@ class AttendanceController extends Controller
         $att_user_details = DeviceAttendance::leftjoin('users', 'device_attendances.employee_id', '=', 'users.employee_id')
             ->whereDate('device_attendances.date_time', $request->date)
             ->select([
-                'users.id',
+                'users.office_id',
                 'users.name',
                 'device_attendances.*',
             ])
