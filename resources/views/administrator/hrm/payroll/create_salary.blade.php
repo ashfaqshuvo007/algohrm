@@ -55,7 +55,7 @@
                     <select name="user_id" class="form-control" id="user_id">
                       <option selected disabled>{{ __('Select One') }}</option>
                       @foreach($employees as $employee)
-                      <option value="{{ $employee['id'] }}">{{ $employee['name'] }}</option>
+                      <option value="{{ $employee['id'] }}">{{ $employee['office_id'] }}</option>
                       @endforeach
                     </select>
                     @if ($errors->has('user_id'))
@@ -100,8 +100,8 @@
                   <div class="col-sm-6">
                     <select name="employee_type" class="form-control" id="employee_type">
                       <option selected disabled>{{ __('Select One') }}</option>
-                      <option value="1">{{ __('Provision') }}</option>
-                      <option value="2">{{ __('Permanent') }}</option>
+                      <option value="1">{{ __('Executive') }}</option>
+                      <option value="2">{{ __('Worker') }}</option>
                       <option value="3">{{ __('Full Time') }}</option>
                       <option value="4">{{ __('Part Time') }}</option>
                       <option value="5">{{ __('Adhoc') }}</option>

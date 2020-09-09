@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Department;
 use App\Designation;
+use App\Device;
 use App\Role;
 use App\User;
 use DB;
 use Illuminate\Http\Request;
 use PDF;
-use \ZKLib\ZKLib;
 
 class EmplController extends Controller
 {
@@ -25,7 +25,7 @@ class EmplController extends Controller
             ->join('designations', 'users.designation_id', '=', 'designations.id')
             ->whereBetween('users.access_label', [2, 3])
             ->where('users.deletion_status', 0)
-            ->select('employee_id', 'users.id', 'users.name', 'users.contact_no_one', 'users.created_at', 'users.activation_status', 'designations.designation')
+            ->select('employee_id', 'users.id', 'users.office_id', 'users.name', 'users.contact_no_one', 'users.created_at', 'users.activation_status', 'designations.designation')
             ->orderBy('users.employee_id', 'ASC')
             ->get()
             ->toArray();
@@ -44,6 +44,14 @@ class EmplController extends Controller
         return view('administrator.people.employee.employees_print', compact('employees'));
     }
 
+    //Select device for Employee add
+    // public function getDevicesForEmployeeAdd()
+    // {
+    //     $devices = Device::all();
+    //     return view('administrator.people.employee.select_device', compact('devices'));
+    //     # code...
+    // }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -51,16 +59,6 @@ class EmplController extends Controller
      */
     public function create()
     {
-        //Getting Device Users
-        // Enter Details to Device
-        $zklib = new ZKLib('192.168.0.201', 4370, 'TCP');
-        $zklib->connect();
-
-        $zklib->disableDevice();
-        $deviceUsers = $zklib->getUser();
-        $zklib->enableDevice();
-        $zklib->disconnect();
-
         //Get designations
         $designations = Designation::where('deletion_status', 0)
             ->where('publication_status', 1)
@@ -70,7 +68,9 @@ class EmplController extends Controller
             ->toArray();
         $roles = Role::all();
 
-        return view('administrator.people.employee.add_employee', compact('deviceUsers', 'designations', 'roles'));
+        $devices = Device::all();
+
+        return view('administrator.people.employee.add_employee', compact('designations', 'roles', 'devices'));
     }
 
     /**
@@ -81,13 +81,13 @@ class EmplController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        dd($request);
 
         $url = '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/';
 
         $employee = request()->validate([
             'employee_id' => 'required|max:250',
-            'office_id' => 'nullable|max:250',
+            'office_id' => 'required|max:250',
             'name' => 'required|max:100',
             'father_name' => 'nullable|max:100',
             'mother_name' => 'nullable|max:100',
@@ -128,16 +128,20 @@ class EmplController extends Controller
         $result = User::create($employee + ['created_by' => auth()->user()->id, 'access_label' => 2, 'password' => bcrypt(12345678)]);
         $inserted_id = $result->id;
 
-        // // Enter Details to Device
-        // $zklib = new ZKLib('192.168.0.201', 4370, 'TCP');
-        // $zklib->connect();
+        // Enter Details to Device
+        $device = Device::where('id', $r->device_id)->first();
+        $port = (string) $device->device_port_public_h;
+        $ip = (string) $device->device_ip_hidden;
 
-        // $zklib->disableDevice();
-        // $deviceUsersCount = count($zklib->getUser());
-        // $zklib->setUser($deviceUsersCount + 1, $deviceUsersCount + 1, $request->name, '12345678', 0);
+        $zklib = new ZKLib($ip, $port, 'TCP');
+        $zklib->connect();
 
-        // $zklib->enableDevice();
-        // $zklib->disconnect();
+        $zklib->disableDevice();
+        $deviceUsersCount = count($zklib->getUser());
+        $zklib->setUser($deviceUsersCount + 1, $request->office_id, $request->name, '12345678', 0);
+
+        $zklib->enableDevice();
+        $zklib->disconnect();
 
         $result->attachRole(Role::where('name', $request->role)->first());
 

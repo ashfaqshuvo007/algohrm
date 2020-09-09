@@ -117,6 +117,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Employee Section //
     Route::get('/people/employees', 'EmplController@index');
     Route::get('/people/employees/print', 'EmplController@print');
+    //Route::get('/people/employees/selectDevice', 'EmplController@getDevicesForEmployeeAdd');
     Route::get('/people/employees/create', 'EmplController@create');
     Route::post('/people/employees/store', 'EmplController@store');
     Route::get('/people/employees/active/{id}', 'EmplController@active');

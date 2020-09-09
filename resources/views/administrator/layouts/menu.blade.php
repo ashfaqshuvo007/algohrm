@@ -17,6 +17,7 @@
                 @permission('manage-employee')
                 <li><a href="{{ url('/people/employees/create') }}"><i class="fa fa-circle-o"></i>{{ __(' New Employee') }}</a></li>
                 <li><a href="{{ url('/people/employees') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Employees') }}</a></li>
+                
                 @endpermission
                 {{-- @permission('manage-clients')
                  <li><a href="{{ url('people/clients/create') }}"><i class="fa fa-circle-o"></i>{{ __(' New Customer') }}</a></li>
