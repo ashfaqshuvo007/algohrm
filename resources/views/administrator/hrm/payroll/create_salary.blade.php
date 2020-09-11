@@ -50,12 +50,12 @@
                 {{ csrf_field() }}
 
                 <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
-                  <label for="user_id" class="col-sm-3 control-label">{{ __('Employee Name') }}</label>
+                  <label for="user_id" class="col-sm-3 control-label">{{ __('Employee ID') }}</label>
                   <div class="col-sm-6">
                     <select name="user_id" class="form-control" id="user_id">
                       <option selected disabled>{{ __('Select One') }}</option>
                       @foreach($employees as $employee)
-                      <option value="{{ $employee['id'] }}">{{ $employee['office_id'] }}</option>
+                      <option value="{{ $employee['id'] }}">{{ $employee['employee_id'] }}</option>
                       @endforeach
                     </select>
                     @if ($errors->has('user_id'))
@@ -269,7 +269,7 @@
               </div>
               <div class="form-group{{ $errors->has('att_bonus') ? ' has-error' : '' }}">
                 <label for="att_bonus">{{ __('Attendance Bonus amount') }}</label>
-                <input type="number" name="att_bonus" value="{{ $salary['att_bonus'] }}" class="form-control" id="att_bonus" placeholder="{{ __('Enter amount for 100% attendance ..') }}">
+                <input type="number" name="att_bonus" class="form-control" id="att_bonus" placeholder="{{ __('Enter amount for 100% attendance ..') }}">
                 @if ($errors->has('att_bonus'))
                 <span class="help-block">
                   <strong>{{ $errors->first('att_bonus') }}</strong>

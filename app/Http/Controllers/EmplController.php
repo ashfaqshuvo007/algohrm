@@ -25,7 +25,7 @@ class EmplController extends Controller
             ->join('designations', 'users.designation_id', '=', 'designations.id')
             ->whereBetween('users.access_label', [2, 3])
             ->where('users.deletion_status', 0)
-            ->select('employee_id', 'users.id', 'users.office_id', 'users.name', 'users.contact_no_one', 'users.created_at', 'users.activation_status', 'designations.designation')
+            ->select('employee_id', 'users.id', 'users.name', 'users.contact_no_one', 'users.created_at', 'users.activation_status', 'designations.designation')
             ->orderBy('users.employee_id', 'ASC')
             ->get()
             ->toArray();
@@ -81,13 +81,11 @@ class EmplController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
 
         $url = '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/';
 
         $employee = request()->validate([
             'employee_id' => 'required|max:250',
-            'office_id' => 'required|max:250',
             'name' => 'required|max:100',
             'father_name' => 'nullable|max:100',
             'mother_name' => 'nullable|max:100',
@@ -138,7 +136,7 @@ class EmplController extends Controller
 
         $zklib->disableDevice();
         $deviceUsersCount = count($zklib->getUser());
-        $zklib->setUser($deviceUsersCount + 1, $request->office_id, $request->name, '12345678', 0);
+        $zklib->setUser($deviceUsersCount + 1, $request->employee_id, $request->name, '12345678', 0);
 
         $zklib->enableDevice();
         $zklib->disconnect();
@@ -277,7 +275,6 @@ class EmplController extends Controller
 
         request()->validate([
             'name' => 'required|max:100',
-
             'father_name' => 'nullable|max:100',
             'mother_name' => 'nullable|max:100',
             'spouse_name' => 'nullable|max:100',

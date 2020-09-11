@@ -51,20 +51,12 @@
                         </div>
                         <!-- /.Notification Box -->
 
-                        <?php 
-                    //         dump(count($deviceUsers) + 1);
-
-                    //   $users = \App\User::orderBy('id', 'desc')->first();
-                    //          $sl=$users->id;
-
-                        ?>
-
                         <div class="col-md-6">
-                            <label for="employee_id">{{ __('Device ID') }} <span class="text-danger">*</span></label>
+                            <label for="employee_id">{{ __('Employee ID') }} <span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('employee_id') ? ' has-error' : '' }} has-feedback">
 
-                                <input type="hidden" name="employee_id" value="{{count($deviceUsers)+1}}">
-                                <input type="text" class="form-control" value="{{count($deviceUsers)+1}}" disabled>
+                                {{-- <input type="hidden" value="{{count($deviceUsers)+1}}"> --}}
+                                <input type="text" class="form-control" name="employee_id"  value="" >
 
                             </div>
 
@@ -83,7 +75,7 @@
                                 @endif
                             </div>
 
-                            <!-- /.form-group -->
+                            {{-- <!-- /.form-group -->
                             <label for="office_id">{{ __('Official Employee Id') }} <span class="text-danger"></span></label>
                             <div class="form-group{{ $errors->has('office_id') ? ' has-error' : '' }} has-feedback">
                                 <input type="text" name="office_id" id="office_id" class="form-control" value="{{ old('office_id') }}" placeholder="{{ __('Enter Official Employee ID..') }}">
@@ -92,7 +84,7 @@
                                     <strong>{{ $errors->first('office_id') }}</strong>
                                 </span>
                                 @endif
-                            </div>
+                            </div> --}}
 
                             <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} has-feedback">

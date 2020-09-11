@@ -50,12 +50,12 @@
                 {{ csrf_field() }}
 
                 <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
-                  <label for="user_id" class="col-sm-3 control-label">{{ __('Employee Name') }}</label>
+                  <label for="user_id" class="col-sm-3 control-label">{{ __('Employee ID') }}</label>
                   <div class="col-sm-6">
                     <select name="user_id" class="form-control" id="user_id">
                       <option selected disabled>{{ __('Select One') }}</option>
                       @foreach($employees as $employee)
-                      <option value="{{ $employee['id'] }}">{{ $employee['office_id'] }}</option>
+                      <option value="{{ $employee['id'] }}">{{ $employee['employee_id'] }}</option>
                       @endforeach
                     </select>
                     @if ($errors->has('user_id'))

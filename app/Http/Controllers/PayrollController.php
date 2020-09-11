@@ -23,7 +23,7 @@ class PayrollController extends Controller
             ->orderBy('users.name', 'ASC')
             ->where('users.access_label', '>=', 2)
             ->where('users.access_label', '<=', 3)
-            ->get(['designations.designation', 'users.name', 'users.id', 'users.office_id'])
+            ->get(['designations.designation', 'users.name', 'users.id', 'users.employee_id'])
             ->toArray();
 
         return view('administrator.hrm.payroll.manage_salary', compact('employees'));
@@ -57,9 +57,9 @@ class PayrollController extends Controller
         $employees = User::query()
             ->leftjoin('designations as designations', 'users.designation_id', '=', 'designations.id')
             ->leftjoin('payment_grades as grades', 'designations.grade_id', '=', 'grades.id')
-            ->orderBy('users.office_id', 'ASC')
+            ->orderBy('users.employee_id', 'ASC')
             ->where('users.id', $employee_id)
-            ->select('designations.designation', 'grades.*', 'users.office_id', 'users.id')
+            ->select('designations.designation', 'grades.*', 'users.employee_id', 'users.id')
             ->get()
             ->toArray();
         $user_emp_id = User::where('id', $user_id)->pluck('employee_id');
@@ -70,8 +70,6 @@ class PayrollController extends Controller
 
         $salary = Payroll::where('user_id', $user_id)
             ->first();
-
-        // dd($salary);
 
         if (!empty($salary)) {
             return view('administrator.hrm.payroll.edit_salary', compact('employees', 'employee_id', 'salary'));

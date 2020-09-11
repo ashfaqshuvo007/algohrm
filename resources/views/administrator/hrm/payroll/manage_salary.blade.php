@@ -53,7 +53,7 @@
                   <select name="user_id" class="form-control">
                     <option selected disabled>{{ __('Select One') }}</option>
                     @foreach($employees as $employee)
-                    <option value="{{ $employee['id'] }}"><strong>{{ $employee['office_id'] }}</option>
+                    <option value="{{ $employee['id'] }}"><strong>{{ $employee['employee_id'] }}</option>
                       @endforeach
                     </select>
                     <span class="input-group-btn">

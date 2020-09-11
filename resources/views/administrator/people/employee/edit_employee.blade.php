@@ -63,7 +63,7 @@
                             </div>
                             <!-- /.form-group -->
 
-                            <!-- /.form-group -->
+                            {{-- <!-- /.form-group -->
                             <label for="office_id">{{ __('Official Employee Id') }} <span class="text-danger"></span></label>
                             <div class="form-group{{ $errors->has('office_id') ? ' has-error' : '' }} has-feedback">
                                 <input type="text" name="office_id" id="office_id" class="form-control" value="{{ $employee['office_id'] }}" placeholder="{{ __('Enter Official Employee ID..') }}" disabled>
@@ -72,7 +72,7 @@
                                     <strong>{{ $errors->first('office_id') }}</strong>
                                 </span>
                                 @endif
-                            </div>
+                            </div> --}}
 
 
 

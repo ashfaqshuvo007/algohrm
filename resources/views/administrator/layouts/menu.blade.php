@@ -86,10 +86,10 @@
                 <li><a href="{{ url('/hrm/attendance/manage') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Attendance') }} </a></li>
                 <li><a href="{{ url('/device/pullAttendance') }}"><i class="fa fa-circle-o"></i>{{ __(' Pull Device Attendance') }}</a></li>
                 @endpermission
-                {{-- @permission('attendance-report')
+                @permission('attendance-report')
                 <li><a href="{{ url('/hrm/attendance/details/report/go') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Statement') }}</a></li>
                 <li><a href="{{ url('/hrm/attendance/report') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Report') }}</a></li>
-                @endpermission --}}
+                @endpermission
             </ul>
         </li>
         @endpermission

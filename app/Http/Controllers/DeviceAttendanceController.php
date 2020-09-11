@@ -161,7 +161,6 @@ class DeviceAttendanceController extends Controller
     //saveDeviceAttendance
     public function saveDeviceAttendance(Request $r)
     {
-
         $device = Device::where('id', $r->device_id)->first();
         $port = (string) $device->device_port_public_h;
         $ip = (string) $device->device_ip_hidden;

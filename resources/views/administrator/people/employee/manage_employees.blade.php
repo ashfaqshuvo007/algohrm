@@ -76,8 +76,8 @@
                         @foreach($employees as $employee)
                         <tr>
                             <td>{{ $sl++ }}</td>
-                            {{-- <td>{{ $employee['employee_id'] }}</td> --}}
-                            <td>{{ $employee['office_id'] }}</td>
+                            <td>{{ $employee['employee_id'] }}</td>
+                            {{-- <td>{{ $employee['office_id'] }}</td> --}}
                             <td>{{ $employee['name'] }}</td>
                             <td>{{ $employee['designation'] }}</td>
                             <td>{{ $employee['contact_no_one'] }}</td>
