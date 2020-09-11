@@ -84,7 +84,7 @@
                                 <td>{{ $fifthDate }}</td>
                                 <td>{{ $lastweekEndDate }}</td>
                             </th>
-                            <th>{{ __('Total For this week(tk)') }}</th>
+                            <th>{{ __('Total') }}</th>
                         </tr>
                     </thead>
                     <tbody id="myTable" style="text-center">
