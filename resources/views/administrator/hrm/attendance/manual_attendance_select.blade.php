@@ -1,17 +1,17 @@
 @extends('administrator.master')
-@section('title', __('Manage Salary'))
+@section('title', __('Manual Attendance Select'))
 
 @section('main_content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-     {{ __('PAYROLL') }} 
+     {{ __('Manual Attendance ') }} 
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ url('/dashboard') }}"><i class="fa fa-dashboard"></i> {{ __('Dashboard') }}</a></li>
-      <li><a>{{ __('Payroll') }}</a></li>
-      <li class="active">{{ __('Manage Salary') }}</li>
+      <li><a>{{ __('Manual Attendance ') }}</a></li>
+      <li class="active">{{ __('Manual Attendance Select') }}</li>
     </ol>
   </section>
 
@@ -20,7 +20,7 @@
     <!-- Default box -->
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">{{ __('Manage Salary') }}</h3>
+        <h3 class="box-title">{{ __('Manual Attendance Select') }}</h3>
 
         <div class="box-tools pull-right">
           <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
@@ -44,7 +44,7 @@
         </div>
         <!-- /.Notification Box -->
         <div class="col-md-12">
-          <form action="{{ url('/hrm/payroll/go') }}" method="post">
+          <form action="{{ url('/hrm/attendance/manualAttendance/select') }}" method="post">
             {{ csrf_field() }}
             <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
               <div class="col-sm-offset-3 col-sm-6">

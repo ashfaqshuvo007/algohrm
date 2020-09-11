@@ -182,6 +182,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/hrm/attendance/details/report/go', 'AttendanceController@attDetailsReportGo');
     Route::get('/hrm/attendance/details/report/all', 'AttendanceController@attDetailsReport');
     Route::get('/hrm/attendance/details/report/pdf', 'AttendanceController@attDetailsReportPdf');
+    Route::get('/hrm/attendance/manualAttendance', 'AttendanceController@manualAttendance');
+    Route::post('/hrm/attendance/manualAttendance/select', 'AttendanceController@manualAttendanceSelect');
+    Route::post('/hrm/attendance/manualAttendance/update', 'AttendanceController@manualAttendanceUpdate');
 
     // Payroll/Wages Section
     Route::get('/hrm/payroll', 'PayrollController@index');

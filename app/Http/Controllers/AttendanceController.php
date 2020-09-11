@@ -26,6 +26,49 @@ class AttendanceController extends Controller
         return view('administrator.hrm.attendance.manage_attendance');
     }
 
+    public function manualAttendance()
+    {
+        $employees = User::where('role', 'employee')->get();
+        return view('administrator.hrm.attendance.manual_attendance_select', compact('employees'));
+    }
+    public function manualAttendanceSelect(Request $r)
+    {
+        $employee = User::where('id', $r->user_id)->where('role', 'employee')->first();
+        $date = date('Y-m-d');
+
+        return view('administrator.hrm.attendance.manual_attendance', compact('employee', 'date'));
+    }
+
+    public function manualAttendanceUpdate(Request $r)
+    {
+        $attendance_date = $r->date;
+        $in_time = date('Y-m-d H:s:i', strtotime($r->in_time));
+        $out_time = date('Y-m-d H:s:i', strtotime($r->out_time));
+
+        $past_attendance = Attendance::where('employee_id', $r->employee_id)->whereDate('attendance_date', $attendance_date)->get()->toArray();
+
+        if (count($past_attendance) === 0) {
+            $check_in = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $in_time);
+            $check_out = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $out_time);
+            $diff_in_hours = $check_in->diffInHours($check_out);
+            $overtimeHours = $diff_in_hours - 9;
+            $data = [
+                'employee_id' => $r->employee_id,
+                'attendance_date' => $attendance_date,
+                'check_in' => $check_in,
+                'check_out' => $check_out,
+                'total_hours' => $diff_in_hours,
+                'overtime_hours' => $overtimeHours,
+            ];
+            $result = Attendance::create($data + ['created_by' => auth()->user()->id]);
+            return view('administrator.hrm.attendance.manage_attendance')->with('message', 'Attendance saved successfully!');
+
+        } else {
+            return redirect('/hrm/attendance/manualAttendance')->with('exception', 'Attendance already for this date already exists!!');
+        }
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *

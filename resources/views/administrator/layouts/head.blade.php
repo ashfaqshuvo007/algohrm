@@ -41,6 +41,9 @@
      <!-- My Stylesheet -->
     <link rel="stylesheet" href="{{ asset('public/backend/mystyle.css') }}">
     <!-- /My Stylesheet -->
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+    <!-- jQuery 3 -->
 
 
 <script src="{{ asset('public/backend/bower_components/jquery/dist/jquery.min.js') }}"></script>

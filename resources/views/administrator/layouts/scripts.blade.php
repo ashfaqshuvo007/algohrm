@@ -165,6 +165,7 @@
         $('.timepicker').timepicker({
             showInputs: false
         });
+
     });
 </script>
 <!-- For All Type of Print -->
