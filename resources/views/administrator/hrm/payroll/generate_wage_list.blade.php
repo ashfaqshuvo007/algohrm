@@ -64,7 +64,44 @@
                   </div>
                 </div>
               </div>
-              <!-- /.end group -->
+              <div class="form-group{{ $errors->has('emp_office_id') ? ' has-error' : '' }}">
+                <label for="salary_month" class="col-sm-3 control-label">{{ __('Employees') }}</label>
+                <div class="col-sm-6">
+                  <div class="input-group ">
+                    <select name="emp_office_id" id="emp_office_id" class="form-control">
+                      <option value="0" selected>{{ __('All Employees') }}</option>
+                      @foreach($employees as $employee)
+                      <option value="{{$employee->id}}">{{ $employee->office_id }}</option>
+                      @endforeach
+                    </select>
+                    @if ($errors->has('emp_office_id'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('emp_office_id') }}</strong>
+                    </span>
+                    @endif
+                  </div>
+                </div>
+              </div>
+              <div class="form-group{{ $errors->has('emp_grade') ? ' has-error' : '' }}">
+                <label for="salary_month" class="col-sm-3 control-label">{{ __('Employee Grades') }}</label>
+                <div class="col-sm-6">
+                  <div class="input-group ">
+                    <select name="emp_grade" id="emp_grade" class="form-control">
+                      <option value="0" selected>{{ __('All Grades') }}</option>
+                      @foreach($grades as $grade)
+                      <option value="{{$grade->id}}">{{ $grade->grade }}</option>
+                      @endforeach
+                    </select>
+                    @if ($errors->has('emp_grade'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('emp_grade') }}</strong>
+                    </span>
+                    @endif
+                  </div>
+                </div>
+              </div>
+              
+             
               <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-10">
                   <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-arrow-right"></i> {{ __('GO') }}</button>

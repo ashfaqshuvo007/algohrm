@@ -106,7 +106,7 @@
                             <tr>
                                 <td>{{ $sl++ }}</td>
                                 <td>{{ $salary['name'] }}</td>
-                                <td>{{ $salary['id_number'] }}</td>
+                                <td>{{ $salary['office_id'] }}</td>
                                 <td>{{ $salary['designation'] }}</td>
                                 <td>{{ $salary['joining_date'] }}</td>
                                 <td>{{ $salary['grade_id'] }}</td>
