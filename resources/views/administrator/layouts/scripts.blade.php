@@ -75,6 +75,16 @@
 
         //Date range picker
         $('#reservation').daterangepicker();
+
+        //Weekly Night Bill week select
+        $('#weekSelect').daterangepicker({
+                    ranges: {
+                        'Last week': [moment().subtract(6, 'days'), moment()],
+                    },
+                    startDate: moment().subtract(6, 'days'),
+                    endDate: moment()
+                });
+
         //Date range picker with time picker
         $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
         //Date range as a button

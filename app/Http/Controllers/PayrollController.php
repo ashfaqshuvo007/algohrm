@@ -249,7 +249,7 @@ class PayrollController extends Controller
                 ->where('users.deletion_status', 0)
                 ->get([
                     'payrolls.*',
-                    'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id', 'users.office_id',
+                    'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
                     'designations.designation', 'designations.grade_id',
                     'payment_grades.grade',
                 ])
@@ -326,4 +326,60 @@ class PayrollController extends Controller
         }
         return redirect('/hrm/payroll/')->with('exception', 'Operation failed !');
     }
+
+    //Weeekly Night Bill Management
+    // <div class="form-group{{ $errors->has('salary_month') ? ' has-error' : '' }}">
+    //             <label for="salary_month" class="col-sm-3 control-label">{{ __('Select Month') }}</label>
+    //             <div class="col-sm-3">
+
+    //                 <input type="text" name="daterange" class="form-control" id="reservation">
+
+    //             </div>
+    //           </div>
+
+    // selectWeek
+    // public function selectWeek()
+    // {
+    //     return view('administrator.hrm.weeklyNightBill.weekly_nightBill_select');
+    // }
+
+    public function getWeeklyNightBill()
+    {
+        // dump($startDate);
+        // dd($endDate);
+        // $now = Carbon::now();
+        // $lastweekStartDate = $now->startOfWeek(Carbon::SATURDAY)->subWeek()->format('Y-m-d');
+        // $lastweekEndDate = $now->startOfWeek(Carbon::SATURDAY)->addDays(5)->format('Y-m-d');
+
+        // // $weekStartDate = $now->startOfWeek(Carbon::SATURDAY)->format('Y-m-d');
+        // // $weekEndDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
+
+        // $attendances = Attendance::leftJoin('users', 'attendances.employee_id', '=', 'users.employee_id')
+        //     ->leftJoin('designations', 'users.designation_id', '=', 'designations.id')
+        //     ->whereBetween('attendances.attendance_date', [$lastweekStartDate, $lastweekEndDate])
+        //     ->groupBy('attendances.attendance_date')
+        //     ->select([
+        //         'users.employee_id',
+        //         'users.name',
+        //         'designations.designation',
+        //         'attendances.attendance_date', 'attendances.overtime_hours', 'attendances.attendance_date',
+        //     ])
+        //     ->get();
+
+        // // dump($lastweekStartDate);
+        // // dd($lastweekEndDate);
+        // return $attendances;
+
+        $employees = User::leftJoin('designations', 'users.designation_id', '=', 'designations.id')
+            ->where('role', 'employee')
+            ->select([
+                'users.employee_id as employee_id',
+                'users.name as employee_name',
+                'designations.designation as employee_designation',
+            ])->get();
+        // return $employees;
+        return view('administrator.hrm.weeklyNightBill.weekly_nightBill_list', compact('employees'));
+
+    }
+
 }

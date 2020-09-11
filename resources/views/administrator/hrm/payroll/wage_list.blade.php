@@ -37,9 +37,9 @@
                 </div>
                 <div  class="col-md-3">
                     <button type="button" class="tip btn btn-primary btn-flat" title="Export Excel" data-original-title="Label Export As Excel" id="btnExport">
-                          <i class="fa fa-print"></i>
+                          <i class="fa fa-excel"></i>
                           <span class="hidden-sm hidden-xs"> {{ __('Export As Excel') }}</span>
-                      </button>
+                    </button>
                   </div>
                 <!-- Notification Box -->
                 <div class="col-md-12">
@@ -62,7 +62,7 @@
                             <tr>
                                 <th>{{ __('SL#') }}</th>
                                 <th>{{ __('Employee Name') }}</th>
-                                <th>{{ __('Card no.') }}</th>
+                                <th>{{ __('Employee Card no.') }}</th>
                                 <th>{{ __('Designation') }}</th>
                                 <th>{{ __('Joining Date') }}</th>
                                 <th>{{ __('Grade') }}</th>
@@ -106,7 +106,7 @@
                             <tr>
                                 <td>{{ $sl++ }}</td>
                                 <td>{{ $salary['name'] }}</td>
-                                <td>{{ $salary['office_id'] }}</td>
+                                <td>{{ $salary['employee_id'] }}</td>
                                 <td>{{ $salary['designation'] }}</td>
                                 <td>{{ $salary['joining_date'] }}</td>
                                 <td>{{ $salary['grade_id'] }}</td>

@@ -31,7 +31,23 @@
             </ul>
         </li>
         @endpermission
-      
+
+        
+
+        @permission('weekly-night-bill-management')
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-calendar text-purple"></i> <span>{{ __('Weekly Night Bill ') }}</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="{{ url('/hrm/payroll/nightBill/getWeeklyNightBill') }}"><i class="fa fa-circle-o"></i> {{ __('Lastweek\'s Night Bill') }}</a></li>
+            </ul>
+        </li>
+        @endpermission
+
         @permission('payroll-management')
         <li class="treeview">
             <a href="#">
@@ -47,6 +63,7 @@
                 @permission('salary-list')
                 {{-- <li><a href="{{ url('/hrm/payroll/salary-list') }}"><i class="fa fa-circle-o"></i> {{ __('Salary List') }}</a></li> --}}
                 <li><a href="{{ url('/hrm/payroll/generate-wages-list') }}"><i class="fa fa-circle-o"></i> {{ __('Wages List') }}</a></li>
+                {{-- <li><a href="{{ url('/hrm/payroll/generate-wages-list') }}"><i class="fa fa-circle-o"></i> {{ __('Wages List') }}</a></li> --}}
                 @endpermission
 
                 {{-- <li><a href="{{ url('/hrm/payroll/increment/search') }}"><i class="fa fa-circle-o"></i>{{ __(' New Increment') }}</a></li>

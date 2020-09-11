@@ -200,6 +200,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/hrm/payroll/details/{id}', 'PayrollController@show');
     Route::post('/hrm/payroll/update/{id}', 'PayrollController@update');
 
+    //Weekly Night Bill
+
+    // Route::get('/hrm/payroll/nightBill/week/select', 'PayrollController@selectWeek');
+    Route::get('/hrm/payroll/nightBill/getWeeklyNightBill', 'PayrollController@getWeeklyNightBill');
+
     //Increment//
     Route::get('/hrm/payroll/increment/search', 'IncrementController@newIncrementSearch');
     Route::post('/hrm/payroll/increment/store', 'IncrementController@newIncrementStore');
