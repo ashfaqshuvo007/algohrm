@@ -151,6 +151,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/device/info/go', 'DeviceAttendanceController@getDeviceInfo');
     Route::post('/device/create', 'DeviceAttendanceController@storeDevice');
     Route::get('/device/{device_id}/edit', 'DeviceAttendanceController@editDeviceInfo');
+    Route::get('/device/{device_id}/delete', 'DeviceAttendanceController@deleteDevice');
     Route::get('/device/{device_id}/clearAttData', 'DeviceAttendanceController@clearAttData');
     Route::post('/device/users', 'DeviceAttendanceController@getDeviceUsers');
     Route::get('/device/getUsers/select', 'DeviceAttendanceController@selectDevice');

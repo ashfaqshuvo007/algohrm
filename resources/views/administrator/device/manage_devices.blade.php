@@ -90,7 +90,8 @@
                             <td>{{ $userName[0] }}</td>
                             <td class="text-center">{{ date("d F Y", strtotime($device['created_at'])) }}</td>
                             <td class="text-center">
-                                <a href="{{ url('/device/'.$device['id'].'/edit') }}"><i class="icon fa fa-edit"></i>Edit</a>
+                                <a href="{{ url('/device/'.$device['id'].'/edit') }}"><i class="icon fa fa-edit"></i></a>
+                                <a href="{{ url('/device/'.$device['id'].'/delete') }}"><i class="icon fa fa-trash"></i></a>
                             </td>
                         </tr>
                         @endforeach

@@ -195,7 +195,6 @@ class DeviceAttendanceController extends Controller
     //Get device attendance
     public function deviceAttendance(Request $r)
     {
-
         $device = Device::where('id', $r->device_id)->first();
         $port = (string) $device->device_port_public_h;
         $ip = (string) $device->device_ip_hidden;
@@ -228,6 +227,15 @@ class DeviceAttendanceController extends Controller
 
         return redirect('/device/manage')->with('message', 'Add successfully.');
 
+    }
+
+    public function deleteDevice($id)
+    {
+        $deleted = Device::where('id', $id)->delete();
+        if (!empty($deleted)) {
+            return redirect('/device/manage')->with('message', 'Device deleted!');
+        }
+        return redirect('/device/manage')->with('exception', 'Device could not be deleted!');
     }
 
 }
