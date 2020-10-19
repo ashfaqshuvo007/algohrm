@@ -332,6 +332,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/setting/employee_grades/create', 'PaymentGradeController@create');
     Route::post('/setting/employee_grades/store', 'PaymentGradeController@store');
     Route::get('/setting/employee_grades/edit/{id}', 'PaymentGradeController@edit');
+    Route::get('/setting/employee_grades/delete/{id}', 'PaymentGradeController@destroy');
     Route::post('/setting/employee_grades/update', 'PaymentGradeController@update');
 
     //Device Management Routes

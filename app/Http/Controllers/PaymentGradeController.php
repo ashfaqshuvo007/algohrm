@@ -122,8 +122,13 @@ class PaymentGradeController extends Controller
      * @param  \App\PaymentGrade  $paymentGrade
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PaymentGrade $paymentGrade)
+    public function destroy($id)
     {
-        //
+        $deleted = PaymentGrade::where('id', $id)->delete();
+        if (!empty($deleted)) {
+            return redirect('/setting/employee_grades/')->with('message', 'Grade deleted Successfully!');
+        } else {
+            return redirect('/setting/employee_grades/')->with('exception', 'Operation Failed!');
+        }
     }
 }
