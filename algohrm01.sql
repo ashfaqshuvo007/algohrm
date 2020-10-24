@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 22, 2020 at 07:47 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.1
+-- Host: localhost:3306
+-- Generation Time: Oct 22, 2020 at 10:27 AM
+-- Server version: 5.7.31-0ubuntu0.18.04.1
+-- PHP Version: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -41,30 +39,6 @@ CREATE TABLE `attendances` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `attendances`
---
-
-INSERT INTO `attendances` (`id`, `created_by`, `employee_id`, `attendance_date`, `check_in`, `check_out`, `total_hours`, `overtime_hours`, `created_at`, `updated_at`) VALUES
-(1, 1, 4, '2020-08-22', '2020-08-21 18:41:05', '2020-08-21 19:15:30', 0, -9, '2020-08-22 20:11:24', '2020-08-22 20:11:24'),
-(2, 1, 5, '2020-08-22', '2020-08-21 19:51:29', '2020-08-22 10:54:02', 15, 6, '2020-08-22 20:11:24', '2020-08-22 20:11:24'),
-(3, 1, 4, '2020-09-11', '2020-09-11 00:00:00', '2020-09-11 16:00:00', 16, 7, '2020-09-11 06:36:19', '2020-09-11 06:36:19'),
-(5, 1, 5, '2020-09-11', '2020-09-11 00:00:00', '2020-09-11 13:00:00', 13, 4, '2020-09-11 06:43:19', '2020-09-11 06:43:19'),
-(6, 1, 6, '2020-09-11', '2020-09-11 00:00:00', '2020-09-11 13:00:00', 13, 4, '2020-09-11 06:47:09', '2020-09-11 06:47:09'),
-(7, 1, 6, '2020-09-10', '2020-09-11 01:00:00', '2020-09-11 15:00:00', 14, 5, '2020-09-11 06:50:15', '2020-09-11 06:50:15'),
-(8, 1, 4, '2020-09-01', '2020-09-01 03:00:00', '2020-09-01 12:00:00', 9, 0, '2020-09-11 13:46:24', '2020-09-11 13:46:24'),
-(9, 1, 4, '2020-09-02', '2020-09-02 03:00:00', '2020-09-02 16:00:00', 13, 4, '2020-09-11 13:48:18', '2020-09-11 13:48:18'),
-(10, 1, 5, '2020-09-02', '2020-09-02 03:00:00', '2020-09-02 18:00:00', 15, 6, '2020-09-11 13:49:19', '2020-09-11 13:49:19'),
-(11, 1, 5, '2020-09-03', '2020-09-03 03:00:00', '2020-09-03 16:00:00', 13, 4, '2020-09-11 13:50:07', '2020-09-11 13:50:07'),
-(13, 1, 6, '2020-09-03', '2020-09-03 03:00:00', '2020-09-03 18:00:00', 15, 6, '2020-09-11 13:52:03', '2020-09-11 13:52:03'),
-(14, 1, 5, '2020-09-06', '2020-09-06 03:00:00', '2020-09-06 16:00:00', 13, 4, '2020-09-11 18:40:35', '2020-09-11 18:40:35'),
-(15, 1, 4, '2020-09-06', '2020-09-06 03:00:00', '2020-09-06 18:00:00', 15, 6, '2020-09-11 18:41:24', '2020-09-11 18:41:24'),
-(16, 1, 6, '2020-09-06', '2020-09-06 03:00:00', '2020-09-06 16:00:00', 13, 4, '2020-09-11 18:42:03', '2020-09-11 18:42:03'),
-(17, 1, 4, '2020-09-07', '2020-09-07 03:00:00', '2020-09-07 18:00:00', 15, 6, '2020-09-11 18:42:40', '2020-09-11 18:42:40'),
-(18, 1, 6, '2020-09-07', '2020-09-07 03:00:00', '2020-09-07 16:00:00', 13, 4, '2020-09-11 18:43:08', '2020-09-11 18:43:08'),
-(19, 1, 4, '2020-09-08', '2020-09-08 03:00:00', '2020-09-08 16:00:00', 13, 4, '2020-09-11 18:43:39', '2020-09-11 18:43:39'),
-(20, 1, 6, '2020-09-09', '2020-09-09 03:00:00', '2020-09-09 18:00:00', 15, 6, '2020-09-11 18:44:21', '2020-09-11 18:44:21');
-
 -- --------------------------------------------------------
 
 --
@@ -76,7 +50,7 @@ CREATE TABLE `award_categories` (
   `created_by` int(11) NOT NULL,
   `award_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `publication_status` tinyint(4) NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -102,7 +76,7 @@ CREATE TABLE `bonuses` (
   `bonus_month` date NOT NULL,
   `bonus_amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `bonus_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -126,7 +100,7 @@ CREATE TABLE `client_types` (
   `client_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `client_type_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `publication_status` tinyint(4) NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -163,7 +137,7 @@ CREATE TABLE `deductions` (
   `deduction_month` date NOT NULL,
   `deduction_amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `deduction_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -187,7 +161,7 @@ CREATE TABLE `departments` (
   `department` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `department_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `publication_status` tinyint(4) NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -197,13 +171,25 @@ CREATE TABLE `departments` (
 --
 
 INSERT INTO `departments` (`id`, `created_by`, `department`, `department_description`, `publication_status`, `deletion_status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Lehner PLC', 'Aliquam earum eligendi soluta inventore sit nulla nisi. Tempora ut necessitatibus eos laborum rerum commodi. Blanditiis architecto rerum libero et nulla cupiditate. Cum doloremque laborum ab sunt et. Quam eligendi amet eius tempore nesciunt commodi. Enim distinctio autem et expedita non qui error est. Magni similique id quod. Exercitationem dolorum corrupti quos natus similique ut est rerum. Velit officia deleniti quaerat rerum vero veritatis. Officia magni assumenda aut nisi quae consectetur.', 1, 0, '2018-04-12 06:25:16', '2019-09-24 10:22:22'),
-(2, 1, 'Lehner-Walsh', 'Nemo in beatae alias voluptatem iste exercitationem et. Omnis temporibus aut et. Saepe iusto est pariatur sequi ea aut est recusandae. Temporibus cupiditate sapiente quia temporibus. Modi consequatur id sed quod ut earum repudiandae nam. Enim omnis sed quod sint nihil voluptatibus quia. Excepturi id ipsum qui quos enim. Reiciendis eos consequatur consequatur quia eius quidem. Doloremque itaque et repudiandae delectus natus est maxime.', 1, 0, '2018-04-12 06:25:16', '2018-04-12 06:25:16'),
-(3, 1, 'Senger-Wilkinson', 'Dolores dignissimos nam quo cupiditate veritatis. Expedita est vel debitis tenetur. Quas eius expedita amet et aut iusto quis esse. Rerum labore numquam cum. Eos delectus voluptatem fugit ad sed. Rem ipsam ut sed quidem error et. Repellat odio ad accusamus non. Ut aliquam quam voluptas sed. Soluta ab molestiae dolorem architecto voluptatum. Eaque soluta similique assumenda. Voluptas quaerat autem dolores. Unde molestiae vero quisquam recusandae exercitationem.', 0, 0, '2018-04-12 06:25:16', '2020-09-11 01:12:18'),
-(4, 1, 'Bahringer-Sauer', 'Aliquid sint sit explicabo laborum facilis. Nam numquam ut quos. Ut qui perspiciatis sit dolore. Et accusamus perferendis harum architecto sunt minima. Voluptatem voluptatem et explicabo quia aut consequatur. Ut quia vero molestiae earum quis odit. Et delectus quis excepturi temporibus dolor. Consequatur assumenda eligendi ex delectus debitis. Ea consequatur a vel sunt pariatur et sit. Est veniam aut quo ratione amet.', 1, 0, '2018-04-12 06:25:16', '2019-09-24 10:22:27'),
-(5, 1, 'Klein LLC', 'Omnis magnam facere earum. Corrupti tenetur beatae quod ut placeat. Qui et ut et aut vero. Nisi ea deserunt alias excepturi animi illum. Animi nulla fugiat itaque reprehenderit qui. Deleniti nulla et dolor id est. Facilis a non nostrum. Aperiam voluptatem delectus est ut est. Porro quia illo quia eos. Quas asperiores qui rerum temporibus tempore voluptatem. Pariatur repudiandae magnam voluptatibus. Unde incidunt ut vitae voluptas ipsum.', 1, 0, '2018-04-12 06:25:16', '2018-04-12 06:25:16'),
-(6, 1, 'Marketing', '<p>sdfsdfdsfds<br></p>', 1, 0, '2019-08-31 11:04:47', '2019-08-31 11:04:47'),
-(7, 1, 'Sales', 'fdfgdfgdff', 1, 0, '2019-08-31 11:09:23', '2019-09-25 03:38:15');
+(1, 1, 'Commercial & Export', 'Commercial & Export', 1, 0, '2020-10-06 10:11:37', '2020-10-06 10:11:37'),
+(2, 1, 'Merchandising', 'Merchandising', 1, 0, '2020-10-06 10:12:30', '2020-10-06 10:12:30'),
+(3, 1, 'Management', 'Management', 1, 0, '2020-10-06 10:12:42', '2020-10-06 10:12:42'),
+(4, 1, 'Account', 'Account', 1, 0, '2020-10-06 10:12:56', '2020-10-06 10:12:56'),
+(5, 1, 'HRD & Admin', 'HRD & Admin', 1, 0, '2020-10-06 10:35:54', '2020-10-06 10:35:54'),
+(6, 1, 'IT', 'IT', 1, 0, '2020-10-06 10:36:32', '2020-10-06 10:36:32'),
+(7, 1, 'Cutting', 'Cutting', 1, 0, '2020-10-06 10:37:16', '2020-10-06 10:37:16'),
+(8, 1, 'Sewing', 'Sewing', 1, 0, '2020-10-06 10:37:28', '2020-10-06 10:37:28'),
+(9, 1, 'Quality', 'Quality', 1, 0, '2020-10-06 10:37:42', '2020-10-06 10:37:42'),
+(10, 1, 'Finishing', 'Finishing', 1, 0, '2020-10-06 10:37:56', '2020-10-06 10:37:56'),
+(11, 1, 'Knitting', 'Knitting', 1, 0, '2020-10-06 10:38:07', '2020-10-06 10:38:07'),
+(12, 1, 'Dyeing', 'Dyeing', 1, 0, '2020-10-06 10:38:18', '2020-10-06 10:38:18'),
+(13, 1, 'Inventory', 'Inventory', 1, 0, '2020-10-06 10:38:31', '2020-10-06 10:38:31'),
+(14, 1, 'Medical', 'Medical', 1, 0, '2020-10-06 10:38:45', '2020-10-06 10:38:45'),
+(15, 1, 'Sample', 'Sample', 1, 0, '2020-10-06 10:38:55', '2020-10-06 10:38:55'),
+(16, 1, 'Security', 'Security', 1, 0, '2020-10-06 10:39:09', '2020-10-06 10:39:09'),
+(17, 1, 'Mechanical', 'Mechanical', 1, 0, '2020-10-06 10:39:21', '2020-10-06 10:39:21'),
+(18, 1, 'Electrical', 'Electrical', 1, 0, '2020-10-06 10:39:36', '2020-10-06 10:39:36'),
+(19, 1, 'Maintenance', 'Maintenance', 1, 0, '2020-10-06 10:39:53', '2020-10-06 10:39:53');
 
 -- --------------------------------------------------------
 
@@ -219,29 +205,10 @@ CREATE TABLE `designations` (
   `designation` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `designation_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `publication_status` tinyint(4) NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `designations`
---
-
-INSERT INTO `designations` (`id`, `created_by`, `department_id`, `grade_id`, `designation`, `designation_description`, `publication_status`, `deletion_status`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, NULL, 'Hackett-Treutel', 'Fugiat nostrum itaque sapiente velit assumenda in aperiam eum. Consequatur temporibus sunt necessitatibus ut. Soluta eum veritatis magnam aut. Voluptatem laudantium est voluptates eveniet et. Velit dolore unde velit sunt neque ea perferendis recusandae. Ea quasi adipisci dolorum sit similique magni. Debitis eius voluptas doloribus repellendus. Sint sit corrupti ipsum molestiae architecto ut maiores nulla. Sint repellat est et et asperiores corrupti.', 1, 0, '2018-04-12 06:25:16', '2019-09-24 09:59:43'),
-(2, 1, 4, NULL, 'Satterfield-Cremin', 'Ea rem deleniti nostrum voluptatem. Et ducimus optio voluptatem ut consequatur. Dolorum sint eius asperiores non nihil. Molestias ex perspiciatis praesentium non. Et sint magni qui sed nostrum. Enim voluptatibus laborum eveniet debitis numquam consequatur. Praesentium accusantium eveniet ut omnis earum facilis dolores. Ipsum iusto quod ratione eos in aspernatur.', 1, 0, '2018-04-12 06:25:16', '2019-09-24 10:24:15'),
-(3, 1, 3, NULL, 'Kuvalis-Mitchell', 'Tempore quod molestias sed velit vel quas. Qui quisquam fuga in ducimus error dolor. Qui ut officiis occaecati voluptates dolore. Sit est consequatur provident. Eos tempore adipisci at nisi voluptatem commodi. Deserunt neque officiis harum ipsa nostrum. Ut vel non exercitationem cum laboriosam. Dolorum enim est maxime quia adipisci. Praesentium quis aut harum. Ea error et dolorem id sunt. Aut laborum quibusdam eum quis. Asperiores quia aut eum quod quaerat architecto harum.', 1, 0, '2018-04-12 06:25:16', '2019-09-24 10:24:03'),
-(4, 1, 5, NULL, 'Kirlin, Reinger and Haag', 'Doloremque consequatur accusantium molestiae dolores odio. Eos vero rem architecto et ea veniam provident. Porro qui illo ad assumenda. Illum at deserunt quod qui non consequatur veritatis. Tempore deserunt architecto tempore molestiae provident et odio. Consectetur quia similique ea non nostrum et. Distinctio iste quam porro dolorem ut pariatur aut.', 1, 0, '2018-04-12 06:25:16', '2019-09-24 10:23:52'),
-(5, 1, 3, NULL, 'Towne, Jerde and Littel', 'Consequatur eligendi modi consequatur eligendi. Perferendis laborum voluptas ipsum distinctio numquam. Non illo hic alias repudiandae at atque itaque in. Et ipsam nulla et voluptatem illo illo aut sequi. Maxime cumque eos tenetur est. Qui dolores fugit nihil modi inventore. Adipisci sint at cumque consequatur ullam. Optio est qui laudantium fugiat architecto minus. Earum eveniet nam ut sunt enim. Facere reprehenderit aut doloribus. Qui labore qui velit voluptatem dolores distinctio harum.', 1, 0, '2018-04-12 06:25:16', '2019-09-24 10:24:25'),
-(6, 1, 3, NULL, 'Kovacek-Barrows', 'Aperiam earum eius quia deleniti voluptatem. Quam omnis dolor asperiores rem quasi reiciendis minima. Cupiditate impedit perferendis quis quia voluptatum quasi necessitatibus. Omnis et quo porro. Sit possimus voluptatem natus officia totam in. Quam voluptas quis ipsa et. Saepe quo et aliquid unde ratione et est. Quia libero rerum blanditiis voluptatem qui ducimus. Consectetur eum ut nisi tempore consequatur et expedita.', 1, 0, '2018-04-12 06:25:16', '2019-09-24 10:23:58'),
-(7, 1, 2, NULL, 'Hudson Inc', 'Repellat quasi soluta fugiat nobis. Aut aliquam qui atque optio autem ex. Voluptates quis atque culpa molestias temporibus. Vitae commodi atque nulla sed perferendis quam ut. Adipisci ut placeat aperiam ratione itaque. Nulla velit omnis accusamus delectus voluptatibus. Blanditiis vel aut aperiam incidunt. Ducimus nulla illo dolorem quia commodi. Assumenda illo dolorem voluptatem. Iste nihil quia voluptatem vero sunt veniam. Dolorem suscipit repellat veniam dicta.', 1, 0, '2018-04-12 06:25:16', '2018-04-12 06:25:16'),
-(8, 1, 4, NULL, 'Schmitt Group', 'Ipsam qui est numquam. Magnam qui in at at eum laudantium. Eum possimus et mollitia explicabo quibusdam excepturi expedita. Iusto nihil vero aspernatur esse ab alias occaecati aut. Ut id voluptatibus sunt ut at cupiditate. Vero quo quia at cumque consectetur. Exercitationem pariatur est debitis quam exercitationem pariatur qui. Magnam reiciendis magnam voluptatum aspernatur. Fugiat omnis ipsum veniam qui itaque modi qui. Fugiat soluta autem qui voluptatum est.', 1, 0, '2018-04-12 06:25:16', '2019-09-24 10:24:20'),
-(9, 1, 3, NULL, 'O\'Conner-Hilll', 'Accusamus et tempora soluta quia saepe. Praesentium commodi praesentium voluptas eum aut eos. Eveniet qui eius rerum hic pariatur. Sint optio quae eveniet vel corrupti dolores. Qui asperiores non porro ullam odio. Quae libero quam blanditiis culpa odio consequatur sit. Rerum voluptates sit repellendus quas quis cum atque. Velit sit eius deleniti enim asperiores minima. Molestias consequatur soluta eius et ducimus harum et.', 1, 0, '2018-04-12 06:25:16', '2018-04-12 06:25:16'),
-(10, 1, 2, NULL, 'Predovic Group', 'Quaerat voluptas consequuntur esse quibusdam. Repellendus fugit sequi aperiam. Ut hic qui veniam explicabo. Magnam omnis ullam sit quia. Aut ut omnis quisquam repudiandae aut. Voluptatem dolorem praesentium vel et aperiam qui. Nihil non ut aut dignissimos ex error. Similique facere asperiores et ullam in possimus at. Dolor illo perspiciatis molestias repudiandae voluptas pariatur. Laboriosam autem vel commodi ipsum tempora non harum expedita.', 1, 0, '2018-04-12 06:25:16', '2019-09-24 10:24:09'),
-(11, 1, 5, NULL, 'Masum', '<p>dsfdsfdsf<br></p>', 1, 0, '2019-08-31 11:02:32', '2019-08-31 11:02:32'),
-(12, 1, 6, NULL, 'Sr. Executive', '<p>dfgdgdg<br></p>', 1, 0, '2019-08-31 11:05:14', '2019-08-31 11:05:14'),
-(13, 1, 6, 1, 'Loader', 'All loader', 1, 0, '2020-08-05 05:54:19', '2020-08-05 05:54:19');
 
 -- --------------------------------------------------------
 
@@ -258,16 +225,9 @@ CREATE TABLE `devices` (
   `device_ip_internal` varchar(191) NOT NULL,
   `device_port_public_h` varchar(191) NOT NULL,
   `created_by` varchar(191) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `devices`
---
-
-INSERT INTO `devices` (`id`, `device_name`, `serial_number`, `device_version`, `device_ip_hidden`, `device_ip_internal`, `device_port_public_h`, `created_by`, `created_at`, `updated_at`) VALUES
-(2, 'K40 Staff AFD', 'A8N5192561697', '10', '103.106.32.72', '192.168.0.202', '4370', '1', '2020-10-19 09:04:41', '2020-10-19 09:04:41');
 
 -- --------------------------------------------------------
 
@@ -282,19 +242,9 @@ CREATE TABLE `device_attendances` (
   `employee_id` int(11) NOT NULL,
   `state` int(11) NOT NULL,
   `date_time` datetime NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `device_attendances`
---
-
-INSERT INTO `device_attendances` (`id`, `device_id`, `uuid`, `employee_id`, `state`, `date_time`, `created_at`, `updated_at`) VALUES
-(1, 1, 4, 4, 0, '2020-08-22 00:05:41', '2020-08-22 20:10:14', '2020-08-22 20:10:14'),
-(2, 1, 5, 5, 0, '2020-08-22 01:29:51', '2020-08-22 20:10:14', '2020-08-22 20:10:14'),
-(3, 1, 4, 4, 0, '2020-08-22 01:30:15', '2020-08-22 20:10:14', '2020-08-22 20:10:14'),
-(4, 1, 5, 5, 0, '2020-08-22 16:02:54', '2020-08-22 20:10:14', '2020-08-22 20:10:14');
 
 -- --------------------------------------------------------
 
@@ -311,7 +261,7 @@ CREATE TABLE `employee_awards` (
   `select_month` date NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `publication_status` tinyint(4) NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -337,8 +287,8 @@ CREATE TABLE `expence_managements` (
   `purchased_from` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `purchased_date` date NOT NULL,
   `amount_spent` int(11) NOT NULL,
-  `purchased_details` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `purchased_details` text COLLATE utf8mb4_unicode_ci,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -387,7 +337,7 @@ CREATE TABLE `files` (
   `caption` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `file_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `publication_status` tinyint(4) DEFAULT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -411,7 +361,7 @@ CREATE TABLE `folders` (
   `folder_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `folder_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `publication_status` tinyint(4) NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -456,7 +406,7 @@ CREATE TABLE `holidays` (
   `date` date NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `publication_status` tinyint(4) NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -480,7 +430,7 @@ CREATE TABLE `increments` (
   `amount` double DEFAULT NULL,
   `emp_id` int(11) DEFAULT NULL,
   `date` varchar(30) DEFAULT NULL,
-  `incr_purpose` text DEFAULT NULL,
+  `incr_purpose` text,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -514,12 +464,12 @@ CREATE TABLE `leave_applications` (
   `last_leave_period` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `leave_address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_leave_date` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `leave_address` text COLLATE utf8mb4_unicode_ci,
+  `last_leave_date` text COLLATE utf8mb4_unicode_ci,
   `reason` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `during_leave` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `publication_status` tinyint(4) NOT NULL DEFAULT 0,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `publication_status` tinyint(4) NOT NULL DEFAULT '0',
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -543,7 +493,7 @@ CREATE TABLE `leave_categories` (
   `leave_category` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `leave_category_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `publication_status` tinyint(4) NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -572,7 +522,7 @@ CREATE TABLE `loans` (
   `number_of_installments` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remaining_installments` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `loan_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -640,7 +590,7 @@ CREATE TABLE `notices` (
   `notice_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `publication_status` tinyint(4) NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -681,8 +631,8 @@ CREATE TABLE `payment_grades` (
   `medical_allowance` varchar(191) NOT NULL,
   `convayence` varchar(191) NOT NULL,
   `food_allowance` varchar(191) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -712,18 +662,10 @@ CREATE TABLE `payrolls` (
   `absent_deduction` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `att_bonus` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `increment_amount` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `activation_status` tinyint(4) NOT NULL DEFAULT 0,
+  `activation_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `payrolls`
---
-
-INSERT INTO `payrolls` (`id`, `created_by`, `user_id`, `employee_type`, `basic_salary`, `house_rent`, `medical_allowance`, `food_allowance`, `convayence`, `overtime_rate`, `absent_deduction`, `att_bonus`, `increment_amount`, `activation_status`, `created_at`, `updated_at`) VALUES
-(1, 1, 15, 3, '6000', '2500', '600', '1200', '600', '61', '200', '200', '800', 0, '2020-08-17 18:04:06', '2020-08-22 20:15:33'),
-(2, 1, 16, 2, '6000', '2500', '600', '1200', '200', '60', '200', '200', NULL, 0, '2020-08-22 16:09:40', '2020-08-22 17:23:04');
 
 -- --------------------------------------------------------
 
@@ -775,8 +717,7 @@ INSERT INTO `permissions` (`id`, `name`, `display_name`, `description`, `created
 (28, 'notice-board', 'Notice Board', 'Notice Board', '2018-04-12 06:29:05', '2018-04-12 06:29:05'),
 (29, 'leave-reports', 'Leave Reports', 'Leave Reports', NULL, NULL),
 (30, 'device-setting', 'Device Settings', 'Manage device module', '2020-08-19 16:56:24', '2020-08-19 16:56:24'),
-(31, 'audit_panel_settings', 'Audit Panel settings', 'Panel For auditor', '2020-08-19 17:57:14', '2020-08-19 17:57:14'),
-(32, 'weekly-night-bill-management', 'Weekly Night Bill Management', 'Management of the weekly night bill for overtime', '2020-09-11 13:32:16', '2020-09-11 13:32:16');
+(31, 'audit_panel_settings', 'Audit Panel settings', 'Panel For auditor', '2020-08-19 17:57:14', '2020-08-19 17:57:14');
 
 -- --------------------------------------------------------
 
@@ -795,69 +736,68 @@ CREATE TABLE `permission_role` (
 
 INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 (1, 1),
-(1, 3),
 (2, 1),
-(2, 3),
 (3, 1),
 (4, 1),
-(4, 3),
 (5, 1),
-(5, 3),
 (6, 1),
 (7, 1),
-(7, 3),
 (8, 1),
-(8, 3),
 (9, 1),
-(9, 3),
 (10, 1),
-(10, 3),
 (11, 1),
-(11, 3),
 (12, 1),
-(12, 3),
 (13, 1),
-(13, 3),
 (14, 1),
-(14, 3),
 (15, 1),
-(15, 3),
 (16, 1),
-(16, 3),
 (17, 1),
-(17, 3),
 (18, 1),
-(18, 3),
 (19, 1),
-(19, 3),
 (20, 1),
-(20, 3),
 (21, 1),
-(21, 3),
 (22, 1),
-(22, 3),
 (23, 1),
-(23, 2),
-(23, 3),
 (24, 1),
-(24, 3),
 (25, 1),
-(25, 2),
-(25, 3),
 (26, 1),
-(26, 2),
-(26, 3),
 (27, 1),
-(27, 3),
 (28, 1),
-(28, 2),
-(28, 3),
 (29, 1),
-(29, 3),
 (30, 1),
-(30, 3),
 (31, 1),
-(32, 1);
+(23, 2),
+(25, 2),
+(26, 2),
+(28, 2),
+(1, 3),
+(2, 3),
+(4, 3),
+(5, 3),
+(7, 3),
+(8, 3),
+(9, 3),
+(10, 3),
+(11, 3),
+(12, 3),
+(13, 3),
+(14, 3),
+(15, 3),
+(16, 3),
+(17, 3),
+(18, 3),
+(19, 3),
+(20, 3),
+(21, 3),
+(22, 3),
+(23, 3),
+(24, 3),
+(25, 3),
+(26, 3),
+(27, 3),
+(28, 3),
+(29, 3),
+(30, 3);
 
 -- --------------------------------------------------------
 
@@ -873,7 +813,7 @@ CREATE TABLE `personal_events` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `publication_status` tinyint(4) NOT NULL,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -949,7 +889,7 @@ CREATE TABLE `salary_payments` (
   `payment_amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `payment_month` date NOT NULL,
   `payment_type` tinyint(4) NOT NULL COMMENT '1 for cash payment, 2 for chaque payment & 3 for bank payment',
-  `note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `note` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1127,9 +1067,6 @@ CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `created_by` int(11) DEFAULT NULL,
   `employee_id` int(11) DEFAULT NULL,
-  `employee_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `physical_ability` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `insurance` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'no',
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `father_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `mother_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -1139,11 +1076,11 @@ CREATE TABLE `users` (
   `present_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `permanent_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `home_district` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `academic_qualification` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `professional_qualification` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `academic_qualification` text COLLATE utf8mb4_unicode_ci,
+  `professional_qualification` text COLLATE utf8mb4_unicode_ci,
   `joining_date` date DEFAULT NULL,
-  `experience` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reference` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `experience` text COLLATE utf8mb4_unicode_ci,
+  `reference` text COLLATE utf8mb4_unicode_ci,
   `id_name` tinyint(4) DEFAULT NULL COMMENT '1 for NID, 2 Passport, 3 for Driving License',
   `id_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `contact_no_one` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -1151,8 +1088,6 @@ CREATE TABLE `users` (
   `emergency_contact` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `web` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `gender` varchar(1) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `height` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `weight` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `marital_status` tinyint(4) DEFAULT NULL COMMENT '1 for Married, Single, 3 for Divorced, 4 for Separated, 5 for Widowed',
   `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -1161,22 +1096,22 @@ CREATE TABLE `users` (
   `joining_position` int(11) DEFAULT NULL,
   `access_label` tinyint(4) NOT NULL COMMENT '1 for superadmin, 2 for associates, 3 for employees, 4 for references and 5 for clients',
   `role` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `activation_status` tinyint(4) NOT NULL DEFAULT 0,
-  `deletion_status` tinyint(4) NOT NULL DEFAULT 0,
+  `activation_status` tinyint(4) NOT NULL DEFAULT '0',
+  `deletion_status` tinyint(4) NOT NULL DEFAULT '0',
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `created_by`, `employee_id`, `employee_type`, `physical_ability`, `insurance`, `name`, `father_name`, `mother_name`, `spouse_name`, `email`, `password`, `present_address`, `permanent_address`, `home_district`, `academic_qualification`, `professional_qualification`, `joining_date`, `experience`, `reference`, `id_name`, `id_number`, `contact_no_one`, `contact_no_two`, `emergency_contact`, `web`, `gender`, `height`, `weight`, `date_of_birth`, `marital_status`, `avatar`, `client_type_id`, `designation_id`, `joining_position`, `access_label`, `role`, `activation_status`, `deletion_status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, '', '', 'yes', 'Admin', NULL, NULL, NULL, 'admin@mail.com', '$2y$10$Y17jCoozWQAi0i5jDK65D.JSAyd0JbvznZ4vp3lnZC3Ck6CIVLGBu', 'Dhaka', 'Dhaka', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0123456789', NULL, NULL, 'http://ashfaqhahmed.com', 'm', NULL, NULL, '2020-08-05', NULL, '1596605467.png', 9, 8, NULL, 1, NULL, 1, 0, 'haRPkN2rtpqsbkmKI8MgfuTAtCdZlwAEMElrNxoIsi3Xt7oqs5BOWeFvQcfm', '2019-09-07 06:25:15', '2020-08-05 05:31:07'),
-(15, 1, 4, '', '', 'yes', 'Rakibullah Fahim', 'Najibullah', 'Amina', NULL, 'fahim@gmail.com', '$2y$12$JPOxzbIWpOOUWXMuqC6cSu84gW.Z.1D/8rVK76WypAsY8vK2ire.a', 'Gazipur Main Road, Gazipur', NULL, 'None', NULL, NULL, '2020-08-01', NULL, NULL, 1, '4', '01987654321', NULL, NULL, NULL, 'm', NULL, NULL, '2020-08-15', 2, NULL, NULL, 13, 6, 2, 'employee', 0, 0, NULL, '2020-08-14 19:56:06', '2020-09-03 23:35:46'),
-(16, 1, 5, '', '', 'yes', 'Zakir Uddin', 'Fakir Uddin', 'Hajera begum', NULL, NULL, '$2y$10$bm.Q2UD5OH.vR3yUx9nnKucgXFpCvQtfK8f1YaU.4hmf1T8oOgkgW', 'Narayanganj,Dhaka', NULL, 'None', NULL, NULL, '2020-08-01', NULL, NULL, 1, '963258147', '01234567899', NULL, NULL, NULL, 'm', NULL, NULL, '2001-10-30', NULL, NULL, NULL, 13, NULL, 2, 'employee', 0, 0, NULL, '2020-08-21 18:11:14', '2020-08-21 18:11:14'),
-(17, 1, 6, '', '', 'yes', 'Mahibullah', 'Mr. Ismail', 'Zubaida', NULL, NULL, '$2y$10$zO5oW4bH8FtKbtATiuHcQeuHY7hlVX1Vy8fNtBhFuvXQuZP1OozAe', 'Dhaka', 'Dhaka', 'None', NULL, NULL, '2020-08-01', NULL, NULL, 1, '987654321', '0134567891', NULL, NULL, NULL, 'm', NULL, NULL, '2020-08-23', NULL, NULL, NULL, 13, NULL, 2, 'employee', 0, 0, NULL, '2020-08-22 20:22:45', '2020-08-22 20:22:45');
+INSERT INTO `users` (`id`, `created_by`, `employee_id`, `name`, `father_name`, `mother_name`, `spouse_name`, `email`, `password`, `present_address`, `permanent_address`, `home_district`, `academic_qualification`, `professional_qualification`, `joining_date`, `experience`, `reference`, `id_name`, `id_number`, `contact_no_one`, `contact_no_two`, `emergency_contact`, `web`, `gender`, `date_of_birth`, `marital_status`, `avatar`, `client_type_id`, `designation_id`, `joining_position`, `access_label`, `role`, `activation_status`, `deletion_status`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 1, NULL, 'Admin', NULL, NULL, NULL, 'admin@mail.com', '$2y$10$Y17jCoozWQAi0i5jDK65D.JSAyd0JbvznZ4vp3lnZC3Ck6CIVLGBu', 'Dhaka', 'Dhaka', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0123456789', NULL, NULL, 'http://ashfaqhahmed.com', 'm', '2020-08-05', NULL, '1596605467.png', 9, 8, NULL, 1, NULL, 1, 0, 'UNwysZ7TffUEKnWVOSeKoUJX6CROnV0B5tIaGKhiNrnVGS70mMgxAi3ERbg5', '2019-09-07 06:25:15', '2020-08-05 05:31:07'),
+(15, 1, 4, 'Rakibullah Fahim', 'Najibullah', 'Amina', NULL, 'fahim@gmail.com', '$2y$12$JPOxzbIWpOOUWXMuqC6cSu84gW.Z.1D/8rVK76WypAsY8vK2ire.a', 'Gazipur Main Road, Gazipur', NULL, 'None', NULL, NULL, '2020-08-01', NULL, NULL, 1, '4', '01987654321', NULL, NULL, NULL, 'm', '2020-08-15', 2, NULL, NULL, 13, 7, 2, '2', 0, 0, NULL, '2020-08-14 19:56:06', '2020-08-14 21:00:25'),
+(16, 1, 5, 'Zakir Uddin', 'Fakir Uddin', 'Hajera begum', NULL, NULL, '$2y$10$bm.Q2UD5OH.vR3yUx9nnKucgXFpCvQtfK8f1YaU.4hmf1T8oOgkgW', 'Narayanganj,Dhaka', NULL, 'None', NULL, NULL, '2020-08-01', NULL, NULL, 1, '963258147', '01234567899', NULL, NULL, NULL, 'm', '2001-10-30', NULL, NULL, NULL, 13, NULL, 2, 'employee', 0, 0, NULL, '2020-08-21 18:11:14', '2020-08-21 18:11:14'),
+(17, 1, 6, 'Mahibullah', 'Mr. Ismail', 'Zubaida', NULL, NULL, '$2y$10$zO5oW4bH8FtKbtATiuHcQeuHY7hlVX1Vy8fNtBhFuvXQuZP1OozAe', 'Dhaka', 'Dhaka', 'None', NULL, NULL, '2020-08-01', NULL, NULL, 1, '987654321', '0134567891', NULL, NULL, NULL, 'm', '2020-08-23', NULL, NULL, NULL, 13, NULL, 2, 'employee', 0, 0, NULL, '2020-08-22 20:22:45', '2020-08-22 20:22:45');
 
 -- --------------------------------------------------------
 
@@ -1437,194 +1372,162 @@ ALTER TABLE `working_days`
 -- AUTO_INCREMENT for table `attendances`
 --
 ALTER TABLE `attendances`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `award_categories`
 --
 ALTER TABLE `award_categories`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `bonuses`
 --
 ALTER TABLE `bonuses`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `client_types`
 --
 ALTER TABLE `client_types`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
 --
 -- AUTO_INCREMENT for table `deductions`
 --
 ALTER TABLE `deductions`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `designations`
 --
 ALTER TABLE `designations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `devices`
 --
 ALTER TABLE `devices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `device_attendances`
 --
 ALTER TABLE `device_attendances`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `employee_awards`
 --
 ALTER TABLE `employee_awards`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `expence_managements`
 --
 ALTER TABLE `expence_managements`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `exp_purposes`
 --
 ALTER TABLE `exp_purposes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `files`
 --
 ALTER TABLE `files`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `folders`
 --
 ALTER TABLE `folders`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `general_settings`
 --
 ALTER TABLE `general_settings`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `holidays`
 --
 ALTER TABLE `holidays`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `increments`
 --
 ALTER TABLE `increments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
 --
 -- AUTO_INCREMENT for table `leave_applications`
 --
 ALTER TABLE `leave_applications`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `leave_categories`
 --
 ALTER TABLE `leave_categories`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `loans`
 --
 ALTER TABLE `loans`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
 --
 -- AUTO_INCREMENT for table `notices`
 --
 ALTER TABLE `notices`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `payment_grades`
 --
 ALTER TABLE `payment_grades`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `payrolls`
 --
 ALTER TABLE `payrolls`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `personal_events`
 --
 ALTER TABLE `personal_events`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `salary_payments`
 --
 ALTER TABLE `salary_payments`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
 --
 -- AUTO_INCREMENT for table `salary_payment_details`
 --
 ALTER TABLE `salary_payment_details`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
-
 --
 -- AUTO_INCREMENT for table `set_times`
 --
 ALTER TABLE `set_times`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `working_days`
 --
 ALTER TABLE `working_days`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
 --
 -- Constraints for dumped tables
 --
@@ -1635,14 +1538,6 @@ ALTER TABLE `working_days`
 ALTER TABLE `permission_role`
   ADD CONSTRAINT `permission_role_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `role_user`
---
-ALTER TABLE `role_user`
-  ADD CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `role_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -362,4 +362,27 @@ class EmplController extends Controller
         return redirect('/people/employees')->with('exception', 'Operation failed !');
     }
 
+    public function showIdCard($id)
+    {
+
+        // Employee Platform Details
+        $employee = DB::table('users')
+            ->join('designations', 'users.designation_id', '=', 'designations.id')
+            ->select('users.*', 'designations.designation')
+            ->where('users.id', $id)
+            ->first();
+        $created_by = User::where('id', $employee->created_by)
+            ->select('id', 'name')
+            ->first();
+        $designations = Designation::where('deletion_status', 0)
+            ->select('id', 'designation')
+            ->get();
+        $departments = Department::where('deletion_status', 0)
+            ->select('id', 'department')
+            ->get();
+
+        return view('administrator.people.employee.show_employee_id_card', compact('employee', 'created_by', 'designations', 'departments'));
+    }
+
+
 }

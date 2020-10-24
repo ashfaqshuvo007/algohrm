@@ -39,6 +39,7 @@
     <!-- jQuery 3 -->
     
      <!-- My Stylesheet -->
+    @yield('page_css')
     <link rel="stylesheet" href="{{ asset('public/backend/mystyle.css') }}">
     <!-- /My Stylesheet -->
     <!-- Google Font -->

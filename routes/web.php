@@ -127,6 +127,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/people/employees/edit/{id}', 'EmplController@edit');
     Route::post('/people/employees/update/{id}', 'EmplController@update');
     Route::get('/people/employees/delete/{id}', 'EmplController@destroy');
+    Route::get('/people/employees/id-card/{id}', 'EmplController@showIdCard');
 
     // Folder Section //
     Route::get('/folders', 'FolderController@index');
