@@ -1,5 +1,5 @@
 @extends('administrator.master')
-@section('title', __('Team member details'))
+@section('title', __('Employee Payslip'))
 @section('page_css')
     <link href="{{ asset('backend/custom_css/custom.css') }}" rel="stylesheet">
 @endsection
@@ -9,14 +9,13 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                {{ __(' TEAM') }}
+                {{ __(' PAYSLIP') }}
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{ url('/dashboard') }}"><i class="fa fa-dashboard"></i>{{ __('Dashboard') }} </a></li>
                 <li><a>{{ __('People') }}</a></li>
                 <li><a href="{{ url('/people/employees') }}">{{ __('Team') }}</a></li>
                 <li class="active">{{ __('Details') }}</li>
-            </ol>
             </ol>
         </section>
 
@@ -25,7 +24,7 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{ __('Team member details') }}</h3>
+                    <h3 class="box-title">{{ __('Employee ID CARD') }}</h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"

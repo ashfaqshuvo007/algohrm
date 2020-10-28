@@ -128,6 +128,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/people/employees/update/{id}', 'EmplController@update');
     Route::get('/people/employees/delete/{id}', 'EmplController@destroy');
     Route::get('/people/employees/id-card/{id}', 'EmplController@showIdCard');
+    Route::get('/people/employees/payslip-generate/{id}', 'EmplController@showPayslip');
 
     // Folder Section //
     Route::get('/folders', 'FolderController@index');
