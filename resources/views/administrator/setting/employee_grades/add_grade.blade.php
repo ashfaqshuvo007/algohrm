@@ -166,7 +166,7 @@
   function calculation() {
     var basic_salary = $("#basic_salary").val();
 
-    var house_rent = basic_salary * 0.4;
+    var house_rent = basic_salary * 0.5;
     // console.log();
     $("#house_rent").val(house_rent.toFixed(2));
   }

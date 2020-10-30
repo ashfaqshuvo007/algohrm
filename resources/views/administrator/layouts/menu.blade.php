@@ -63,15 +63,16 @@
                 @permission('salary-list')
                 {{-- <li><a href="{{ url('/hrm/payroll/salary-list') }}"><i class="fa fa-circle-o"></i> {{ __('Salary List') }}</a></li> --}}
                 <li><a href="{{ url('/hrm/payroll/generate-wages-list') }}"><i class="fa fa-circle-o"></i> {{ __('Wages List') }}</a></li>
+                <li><a href="{{ url('/hrm/payroll/payslip') }}"><i class="fa fa-circle-o"></i> {{ __('Payslip') }}</a></li>
                 {{-- <li><a href="{{ url('/hrm/payroll/generate-wages-list') }}"><i class="fa fa-circle-o"></i> {{ __('Wages List') }}</a></li> --}}
                 @endpermission
 
                 {{-- <li><a href="{{ url('/hrm/payroll/increment/search') }}"><i class="fa fa-circle-o"></i>{{ __(' New Increment') }}</a></li>
                 <li><a href="{{ url('/hrm/payroll/increment/list') }}"><i class="fa fa-circle-o"></i> {{ __('Increment List') }}</a></li> --}}
 
-                {{-- @permission('make-payment')
-                <li><a href="{{ url('/hrm/salary-payments') }}"><i class="fa fa-circle-o"></i>{{ __(' Make Payment') }}</a></li>
-                @endpermission --}}
+{{--                --}}{{-- @permission('make-payment')--}}
+{{--                <li><a href="{{ url('/hrm/salary-payments') }}"><i class="fa fa-circle-o"></i>{{ __(' Make Payment') }}</a></li>--}}
+{{--                @endpermission --}}
                 {{-- @permission('generate-payslip')
                 <li><a href="{{ url('/hrm/generate-payslips/') }}"><i class="fa fa-circle-o"></i> {{ __(' Generate Payslip') }}</a></li>
                 @endpermission --}}

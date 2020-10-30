@@ -86,7 +86,7 @@
                             <td class="text-center">
                                <a href="{{ url('/people/employees/edit/' . $employee['id']) }}"><i class="icon fa fa-edit"></i> {{ __('Edit') }}</a>
                                <a href="{{ url('/people/employees/id-card/' . $employee['id']) }}"><i class="icon fa fa-eye"></i> {{ __('ID CARD') }}</a>
-                               <a href="{{ url('/people/employees/payslip-generate/' . $employee['id']) }}"><i class="icon fa fa-money"></i> {{ __('Payslip') }}</a>
+{{--                               <a href="{{ url('/people/employees/payslip-generate/' . $employee['id']) }}"><i class="icon fa fa-money"></i> {{ __('Payslip') }}</a>--}}
                             </td>
                         </tr>
                         @endforeach

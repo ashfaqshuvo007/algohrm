@@ -68,6 +68,10 @@
                   <th>{{ __('Debits') }}</th>
                   <th>{{ __('Credits') }}</th>
                 </tr>
+{{--                @php--}}
+{{--                  dd($salary_payment_details);--}}
+{{--                @endphp--}}
+
                 @php($sl = 1)
                 @foreach($salary_payment_details as $data)
                 <tr>
