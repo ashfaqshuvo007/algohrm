@@ -420,5 +420,37 @@ class EmplController extends Controller
         return view('administrator.people.employee.show_employee_payslip', compact('employee', 'designations', 'departments','salary'));
     }
 
+    public function edit_employee_profile_image(Request $request,$id)
+    {
+
+        $user = User::find($id)->toArray();
+        return view('administrator.people.employee.edit_employee_profile_image', compact('user'));
+    }
+    public function updateProfileImage(Request $request,$id)
+    {
+
+        $user = User::find($id);
+
+        $url = '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/';
+
+        $data = request()->validate([
+            'avatar' => 'nullable|mimes:jpeg,png,jpg,gif',
+        ]);
+        if (!empty($data['avatar'])) {
+            $avatar = time() . '.' . request()->avatar->getClientOriginalExtension();
+            request()->avatar->move(public_path('profile_picture'), $avatar);
+        } else {
+            $avatar = $request->get('previous_avater');
+        }
+        $user->avatar = $avatar;
+        $affected_row = $user->save();
+
+        if (!empty($affected_row)) {
+            return redirect('/people/employees')->with('message', 'Update successfully.');
+        }
+        return redirect('/people/employees')->with('exception', 'Operation failed !');
+    }
+
+
 
 }
