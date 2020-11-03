@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>{{ $employee->name }} {{ __('Details') }}</title>
 
     
@@ -26,9 +27,9 @@
                 </td>
                 <td>
                     @if(!empty($employee->avatar))
-                    <img src="{{ url('public/profile_picture/' . $employee->avatar) }}" class="img-responsive img-thumbnail" width=100>
+                    <img src="{{ url('public/profile_picture/' . $employee->avatar) }}" class="img-responsive img-thumbnail">
                     @else
-                    <img src="{{ url('public/profile_picture/blank_profile_picture.png') }}" alt="blank_profile_picture" width=100 class="img-responsive img-thumbnail">
+                    <img src="{{ url('public/profile_picture/blank_profile_picture.png') }}" alt="blank_profile_picture" class="img-responsive img-thumbnail">
                     @endif
                 </td>
             </tr>
@@ -37,11 +38,11 @@
         <table>
             <tbody>
                 <tr>
-                    <td>{{ __('Father\'s Name') }}</td>
+                    <td>{{ __('Father's Name') }}</td>
                     <td>{{ $employee->father_name }}</td>
                 </tr>
                 <tr>
-                    <td>{{ __('Mother\'s Name') }}</td>
+                    <td>{{ __('Mother's Name') }}</td>
                     <td>{{ $employee->mother_name }}</td>
                 </tr>
                 <tr>

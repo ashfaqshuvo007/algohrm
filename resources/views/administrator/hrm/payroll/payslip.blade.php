@@ -107,9 +107,9 @@
                     <div class="row col-md-2 text-center">
                     </div>
                     <div class="row col-md-4 text-center">
-                        <table class="table">
-                            <tbody>
-                            <tr>
+                        <table class="table" cellspacing="0" cellpadding="0" style="border:none;">
+                            <tbody style="border:none;">
+                            {{-- <tr>
                                 <th>আইডি</th>
                                 <td>{{ $salary['employee_id'] }}</td>
                             </tr>
@@ -128,7 +128,7 @@
                             <tr>
                                 <th>অনুপস্থিত দিন</th>
                                 <td>{{  $absent_days }}</td>
-                            </tr>
+                            </tr> --}}
 
                             <tr>
                                 <th>মূল মজুরী</th>

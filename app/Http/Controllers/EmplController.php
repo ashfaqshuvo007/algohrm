@@ -127,20 +127,20 @@ class EmplController extends Controller
         $result = User::create($employee + ['created_by' => auth()->user()->id, 'access_label' => 2, 'password' => bcrypt(12345678)]);
         $inserted_id = $result->id;
 
-        // Enter Details to Device
-        $device = Device::where('id', $r->device_id)->first();
-        $port = (string) $device->device_port_public_h;
-        $ip = (string) $device->device_ip_hidden;
+        // // Enter Details to Device
+        // $device = Device::where('id', $r->device_id)->first();
+        // $port = (string) $device->device_port_public_h;
+        // $ip = (string) $device->device_ip_hidden;
 
-        $zklib = new ZKLib($ip, $port, 'TCP');
-        $zklib->connect();
+        // $zklib = new ZKLib($ip, $port, 'TCP');
+        // $zklib->connect();
 
-        $zklib->disableDevice();
-        $deviceUsersCount = count($zklib->getUser());
-        $zklib->setUser($deviceUsersCount + 1, $request->employee_id, $request->name, '12345678', 0);
+        // $zklib->disableDevice();
+        // $deviceUsersCount = count($zklib->getUser());
+        // $zklib->setUser($deviceUsersCount + 1, $request->employee_id, $request->name, '12345678', 0);
 
-        $zklib->enableDevice();
-        $zklib->disconnect();
+        // $zklib->enableDevice();
+        // $zklib->disconnect();
 
         $result->attachRole(Role::where('name', $request->role)->first());
 
@@ -381,7 +381,10 @@ class EmplController extends Controller
         $departments = Department::where('deletion_status', 0)
             ->select('id', 'department')
             ->get();
-
+        // $pdf = PDF::loadView('administrator.people.employee.show_employee_id_card', compact('employee', 'departments', 'created_by', 'designations'));
+        // $pdf->setPaper(array(0, 0, 164.16, 274.32));
+        // $file_name = 'EMPID-' . $employee->name . '.pdf';
+        // return $pdf->download($file_name);
         return view('administrator.people.employee.show_employee_id_card', compact('employee', 'created_by', 'designations', 'departments'));
     }
     public function showPayslip($id)
@@ -394,8 +397,8 @@ class EmplController extends Controller
             ->where('users.id', $id)
             ->first();
 //        $created_by = User::where('id', $employee->created_by)
-//            ->select('id', 'name')
-//            ->first();
+        //            ->select('id', 'name')
+        //            ->first();
         $designations = Designation::where('deletion_status', 0)
             ->select('id', 'designation')
             ->get();
@@ -404,8 +407,8 @@ class EmplController extends Controller
             ->get();
 
 //        $employeeID = User::where('id',$id)
-//            ->select('users.employee_id')
-//            ->get();
+        //            ->select('users.employee_id')
+        //            ->get();
 
 //        dd($employee);
 
@@ -413,20 +416,18 @@ class EmplController extends Controller
             ->select('payrolls.*')
             ->first();
 
-
 //        dd($salary['basic_salary']);
 
-
-        return view('administrator.people.employee.show_employee_payslip', compact('employee', 'designations', 'departments','salary'));
+        return view('administrator.people.employee.show_employee_payslip', compact('employee', 'designations', 'departments', 'salary'));
     }
 
-    public function edit_employee_profile_image(Request $request,$id)
+    public function edit_employee_profile_image(Request $request, $id)
     {
 
         $user = User::find($id)->toArray();
         return view('administrator.people.employee.edit_employee_profile_image', compact('user'));
     }
-    public function updateProfileImage(Request $request,$id)
+    public function updateProfileImage(Request $request, $id)
     {
 
         $user = User::find($id);
@@ -450,7 +451,5 @@ class EmplController extends Controller
         }
         return redirect('/people/employees')->with('exception', 'Operation failed !');
     }
-
-
 
 }

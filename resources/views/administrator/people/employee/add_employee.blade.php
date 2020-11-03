@@ -60,7 +60,7 @@
 
                             </div>
 
-                            <label for="att_device_id">{{ __('Attendance Device ID') }} <span class="text-danger">*</span></label>
+                            {{-- <label for="att_device_id">{{ __('Attendance Device ID') }} <span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('att_device_id') ? ' has-error' : '' }} has-feedback">
                                 <select name="att_device_id" id="att_device_id" class="form-control">
                                     <option value="" selected>{{ __('Select one') }}</option>
@@ -73,7 +73,7 @@
                                     <strong>{{ $errors->first('att_device_id') }}</strong>
                                 </span>
                                 @endif
-                            </div>
+                            </div> --}}
 
                             {{-- <!-- /.form-group -->
                             <label for="office_id">{{ __('Official Employee Id') }} <span class="text-danger"></span></label>
