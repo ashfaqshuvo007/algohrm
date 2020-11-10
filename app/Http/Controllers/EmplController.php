@@ -452,4 +452,44 @@ class EmplController extends Controller
         return redirect('/people/employees')->with('exception', 'Operation failed !');
     }
 
+    // public function saveDeviceUsers(Request $r)
+    // {
+
+    //     $device = Device::where('id', $r->device_id)->first();
+    //     // dd($device);
+    //     $port = (string) $device->device_port_public_h;
+    //     $ip = (string) $device->device_ip_hidden;
+
+    //     //Emloyee details from Device
+    //     $zklib = new ZKLib($ip, $port, 'TCP');
+    //     $zklib->connect();
+    //     $zklib->disableDevice();
+    //     $users = $zklib->getUser();
+    //     $zklib->enableDevice();
+    //     $zklib->disconnect();
+
+    //     dump($users);
+    //     $existing_users = User::pluck('employee_id')->toArray();
+    //     dd($existing_users);
+    //     foreach($users as $key =>$val){
+
+    //     }
+
+    //     // if (empty($past_att)) {
+    //     //     foreach ($attendances as $key => $val) {
+    //     //         $device_att = new DeviceAttendance;
+    //     //         $device_att->device_id = $r->device_id;
+    //     //         $device_att->uuid = $val[0];
+    //     //         $device_att->employee_id = $val[1];
+    //     //         $device_att->state = $val[2];
+    //     //         $device_att->date_time = $val[3];
+
+    //     //         $device_att->save();
+    //     //     }
+    //     //     return redirect('/hrm/attendance/manage')->with('message', 'Data Saved Successfully!');
+    //     // } else {
+    //     //     return redirect('/device/getAttendance/select')->with('exception', 'Data already exists for this date!');
+    //     // }
+    // }
+
 }

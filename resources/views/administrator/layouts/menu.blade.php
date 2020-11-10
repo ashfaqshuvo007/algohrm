@@ -17,6 +17,7 @@
                 @permission('manage-employee')
                 <li><a href="{{ url('/people/employees/create') }}"><i class="fa fa-circle-o"></i>{{ __(' New Employee') }}</a></li>
                 <li><a href="{{ url('/people/employees') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Employees') }}</a></li>
+                {{-- <li><a href="{{ url('/people/pullUsers') }}"><i class="fa fa-circle-o"></i> {{ __('Pull Employees') }}</a></li> --}}
                 
                 @endpermission
                 {{-- @permission('manage-clients')
@@ -107,6 +108,7 @@
                 @permission('attendance-report')
                 {{-- <li><a href="{{ url('/hrm/attendance/details/report/go') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Statement') }}</a></li> --}}
                 <li><a href="{{ url('/hrm/attendance/manualAttendance') }}"><i class="fa fa-circle-o"></i>{{ __(' Add Manual Attendance') }}</a></li>
+                <li><a href="{{ url('/hrm/attendance/editPastAttendance') }}"><i class="fa fa-circle-o"></i>{{ __(' Edit Past Attendance') }}</a></li>
                 {{-- <li><a href="{{ url('/hrm/attendance/report') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Report') }}</a></li> --}}
                 @endpermission
             </ul>

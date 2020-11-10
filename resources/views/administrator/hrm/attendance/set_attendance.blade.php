@@ -66,18 +66,25 @@
                     </thead>
                     <tbody id="search_area">
                         
-                        @php ($sl = 1)
+                        @php $sl = 1; @endphp
                         @foreach($groupedAttendance as $employee)
+                        @php
+                            if(sizeof($employee) > 1 ){
+                                $checkout = $employee[count($employee) - 1]->date_time;
+                            } else{
+                                $checkout = ' Null';
+                            }
+                        @endphp
                         <tr>
                             <td>{{ $sl++ }}</td>
-                            <td>{{ $employee[0]->office_id}}
+                            <td>{{ $employee[0]->employee_id}}
                                 {{-- <a href="{{ url('/hrm/attendance/details/' . $employee['id']) }}">{{ $employee['name'] }}</a>
                                 <input type="hidden" name="user_id[]" value="{{ $employee['id'] }}">
                                 <input type="hidden" name="attendance_date[]" value="{{ $date }}"> --}}
                             </td>
                             <td>{{ $employee[0]->name }}</td>
                             <td>{{ $employee[0]->date_time }}</td>
-                            <td>{{ $employee[1]->date_time }}</td>
+                            <td>{{ $checkout }}</td>
                         </tr>
                         @endforeach
                     </tbody>

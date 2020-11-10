@@ -131,8 +131,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/people/employees/payslip-generate/{id}', 'EmplController@showPayslip');
     Route::post('/people/employees/update-profile-image/{id}', 'EmplController@updateProfileImage');
     Route::get('/people/employees/edit-employee-profile-image/{id}', 'EmplController@edit_employee_profile_image');
-
-
+    Route::get('/people/pullUsers', 'EmplController@pullUsersSelect');
+    Route::post('/people/saveDeviceUsers', 'EmplController@saveDeviceUsers');
 
     // Folder Section //
     Route::get('/folders', 'FolderController@index');
@@ -192,6 +192,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/hrm/attendance/manualAttendance', 'AttendanceController@manualAttendance');
     Route::post('/hrm/attendance/manualAttendance/select', 'AttendanceController@manualAttendanceSelect');
     Route::post('/hrm/attendance/manualAttendance/update', 'AttendanceController@manualAttendanceUpdate');
+
+    Route::get('/hrm/attendance/editPastAttendance', 'AttendanceController@editPastAttendance');
+    Route::post('/hrm/attendance/showPastAttendance', 'AttendanceController@set_past_attendance');
+    Route::post('/hrm/attendance/storePastAttendance', 'AttendanceController@storePastAttendance');
 
     // Payroll/Wages Section
     Route::get('/hrm/payroll', 'PayrollController@index');

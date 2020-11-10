@@ -109,7 +109,7 @@ class DeviceAttendanceController extends Controller
 
         $result = Device::update($device + ['created_by' => auth()->user()->id]);
         $updated_id = $result->id;
-        if (!empty($inserted_id)) {
+        if (!empty($updated_id)) {
             return redirect('/device/manage')->with('message', 'Add successfully.');
         } else {
             return redirect()->back()->with('exception', 'Operation failed !');
@@ -155,7 +155,7 @@ class DeviceAttendanceController extends Controller
     public function pullDeviceAttendance()
     {
         $devices = Device::all();
-        return view('administrator.device.select_att_pull_device', compact('devices'));
+        return view('administrator.device.select_device_pull_att', compact('devices'));
     }
 
     //saveDeviceAttendance

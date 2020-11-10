@@ -26,6 +26,42 @@ class AttendanceController extends Controller
         return view('administrator.hrm.attendance.manage_attendance');
     }
 
+    public function editPastAttendance()
+    {
+        return view('administrator.hrm.attendance.edit_past_attendance');
+    }
+
+    public function set_past_attendance(Request $r)
+    {
+        // dd($r);
+        $date = $r->date;
+        $past_att = Attendance::where('attendance_date', $date)->get();
+        return view('administrator.hrm.attendance.set_past_attendance', compact('past_att', 'date'));
+    }
+
+    public function storePastAttendance(Request $r)
+    {
+        // dd($r);
+        $in_time = date('Y-m-d H:s:i', strtotime($r->check_in));
+        $out_time = date('Y-m-d H:s:i', strtotime($r->check_out));
+
+        $check_in = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $in_time);
+        $check_out = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $out_time);
+        $diff_in_hours = $check_in->diffInHours($check_out);
+        $overtimeHours = $diff_in_hours - 9;
+
+        $past_att = [
+            'check_in' => $check_in,
+            'check_out' => $check_out,
+            'total_hours' => $diff_in_hours,
+            'overtime_hours' => $overtimeHours,
+        ];
+        $result = Attendance::where('id', $r->row_id)->update($past_att + ['created_by' => auth()->user()->id]);
+
+        return redirect('/hrm/attendance/editPastAttendance')->with('message', 'Updated Successfully');
+
+    }
+
     public function manualAttendance()
     {
         $employees = User::where('role', 'employee')->get();
@@ -77,7 +113,7 @@ class AttendanceController extends Controller
      */
     public function set_attendance(Request $request)
     {
-
+        // dd($request);
         $attendance_date = date("Y-m-d", strtotime($request->date));
         $att_user_details = DeviceAttendance::leftjoin('users', 'device_attendances.employee_id', '=', 'users.employee_id')
             ->whereDate('device_attendances.date_time', $request->date)
@@ -87,25 +123,29 @@ class AttendanceController extends Controller
                 'device_attendances.*',
             ])
             ->get();
+
         $date = $request->date;
 
         //grouping the data for each employee
         $groupedAttendance = $att_user_details->mapToGroups(function ($item, $key) {
             return [$item['employee_id'] => $item];
         });
+
         $past_att = Attendance::where('attendance_date', $attendance_date)->first();
         if (empty($past_att)) {
             foreach ($groupedAttendance as $att) {
-                // $check_in = new DateTime($att[0]->date_time);
-                // $check_out = new DateTime($att[1]->date_time);
-                // $H1 = $check_in->format('H');
-                // $H2 = $check_out->format('H');
-                // $H = $check_in - $check_out;
-                // $overtimeHours = $H - 9;
                 $check_in = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $att[0]->date_time);
-                $check_out = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $att[1]->date_time);
-                $diff_in_hours = $check_in->diffInHours($check_out);
-                $overtimeHours = $diff_in_hours - 9;
+
+                if (sizeof($att) > 1) {
+                    $check_out = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $att[count($att) - 1]->date_time);
+                    $diff_in_hours = $check_in->diffInHours($check_out);
+                    $overtimeHours = $diff_in_hours - 9;
+                } else {
+                    $check_out = null;
+                    $diff_in_hours = null;
+                    $overtimeHours = null;
+                }
+
                 // print_r($diff_in_hours);
 
                 $data = [
