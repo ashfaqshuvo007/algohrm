@@ -87,7 +87,7 @@
               </div>
               <!-- /.form-group -->
 
-              <label for="house_rent">{{ __('House Rent (40% of basic salary)') }} <span class="text-danger">*</span></label>
+              <label for="house_rent">{{ __('House Rent (50% of basic salary)') }} <span class="text-danger">*</span></label>
               <div class="form-group{{ $errors->has('house_rent') ? ' has-error' : '' }} has-feedback">
                 <input type="text" name="house_rent" id="house_rent" class="form-control" value="{{ $grade->house_rent }}" readonly>
                 @if ($errors->has('house_rent'))

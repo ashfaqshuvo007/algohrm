@@ -82,7 +82,8 @@
                                 <td class="text-center">{{ $g['food_allowance'] }}</td>
                                 <td class="text-center">{{ $g['basic_salary'] + $g['medical_allowance'] + $g['convayence'] + $g['food_allowance']  + $g['house_rent'] }}</td>
                                 <td class="text-center">
-                                    <a href="{{ url('/setting/employee_grades/edit/' . $g['id']) }}"><i class="icon fa fa-edit"></i>{{ __('Edit') }} </a>
+                                    <a href="{{ url('/setting/employee_grades/edit/' . $g['id']) }}"><i class="icon fa fa-edit"></i></a>
+                                    <a href="{{ url('/setting/employee_grades/delete/' . $g['id']) }}"><i class="icon fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach

@@ -47,7 +47,7 @@ class PaymentGradeController extends Controller
             'yearly_increment_rate' => 'required',
             'house_rent' => 'required',
             'medical_allowance' => 'required',
-            'conveyence' => 'required',
+            'convayence' => 'required',
             'food_allowance' => 'required',
         ]);
 
@@ -98,14 +98,14 @@ class PaymentGradeController extends Controller
             'yearly_increment_rate' => 'required',
             'house_rent' => 'required',
             'medical_allowance' => 'required',
-            'conveyence' => 'required',
+            'convayence' => 'required',
             'food_allowance' => 'required',
         ]);
         $grade->basic_salary = $request->basic_salary;
         $grade->yearly_increment_rate = $request->yearly_increment_rate;
         $grade->house_rent = $request->house_rent;
         $grade->medical_allowance = $request->medical_allowance;
-        $grade->conveyence = $request->conveyence;
+        $grade->convayence = $request->convayence;
         $grade->food_allowance = $request->food_allowance;
         $affected_row = $grade->save();
         if (!empty($affected_row)) {

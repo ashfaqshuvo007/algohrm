@@ -111,12 +111,12 @@
               <!-- /.form-group -->
 
 
-               <label for="conveyence">{{ __('Conveyence') }} <span class="text-danger">*</span></label>
-              <div class="form-group{{ $errors->has('conveyence') ? ' has-error' : '' }} has-feedback">
-                <input type="text" name="conveyence" id="conveyence" class="form-control" value="{{ old('conveyence') }}" placeholder="{{ __('Enter Conveyence') }}">
-                @if ($errors->has('conveyence'))
+               <label for="convayence">{{ __('Convayence') }} <span class="text-danger">*</span></label>
+              <div class="form-group{{ $errors->has('convayence') ? ' has-error' : '' }} has-feedback">
+                <input type="text" name="convayence" id="convayence" class="form-control" value="{{ old('convayence') }}" placeholder="{{ __('Enter Convayence') }}">
+                @if ($errors->has('convayence'))
                 <span class="help-block">
-                  <strong>{{ $errors->first('conveyence') }}</strong>
+                  <strong>{{ $errors->first('convayence') }}</strong>
                 </span>      
                 @endif
               </div>

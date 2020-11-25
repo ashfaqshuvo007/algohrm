@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Designation;
 use App\Department;
+use App\Designation;
 use App\PaymentGrade;
+use Illuminate\Http\Request;
 
 class EmpDesignationController extends Controller
 {
@@ -27,7 +27,7 @@ class EmpDesignationController extends Controller
                 'designations.*',
                 'dept.department',
                 'users.name',
-                'grade.grade'
+                'grade.grade',
             ])
             ->toArray();
         return view('administrator.setting.designation.manage_designations', compact('designations'));
@@ -198,7 +198,7 @@ class EmpDesignationController extends Controller
             ->update(['deletion_status' => 1]);
 
         if (!empty($affected_row)) {
-            return redirect('/setting/designations')->with('message', 'Delete successfully.');
+            return redirect('/setting/designations')->with('message', 'Deleted successfully.');
         }
         return redirect('/setting/designations')->with('exception', 'Operation failed !');
     }

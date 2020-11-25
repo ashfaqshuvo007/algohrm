@@ -78,7 +78,8 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ url('/setting/departments/edit/' . $department['id']) }}"><i class="icon fa fa-edit"></i> {{ __('Edit') }}</a>
+                                    <a href="{{ url('/setting/departments/edit/' . $department['id']) }}"><i class="icon fa fa-edit"></i></a>
+                                    <a href="{{ url('/setting/departments/delete/' . $department['id']) }}"><i class="icon fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach

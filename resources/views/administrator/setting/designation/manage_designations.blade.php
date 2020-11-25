@@ -85,7 +85,8 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ url('/setting/designations/edit/' . $designation['id']) }}">{{ __('Edit') }}</a>
+                                    <a href="{{ url('/setting/designations/edit/' . $designation['id']) }}"><i class="icon fa fa-edit"></i></a>
+                                    <a href="{{ url('/setting/designations/delete/' . $designation['id']) }}"><i class="icon fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach

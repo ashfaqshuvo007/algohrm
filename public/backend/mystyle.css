@@ -306,7 +306,7 @@ tr:nth-child(even) {background: #f7f7f7}
 
 body{
     background: #EFF7FE;
-    padding-top: 15px;
+    /* padding-top: 15px; */
 }
 
 .main-section{
