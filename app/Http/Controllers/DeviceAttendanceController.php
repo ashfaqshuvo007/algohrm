@@ -61,17 +61,16 @@ class DeviceAttendanceController extends Controller
             'device_name' => 'required|unique:devices',
             'serial_number' => 'required|unique:devices',
             'device_version' => 'required',
-            'device_ip_hidden' => 'required',
-            'device_port_public_h' => 'required|unique:devices',
-            'device_ip_internal' => 'required|unique:devices',
+            'device_ip_hidden' => 'required|unique:devices',
+            'device_port_public_h' => 'required',
+            'device_ip_internal' => 'required',
         ], [
             'device_ip_hidden.required' => 'The device IP field is required.',
-            'device_port_public_h.required' => 'This device public port field is required.',
             'device_port_public_h.unique' => 'This device public port already Exists.',
             'device_ip_internal.required' => 'The device internal IP field is required.',
             'device_ip_internal.unique' => 'This IP address already Exists',
         ]);
-
+        // dd($device);
         $result = Device::create($device + ['created_by' => auth()->user()->id]);
         $inserted_id = $result->id;
         if (!empty($inserted_id)) {
