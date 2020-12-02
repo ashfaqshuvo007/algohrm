@@ -8,6 +8,7 @@ use App\Payroll;
 use App\User;
 use App\WorkingDay;
 use Illuminate\Http\Request;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class PayrollController extends Controller
 {
@@ -461,7 +462,14 @@ class PayrollController extends Controller
                 ->toArray();
         }
 
-        return view('administrator.hrm.payroll.payslip', compact('salaries', 'totalHolidays', 'salryMonth','salaryMonthAndYear'));
+        $pdf = PDF::loadView('administrator.hrm.payroll.payslip', compact('salaries','salryMonth','totalHolidays','salaryMonthAndYear'),[],[
+            'format' => 'A4',
+            'default_font'=>'bangla'
+        ]);
+
+        // download PDF file with download method
+        return $pdf->stream('pdf_file_payslip.pdf');
+        //return view('administrator.hrm.payroll.payslip', compact('salaries', 'totalHolidays', 'salryMonth','salaryMonthAndYear'));
     }
 
 }
