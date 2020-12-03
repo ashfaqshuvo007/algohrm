@@ -38,11 +38,11 @@
         <table>
             <tbody>
                 <tr>
-                    <td>{{ __('Father's Name') }}</td>
+                    <td>{{ __('Father\'s Name') }}</td>
                     <td>{{ $employee->father_name }}</td>
                 </tr>
                 <tr>
-                    <td>{{ __('Mother's Name') }}</td>
+                    <td>{{ __('Mother\'s Name') }}</td>
                     <td>{{ $employee->mother_name }}</td>
                 </tr>
                 <tr>
@@ -85,7 +85,9 @@
                         @elseif($employee->id_name == 2)
                        {{ __('Passport') }} 
                         @elseif($employee->id_name == 3)
-                       {{ __('Driving License') }} 
+                       {{ __('Driving License') }}
+                        @elseif($employee->id_name == 4)
+                            {{ __('Others') }}
                         @endif
                     </td>
                 </tr>

@@ -57,11 +57,12 @@
                     <hr>
                     <div id="printable_area">
 
-                        <div class="container" >
+                        <div class="container">
                             <div class="row">
-                                <div class="offset-lg-4 col-lg-4 col-sm-6 col-12 main-section text-center" >
+                                <div class="offset-lg-4 col-lg-4 col-sm-6 col-12 main-section text-center">
                                     <div class="row">
-                                        <div class="col-lg-12 col-sm-12 col-12 profile-header" style="background-color: {{$profileHeaderBackgroundColor}}">
+                                        <div class="col-lg-12 col-sm-12 col-12 profile-header"
+                                             style="background-color: {{$profileHeaderBackgroundColor}}">
                                             <h4 style="color: white">MAVEN DESIGN LTD.</h4>
                                         </div>
                                     </div>
@@ -77,16 +78,17 @@
 
                                             @endif
 
-                                                <table class="table" style="text-align: left">
-                                                    <tbody>
-                                                    <tr>
-                                                <th>Name</th>
-                                                    <td>{{ $employee->name }}</td>
-                                                </tr>
+                                            <table class="table" style="text-align: left">
+                                                <tbody>
                                                 <tr>
                                                     <th>Employee ID</th>
                                                     <td>{{ $employee->employee_id }}</td>
                                                 </tr>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <td>{{ $employee->name }}</td>
+                                                </tr>
+
                                                 <tr>
                                                     <th>Designation</th>
                                                     <td>{{ $employee->designation }}</td>
@@ -113,36 +115,42 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="row user-social-detail" style="background-color: {{$userSocialDetailsBackgroundColor}}">
+                                    <div class="row user-social-detail"
+                                         style="background-color: {{$userSocialDetailsBackgroundColor}}">
                                         <div class="col-lg-12 col-sm-12 col-12" style="color: white">
                                             <h4>Contact Address</h4>
                                             <h5>22/A, Fatullah, Narayanganj</h5>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="offset-lg-4 col-lg-4 col-sm-6 col-12 main-section text-center" style="margin-left: 10px" style="width: 218.88px">
+                                <div class="offset-lg-4 col-lg-4 col-sm-6 col-12 main-section text-center"
+                                     style="margin-left: 10px" style="width: 218.88px">
                                     <div class="row">
-                                        <div class="col-lg-12 col-sm-12 col-12 profile-header" style="background-color: {{$profileHeaderBackgroundColor}}">
-                                            <img src="{{url('public/backend/img/mavenDesignTransparentLogo.png')}}" alt="MAVEN DESIGN LTD. LOGO" class="img-responsive rounded-circle" >
+                                        <div class="col-lg-12 col-sm-12 col-12 profile-header"
+                                             style="background-color: {{$profileHeaderBackgroundColor}}">
+                                            <img src="{{url('public/backend/img/mavenDesignTransparentLogo.png')}}"
+                                                 alt="MAVEN DESIGN LTD. LOGO" class="img-responsive rounded-circle">
                                         </div>
                                     </div>
                                     <div class="row user-detail">
                                         <div class="col-lg-12 col-sm-12 col-12">
                                             <h3 style="padding-bottom: 10px; color: #ff4500;">MAVEN DESIGN LTD.</h3>
-                                            <h4><b>If you found this card please return to the following address</b></h4>
+                                            <h4><b>If you found this card please return to the following address</b>
+                                            </h4>
                                             <h3 style="color: #ff4500; padding-top: 6px"><b>CONTACT US</b></h3>
                                             <div class="text-left" style="color: #ff4500">
-                                            <p>PRODHAN TOWER, 22/A DN ROAD</p>
-                                            <p>LALPUR FATULLAH, NARAYANGANJ, BANGLADESH</p>
-                                            <p>TEL : +88-02-7670608-9</p>
-                                            <p>FAX : +88-02-7670646</p>
-                                            <p>EMAIL : SABUR@MAVENDESIGNLTD.COM</p>
-                                            <p>WEBSITE : WWW.MAVENDESIGNLTD.COM</p>
+                                                <p>PRODHAN TOWER, 22/A DN ROAD</p>
+                                                <p>LALPUR FATULLAH, NARAYANGANJ, BANGLADESH</p>
+                                                <p>TEL : +88-02-7670608-9</p>
+                                                <p>FAX : +88-02-7670646</p>
+                                                <p>EMAIL : SABUR@MAVENDESIGNLTD.COM</p>
+                                                <p>WEBSITE : WWW.MAVENDESIGNLTD.COM</p>
                                             </div>
                                             <hr>
                                         </div>
                                     </div>
-                                    <div class="row user-social-detail" style="background-color: {{$userSocialDetailsBackgroundColor}}">
+                                    <div class="row user-social-detail"
+                                         style="background-color: {{$userSocialDetailsBackgroundColor}}">
                                         <div class="col-lg-12 col-sm-12 col-12" style="color: white">
                                             <h4>Contact Address</h4>
                                             <h5>22/A, Fatullah, Narayanganj</h5>

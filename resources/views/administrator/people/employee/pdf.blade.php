@@ -84,7 +84,9 @@
                         @elseif($employee->id_name == 2)
                        {{ __('Passport') }} 
                         @elseif($employee->id_name == 3)
-                       {{ __('Driving License') }} 
+                       {{ __('Driving License') }}
+                        @elseif($employee->id_name == 4)
+                            {{ __('Others') }}
                         @endif
                     </td>
                 </tr>

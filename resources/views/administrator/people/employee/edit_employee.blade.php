@@ -236,6 +236,7 @@
                                     <option value="1">{{ __(' NID') }}</option>
                                     <option value="2">{{ __(' Passport') }}</option>
                                     <option value="3">{{ __(' Driving License') }}</option>
+                                    <option value="4">{{ __(' Others') }}</option>
                                 </select>
                                 @if ($errors->has('id_name'))
                                 <span class="help-block">

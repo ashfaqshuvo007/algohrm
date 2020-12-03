@@ -107,6 +107,8 @@
                                 <p>{{ __('Passport') }}</p>
                                 @elseif($employee->id_name == 3)
                                 <p>{{ __('Driving License') }}</p>
+                                @elseif($employee->id_name == 4)
+                                    <p>{{ __('Others') }}</p>
                                 @endif
                             </td>
                         </tr>
