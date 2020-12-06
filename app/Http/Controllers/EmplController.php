@@ -492,4 +492,30 @@ class EmplController extends Controller
     //     // }
     // }
 
+    public function downLoadEmployeeIdCard($id)
+    {
+
+        // Employee Platform Details
+        $employee = DB::table('users')
+            ->join('designations', 'users.designation_id', '=', 'designations.id')
+            ->select('users.*', 'designations.designation')
+            ->where('users.id', $id)
+            ->first();
+        $created_by = User::where('id', $employee->created_by)
+            ->select('id', 'name')
+            ->first();
+        $designations = Designation::where('deletion_status', 0)
+            ->select('id', 'designation')
+            ->get();
+        $departments = Department::where('deletion_status', 0)
+            ->select('id', 'department')
+            ->get();
+
+        $pdf = PDF::loadView('administrator.people.employee.employee_id_card_pdf', compact('employee', 'created_by', 'designations', 'departments'));
+        $file_name = 'EMP-' . $employee->id . '.pdf';
+        return $pdf->download($file_name);
+//        return view('administrator.people.employee.employee_id_card_pdf', compact('employee', 'created_by', 'designations', 'departments'));
+    }
+
+
 }

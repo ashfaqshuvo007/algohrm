@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{{ $employee->name }} {{ __('Details') }}</title>
 
-    
+
 
 </head>
 <body>

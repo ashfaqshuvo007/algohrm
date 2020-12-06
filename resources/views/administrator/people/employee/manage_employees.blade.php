@@ -84,6 +84,7 @@
                             <td class="text-center">{{ date("d F Y", strtotime($employee['created_at'])) }}</td>
                            
                             <td class="text-center">
+                               <a href="{{ url('/people/employees/download-emplpoyee-id-card-pdf/' . $employee['id']) }}"><i class="icon fa fa-download"></i> {{ __('Download') }}</a>
                                <a href="{{ url('/people/employees/details/' . $employee['id']) }}"><i class="icon fa fa-eye"></i> {{ __('View') }}</a>
                                <a href="{{ url('/people/employees/edit/' . $employee['id']) }}"><i class="icon fa fa-edit"></i> {{ __('Edit') }}</a>
                                <a href="{{ url('/people/employees/id-card/' . $employee['id']) }}"><i class="icon fa fa-eye"></i> {{ __('ID CARD') }}</a>
