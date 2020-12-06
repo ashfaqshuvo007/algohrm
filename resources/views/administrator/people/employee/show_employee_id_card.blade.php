@@ -141,10 +141,9 @@
                                             <div class="text-left" style="color: #ff4500">
                                                 <p>PRODHAN TOWER, 22/A DN ROAD</p>
                                                 <p>LALPUR FATULLAH, NARAYANGANJ, BANGLADESH</p>
-                                                <p>TEL : +88-02-7670608-9</p>
-                                                <p>FAX : +88-02-7670646</p>
-                                                <p>EMAIL : SABUR@MAVENDESIGNLTD.COM</p>
-                                                <p>WEBSITE : WWW.MAVENDESIGNLTD.COM</p>
+                                                <p>TEL : +880-1714900206, +880-19105039448</p>
+                                                <p>EMAIL : info@mavendesignltd.com</p>
+                                                <p>WEBSITE : www.mavendesignltd.com</p>
                                             </div>
                                             <hr>
                                         </div>

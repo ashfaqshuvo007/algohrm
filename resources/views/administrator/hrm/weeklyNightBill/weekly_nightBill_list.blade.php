@@ -59,12 +59,12 @@
                 <div id="printable_area" class="col-md-12 table-responsive">
                     @php
                         $now = \Carbon\Carbon::now();
-                        $lastweekStartDate = $now->startOfWeek(\Carbon\Carbon::SATURDAY)->subWeek()->format('Y-m-d');
-                        $secondDate = $now->startOfWeek(\Carbon\Carbon::SATURDAY)->addDays(1)->format('Y-m-d');
-                        $thirdDate = $now->startOfWeek(\Carbon\Carbon::SATURDAY)->addDays(2)->format('Y-m-d');
-                        $fouthDate = $now->startOfWeek(\Carbon\Carbon::SATURDAY)->addDays(3)->format('Y-m-d');
-                        $fifthDate = $now->startOfWeek(\Carbon\Carbon::SATURDAY)->addDays(4)->format('Y-m-d');
-                        $lastweekEndDate = $now->startOfWeek(\Carbon\Carbon::SATURDAY)->addDays(5)->format('Y-m-d');
+                        $lastweekStartDate = $now->startOfWeek(\Carbon\Carbon::THURSDAY)->subWeek()->format('Y-m-d');
+                        $secondDate = $now->startOfWeek(\Carbon\Carbon::THURSDAY)->addDays(2)->format('Y-m-d');
+                        $thirdDate = $now->startOfWeek(\Carbon\Carbon::THURSDAY)->addDays(3)->format('Y-m-d');
+                        $fouthDate = $now->startOfWeek(\Carbon\Carbon::THURSDAY)->addDays(4)->format('Y-m-d');
+                        $fifthDate = $now->startOfWeek(\Carbon\Carbon::THURSDAY)->addDays(5)->format('Y-m-d');
+                        $lastweekEndDate = $now->startOfWeek(\Carbon\Carbon::THURSDAY)->addDays(6)->format('Y-m-d');
 
                     @endphp
 
