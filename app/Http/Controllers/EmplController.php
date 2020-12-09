@@ -512,7 +512,7 @@ class EmplController extends Controller
             ->get();
 
         $pdf = PDF::loadView('administrator.people.employee.employee_id_card_pdf', compact('employee', 'created_by', 'designations', 'departments'));
-        $file_name = 'EMP-' . $employee->id . '.pdf';
+        $file_name = 'EMPLOYEE-' . $employee->name . '.pdf';
         return $pdf->download($file_name);
 //        return view('administrator.people.employee.employee_id_card_pdf', compact('employee', 'created_by', 'designations', 'departments'));
     }
