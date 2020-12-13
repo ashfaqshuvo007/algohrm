@@ -1,3 +1,6 @@
+@php
+    // dump($user_id);dump($salary);dd($employees);
+@endphp
 @extends('administrator.master')
 @section('title', __('Manage Salary Details'))
 
@@ -98,11 +101,9 @@
                   <div class="col-sm-6">
                     <select name="employee_type" class="form-control" id="employee_type">
                       <option selected disabled>{{ __('Select One') }}</option>
-                      <option value="1">{{ __('Provision') }}</option>
-                      <option value="2">{{ __('Permanent') }}</option>
-                      <option value="3">{{ __('Full Time') }}</option>
-                      <option value="4">{{ __('Part Time') }}</option>
-                      <option value="5">{{ __('Adhoc') }}</option>
+                      <option value="executive">{{ __('Executive') }}</option>
+                      <option value="worker">{{ __('Worker') }}</option>
+                      <option value="stuff">{{ __('Stuff') }}</option>
                     </select>
                     @if ($errors->has('employee_type'))
                     <span class="help-block">
@@ -216,7 +217,7 @@
               </div> --}}
               <div class="form-group{{ $errors->has('increment_amount') ? ' has-error' : '' }}">
                 <label for="increment_amount">{{ __('Increment Amount') }}</label>
-                <input type="number" name="increment_amount" value="{{ old('increment_amount') }}" class="form-control" id="increment_amount" placeholder="{{ __('Enter Yearly Increment when due..') }}">
+                <input type="number" name="increment_amount" value="{{ $salary['increment_amount']}}" class="form-control" id="increment_amount" placeholder="{{ __('Enter Yearly Increment when due..') }}">
                 @if ($errors->has('increment_amount'))
                 <span class="help-block">
                   <strong>{{ $errors->first('increment_amount') }}</strong>
@@ -316,8 +317,8 @@
   <!-- /.content -->
 </div>
 <script type="text/javascript">
-  // For Kepp Data After Reload
-  document.forms['employee_select_form'].elements['user_id'].value = "{{ $employee_id }}";
+  // For Keep Data After Reload
+  document.forms['employee_select_form'].elements['user_id'].value = "{{ $user_id }}";
   document.forms['employee_salary_form'].elements['employee_type'].value = "{{ $salary['employee_type'] }}";
 
   $(document).ready(function(){

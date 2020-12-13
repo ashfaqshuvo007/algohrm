@@ -43,13 +43,14 @@
                 <div id="printable_area">
                     @php $sl = 1; @endphp
                     @foreach($salaries as $salary)
-                        @php
-                            $present = \App\Attendance::where('employee_id',$salary['employee_id'])->whereMonth('created_at',$salryMonth)->first()->toArray();
-                            // dd((int)$present['overtime_hours']);
-                            $presentCount = count($present);
-                            $workingDays = date("t") - $totalHolidays;
-                            $absent_days = $workingDays - $presentCount;
-                        @endphp
+                    @php
+                        $present = \App\Attendance::where('employee_id',$salary['employee_id'])->whereMonth('created_at',$salryMonth)->get()->toArray();
+                        $presentCount = count($present);
+                        $workingDays = date("t") - $totalHolidays;
+                        $absent_days = $workingDays - $presentCount;
+                        $hours_overtime = array_column($present,'overtime_hours');
+                        $total_overtime = array_sum($hours_overtime);
+                    @endphp
                         <div>
                             <div class="row col-lg-12 text-center">
                                 <h2>MAVEN DESIGN LTD</h2>
@@ -115,18 +116,14 @@
                                         <th>{{ __('অতিরিক্ত সময় (ঘন্টা)') }}</th>
                                         <td>
                                             @php
-                                                if($present['overtime_hours'] < 0){
-                                                    $overtime_hours = 0;
-                                                }else{
-                                                    $overtime_hours = $present['overtime_hours'];
-                                                }
-                                                if($overtime_hours > 30 ){
-
-                                                }
-                                                $audit_overtime_hours = 30;
-                                                $actual_overtime_hours = $overtime_hours > $audit_overtime_hours ? $audit_overtime_hours : $overtime_hours;
+                                            if($total_overtime < 0 ){
+                                                $actual_overtime = 0;
+                                            }else{
+                                                $actual_overtime = $total_overtime ;
+                                            }
+    
                                             @endphp
-                                            {{ $actual_overtime_hours  }}
+                                            {{ $actual_overtime  }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -136,9 +133,10 @@
                                     <tr>
                                         <th>{{ __('অতিরিক্ত সময় টাকা') }}</th>
                                         @php
-                                            $overtime_money = $overtime_hours * (int)$salary['overtime_rate'];
-                                        @endphp
-                                        <td>{{ $overtime_money }}</td>
+                                        $overtime_taka = $actual_overtime * (int)$salary['overtime_rate'] 
+                                    @endphp
+                                    
+                                        <td>{{ $overtime_taka }}</td>
                                     </tr>
                                     <tr>
                                         <th>উপস্থিতি বোনাস</th>
@@ -172,7 +170,7 @@
                                     <tbody>
                                     <tr>
                                         <th>মোট মজুরী</th>
-                                        <td> @php $gross_salary = (int)$salary['basic_salary'] + (int)$salary['house_rent'] + (int)$salary['medical_allowance'] + (int)$salary['food_allowance'] + (int)$salary['convayence'] + (int)$salary['increment_amount'] + (int)$bonus + (int)$overtime_money; @endphp
+                                        <td> @php $gross_salary = (int)$salary['basic_salary'] + (int)$salary['house_rent'] + (int)$salary['medical_allowance'] + (int)$salary['food_allowance'] + (int)$salary['convayence'] + (int)$salary['increment_amount'] + (int)$bonus + (int)$overtime_taka; @endphp
                                             {{ $gross_salary }}</td>
                                     </tr>
                                     <tr>

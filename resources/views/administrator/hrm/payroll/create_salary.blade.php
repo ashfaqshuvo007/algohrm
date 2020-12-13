@@ -1,3 +1,6 @@
+@php
+    // dump($user_id);dd($employees[0]);
+@endphp
 @extends('administrator.master')
 @section('title', __('Manage Salary'))
 
@@ -85,7 +88,7 @@
       <form name="employee_salary_form" id="employee_salary_form" action="{{ url('/hrm/payroll/store') }}" method="post">
         {{ csrf_field() }}
 
-        <input type="hidden" name="user_id" value="{{ $employee_id }}">
+        <input type="hidden" name="user_id" value="{{ $user_id }}">
 
         <div class="col-md-12">
           <div class="box box-info">
@@ -100,11 +103,9 @@
                   <div class="col-sm-6">
                     <select name="employee_type" class="form-control" id="employee_type">
                       <option selected disabled>{{ __('Select One') }}</option>
-                      <option value="1">{{ __('Executive') }}</option>
-                      <option value="2">{{ __('Worker') }}</option>
-                      <option value="3">{{ __('Full Time') }}</option>
-                      <option value="4">{{ __('Part Time') }}</option>
-                      <option value="5">{{ __('Adhoc') }}</option>
+                      <option value="executive">{{ __('Executive') }}</option>
+                      <option value="worker">{{ __('Worker') }}</option>
+                      <option value="stuff">{{ __('Stuff') }}</option>
                     </select>
                     @if ($errors->has('employee_type'))
                     <span class="help-block">
@@ -269,7 +270,7 @@
               </div>
               <div class="form-group{{ $errors->has('att_bonus') ? ' has-error' : '' }}">
                 <label for="att_bonus">{{ __('Attendance Bonus amount') }}</label>
-                <input type="number" name="att_bonus" class="form-control" id="att_bonus" placeholder="{{ __('Enter amount for 100% attendance ..') }}">
+                <input type="number" name="att_bonus" class="form-control" id="att_bonus" value="{{ old('att_bonus') }}" placeholder="{{ __('Enter amount for 100% attendance ..') }}">
                 @if ($errors->has('att_bonus'))
                 <span class="help-block">
                   <strong>{{ $errors->first('att_bonus') }}</strong>
@@ -332,7 +333,7 @@
 </div>
 <script type="text/javascript">
   // For Kepp Data After Reload
-  document.forms['employee_select_form'].elements['user_id'].value = "{{ $employee_id }}";
+  document.forms['employee_select_form'].elements['user_id'].value = "{{ $user_id }}";
 
   @if(!empty(old('employee_type')))
   document.forms['employee_salary_form'].elements['employee_type'].value = "{{ old('employee_type') }}";

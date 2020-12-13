@@ -50,12 +50,13 @@
               <div class="col-sm-offset-3 col-sm-6">
                 <div class="input-group margin">
                   <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                  <select name="user_id" class="form-control">
+                  {{-- <select name="user_id" class="form-control">
                     <option selected disabled>{{ __('Select One Employee') }}</option>
                     @foreach($employees as $employee)
                     <option value="{{ $employee['id'] }}"><strong>{{ $employee['employee_id'] }}</option>
                       @endforeach
-                    </select>
+                    </select> --}}
+                    <input type="text" class="form-control" name="user_id" placeholder="Emloyee Id .." aria-label="Employee ID" aria-describedby="basic-addon1">
                     <span class="input-group-btn">
                       <button type="submit" class="btn btn-info btn-flat"><i class="icon fa fa-arrow-right"></i> {{ __('Go') }}</button>
                     </span>

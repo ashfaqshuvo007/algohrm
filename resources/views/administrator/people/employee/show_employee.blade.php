@@ -171,7 +171,7 @@
                         </tr>
                         <tr>
                             <td>{{ __('Joining Date') }}</td>
-                            <td>{{ date("D d F Y - h:ia", strtotime($employee->joining_date)) }}</td>
+                            <td>{{ date("D d F Y", strtotime($employee->joining_date)) }}</td>
                         </tr>
                         <tr>
                             <td>{{ __('Experience') }}</td>
@@ -180,18 +180,6 @@
                         <tr>
                             <td>{{ __('Reference') }}</td>
                             <td>{{ $employee->reference }}</td>
-                        </tr>
-                        <tr>
-                            <td>{{ __('Created By') }}</td>
-                            <td>{{ $created_by->name }}</td>
-                        </tr>
-                        <tr>
-                            <td>{{ __('Date Added') }}</td>
-                            <td>{{ date("D d F Y - h:ia", strtotime($employee->created_at)) }}</td>
-                        </tr>
-                        <tr>
-                            <td>{{ __('Last Updated') }}</td>
-                            <td>{{ date("D d F Y - h:ia", strtotime($employee->updated_at)) }}</td>
                         </tr>
                     </tbody>
                 </table>

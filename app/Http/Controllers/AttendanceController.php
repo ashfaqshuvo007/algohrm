@@ -120,10 +120,10 @@ class AttendanceController extends Controller
             ->select([
                 'users.employee_id',
                 'users.name',
+                'users.employee_type',
                 'device_attendances.*',
             ])
             ->get();
-
         $date = $request->date;
 
         //grouping the data for each employee
@@ -135,7 +135,6 @@ class AttendanceController extends Controller
         if (empty($past_att)) {
             foreach ($groupedAttendance as $att) {
                 $check_in = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $att[0]->date_time);
-
                 if (sizeof($att) > 1) {
                     $check_out = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $att[count($att) - 1]->date_time);
                     $diff_in_hours = $check_in->diffInHours($check_out);

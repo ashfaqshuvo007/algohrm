@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateAttendancesTable extends Migration
 {
@@ -17,6 +17,7 @@ class CreateAttendancesTable extends Migration
             $table->increments('id');
             $table->integer('created_by');
             $table->integer('user_id');
+            $table->integer('late_entry');
             $table->date('attendance_date');
             $table->tinyInteger('attendance_status')->nullable();
             $table->integer('leave_category_id')->nullable();

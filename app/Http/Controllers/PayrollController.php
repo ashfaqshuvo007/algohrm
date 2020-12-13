@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Attendance;
+use App\AuditPayroll;
 use App\Holiday;
 use App\PaymentGrade;
 use App\Payroll;
@@ -24,6 +26,7 @@ class PayrollController extends Controller
             ->orderBy('users.name', 'ASC')
             ->where('users.access_label', '>=', 2)
             ->where('users.access_label', '<=', 3)
+            ->where('users.role', 'employee')
             ->get(['designations.designation', 'users.name', 'users.id', 'users.employee_id'])
             ->toArray();
 
@@ -38,10 +41,11 @@ class PayrollController extends Controller
      */
     public function go(Request $request)
     {
+        // dd($request);
         request()->validate([
             'user_id' => 'required',
         ], [
-            'user_id.required' => 'The employee name field is required',
+            'user_id.required' => 'The employee id field is required',
         ]);
         return redirect('/hrm/payroll/manage-salary/' . $request->user_id);
     }
@@ -51,31 +55,26 @@ class PayrollController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($user_id)
+    public function create($user_emp_id)
     {
-        $employee_id = $user_id;
+        $employee_id = $user_emp_id;
 
         $employees = User::query()
             ->leftjoin('designations as designations', 'users.designation_id', '=', 'designations.id')
             ->leftjoin('payment_grades as grades', 'designations.grade_id', '=', 'grades.id')
             ->orderBy('users.employee_id', 'ASC')
-            ->where('users.id', $employee_id)
+            ->where('users.employee_id', $employee_id)
             ->select('designations.designation', 'grades.*', 'users.employee_id', 'users.id')
             ->get()
             ->toArray();
-        $user_emp_id = User::where('id', $user_id)->pluck('employee_id');
-
-        // $emp_attendance = Attendance::where('employee_id',$user_emp_id[0])->get();
-        // $att_count =
-        // dd($employees);
+        $user_id = $employees[0]['id'];
 
         $salary = Payroll::where('user_id', $user_id)
             ->first();
-
         if (!empty($salary)) {
-            return view('administrator.hrm.payroll.edit_salary', compact('employees', 'employee_id', 'salary'));
+            return view('administrator.hrm.payroll.edit_salary', compact('employees', 'user_id', 'salary'));
         } else {
-            return view('administrator.hrm.payroll.create_salary', compact('employees', 'employee_id'));
+            return view('administrator.hrm.payroll.create_salary', compact('employees', 'user_id'));
         }
     }
 
@@ -87,6 +86,7 @@ class PayrollController extends Controller
      */
     public function store(Request $request)
     {
+        // dump($request);
         $salary = request()->validate([
             'employee_type' => 'required',
             'basic_salary' => 'required|numeric',
@@ -100,11 +100,14 @@ class PayrollController extends Controller
             'increment_amount' => 'nullable|numeric',
 
         ]);
+        // dd($salary);
 
         $result = Payroll::create($salary + ['created_by' => auth()->user()->id, 'user_id' => $request->user_id]);
         $inserted_id = $result->id;
 
         if (!empty($inserted_id)) {
+
+            AuditPayroll::create($salary + ['created_by' => auth()->user()->id, 'user_id' => $request->user_id]);
             return redirect('/hrm/payroll')->with('message', 'Add successfully.');
         }
         return redirect('/hrm/payroll')->with('exception', 'Operation failed !');
@@ -146,9 +149,14 @@ class PayrollController extends Controller
     public function generateAuditWageList(Request $r)
     {
         $salryMonth = date('m', strtotime($r->salary_month));
-
         if ($salryMonth == date('m')) {
             return redirect()->back()->with('exception', 'You can not generate Wagelist for the current month!');
+        }
+
+        $attendancesExist = Attendance::whereMonth('created_at', $salryMonth)->first();
+
+        if (empty($attendancesExist)) {
+            return redirect()->back()->with('exception', 'No data found for the this month!');
         }
 
         $monthly_holidays = Holiday::whereMonth('date', '=', $salryMonth)
@@ -167,14 +175,14 @@ class PayrollController extends Controller
         $numDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
         $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
-        $salaries = Payroll::query()
-            ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
+        $salaries = AuditPayroll::query()
+            ->leftjoin('users', 'audit_payrolls.user_id', '=', 'users.id')
             ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
             ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
             ->orderBy('users.name', 'ASC')
             ->where('users.deletion_status', 0)
             ->get([
-                'payrolls.*',
+                'audit_payrolls.*',
                 'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
                 'designations.designation', 'designations.grade_id',
                 'payment_grades.grade',
@@ -188,76 +196,88 @@ class PayrollController extends Controller
     public function generateWageList(Request $r)
     {
         $salryMonth = date('m', strtotime($r->salary_month));
-        $user_id = $r->emp_office_id;
-        $grade_id = $r->emp_grade;
-
         if ($salryMonth == date('m')) {
             return redirect()->back()->with('exception', 'You can not generate Wagelist for the current month!');
         }
 
-        $monthly_holidays = Holiday::whereMonth('date', '=', $salryMonth)
-            ->pluck('date')
-            ->toArray();
+        $attendancesExist = Attendance::whereMonth('created_at', $salryMonth)->first();
 
-        $holidayCount = count($monthly_holidays);
-
-        $weekly_holidays = WorkingDay::where('working_status', 0)
-            ->pluck('day')
-            ->toArray();
-
-        $month = date('m', strtotime($r->salary_month));
-        $year = date('Y', strtotime($r->salary_month));
-
-        $numDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
-        $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
-        if ($user_id != '0') {
-            $salaries = Payroll::query()
-                ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
-                ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
-                ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-                ->orderBy('users.name', 'ASC')
-                ->where('users.deletion_status', 0)
-                ->where('users.id', $user_id)
-                ->get([
-                    'payrolls.*',
-                    'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
-                    'designations.designation', 'designations.grade_id',
-                    'payment_grades.grade',
-                ])
-                ->toArray();
-        } elseif ($grade_id != '0') {
-            $salaries = Payroll::query()
-                ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
-                ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
-                ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-                ->orderBy('users.name', 'ASC')
-                ->where('users.deletion_status', 0)
-                ->where('payment_grades.id', $grade_id)
-                ->get([
-                    'payrolls.*',
-                    'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
-                    'designations.designation', 'designations.grade_id',
-                    'payment_grades.grade',
-                ])
-                ->toArray();
+        if (empty($attendancesExist)) {
+            return redirect()->back()->with('exception', 'No data found for the this month!');
         } else {
-            $salaries = Payroll::query()
-                ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
-                ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
-                ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-                ->orderBy('users.name', 'ASC')
-                ->where('users.deletion_status', 0)
-                ->get([
-                    'payrolls.*',
-                    'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
-                    'designations.designation', 'designations.grade_id',
-                    'payment_grades.grade',
-                ])
+            $salryMonth = date('m', strtotime($r->salary_month));
+            $user_id = $r->emp_office_id;
+            $grade_id = $r->emp_grade;
+            // dump($r);
+
+            $monthly_holidays = Holiday::whereMonth('date', '=', $salryMonth)
+                ->pluck('date')
                 ->toArray();
+
+            $holidayCount = count($monthly_holidays);
+
+            $weekly_holidays = WorkingDay::where('working_status', 0)
+                ->pluck('day')
+                ->toArray();
+
+            $month = date('m', strtotime($r->salary_month));
+            $year = date('Y', strtotime($r->salary_month));
+
+            $numDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+            $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
+            if ($user_id != '0') {
+                $salaries = Payroll::query()
+                    ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
+                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+                    ->orderBy('users.name', 'ASC')
+                    ->where('users.deletion_status', 0)
+                    ->where('users.id', $user_id)
+                    ->get([
+                        'payrolls.*',
+                        'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
+                        'designations.designation', 'designations.grade_id',
+                        'payment_grades.grade',
+                    ])
+                    ->toArray();
+                // dd($salaries);
+            } elseif ($grade_id != '0') {
+                $salaries = Payroll::query()
+                    ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
+                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+                    ->orderBy('users.name', 'ASC')
+                    ->where('users.deletion_status', 0)
+                    ->where('payment_grades.id', $grade_id)
+                    ->get([
+                        'payrolls.*',
+                        'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
+                        'designations.designation', 'designations.grade_id',
+                        'payment_grades.grade',
+                    ])
+                    ->toArray();
+                // dd($salaries);
+            } else {
+                $salaries = Payroll::query()
+                    ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
+                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+                    ->orderBy('users.name', 'ASC')
+                    ->where('users.deletion_status', 0)
+                    ->get([
+                        'payrolls.*',
+                        'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
+                        'designations.designation', 'designations.grade_id',
+                        'payment_grades.grade',
+                    ])
+                    ->toArray();
+                // dd($salaries);
+            }
+
+            return view('administrator.hrm.payroll.wage_list', compact('salaries', 'totalHolidays', 'salryMonth'));
         }
 
-        return view('administrator.hrm.payroll.wage_list', compact('salaries', 'totalHolidays', 'salryMonth'));
     }
 
     /**
@@ -346,31 +366,6 @@ class PayrollController extends Controller
 
     public function getWeeklyNightBill()
     {
-        // dump($startDate);
-        // dd($endDate);
-        // $now = Carbon::now();
-        // $lastweekStartDate = $now->startOfWeek(Carbon::SATURDAY)->subWeek()->format('Y-m-d');
-        // $lastweekEndDate = $now->startOfWeek(Carbon::SATURDAY)->addDays(5)->format('Y-m-d');
-
-        // // $weekStartDate = $now->startOfWeek(Carbon::SATURDAY)->format('Y-m-d');
-        // // $weekEndDate = $now->endOfWeek(Carbon::THURSDAY)->format('Y-m-d');
-
-        // $attendances = Attendance::leftJoin('users', 'attendances.employee_id', '=', 'users.employee_id')
-        //     ->leftJoin('designations', 'users.designation_id', '=', 'designations.id')
-        //     ->whereBetween('attendances.attendance_date', [$lastweekStartDate, $lastweekEndDate])
-        //     ->groupBy('attendances.attendance_date')
-        //     ->select([
-        //         'users.employee_id',
-        //         'users.name',
-        //         'designations.designation',
-        //         'attendances.attendance_date', 'attendances.overtime_hours', 'attendances.attendance_date',
-        //     ])
-        //     ->get();
-
-        // // dump($lastweekStartDate);
-        // // dd($lastweekEndDate);
-        // return $attendances;
-
         $employees = User::leftJoin('designations', 'users.designation_id', '=', 'designations.id')
             ->where('role', 'employee')
             ->select([
@@ -382,6 +377,7 @@ class PayrollController extends Controller
         return view('administrator.hrm.weeklyNightBill.weekly_nightBill_list', compact('employees'));
 
     }
+
     public function payslip()
     {
         $employees = User::where('role', 'employee')->get();
@@ -392,84 +388,92 @@ class PayrollController extends Controller
     public function generatePayslip(Request $r)
     {
         $salryMonth = date('m', strtotime($r->salary_month));
-        $salaryMonthAndYear = date('"F Y"',strtotime($r->salary_month));
-        $user_id = $r->emp_office_id;
-        $grade_id = $r->emp_grade;
-
         if ($salryMonth == date('m')) {
             return redirect()->back()->with('exception', 'You can not generate Wagelist for the current month!');
         }
 
-        $monthly_holidays = Holiday::whereMonth('date', '=', $salryMonth)
-            ->pluck('date')
-            ->toArray();
+        $attendancesExist = Attendance::whereMonth('created_at', $salryMonth)->first();
 
-        $holidayCount = count($monthly_holidays);
-
-        $weekly_holidays = WorkingDay::where('working_status', 0)
-            ->pluck('day')
-            ->toArray();
-
-        $month = date('m', strtotime($r->salary_month));
-        $year = date('Y', strtotime($r->salary_month));
-
-        $numDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
-        $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
-        if ($user_id != '0') {
-            $salaries = Payroll::query()
-                ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
-                ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
-                ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-                ->orderBy('users.name', 'ASC')
-                ->where('users.deletion_status', 0)
-                ->where('users.id', $user_id)
-                ->get([
-                    'payrolls.*',
-                    'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
-                    'designations.designation', 'designations.grade_id',
-                    'payment_grades.grade',
-                ])
-                ->toArray();
-        } elseif ($grade_id != '0') {
-            $salaries = Payroll::query()
-                ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
-                ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
-                ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-                ->orderBy('users.name', 'ASC')
-                ->where('users.deletion_status', 0)
-                ->where('payment_grades.id', $grade_id)
-                ->get([
-                    'payrolls.*',
-                    'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
-                    'designations.designation', 'designations.grade_id',
-                    'payment_grades.grade',
-                ])
-                ->toArray();
+        if (empty($attendancesExist)) {
+            return redirect()->back()->with('exception', 'No data found for the this month!');
         } else {
-            $salaries = Payroll::query()
-                ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
-                ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
-                ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-                ->orderBy('users.name', 'ASC')
-                ->where('users.deletion_status', 0)
-                ->get([
-                    'payrolls.*',
-                    'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
-                    'designations.designation', 'designations.grade_id',
-                    'payment_grades.grade',
-                ])
+            $salryMonth = date('m', strtotime($r->salary_month));
+            $salaryMonthAndYear = date('"F Y"', strtotime($r->salary_month));
+            $user_id = $r->emp_office_id;
+            $grade_id = $r->emp_grade;
+            // dump($r);
+
+            $monthly_holidays = Holiday::whereMonth('date', '=', $salryMonth)
+                ->pluck('date')
                 ->toArray();
+
+            $holidayCount = count($monthly_holidays);
+
+            $weekly_holidays = WorkingDay::where('working_status', 0)
+                ->pluck('day')
+                ->toArray();
+
+            $month = date('m', strtotime($r->salary_month));
+            $year = date('Y', strtotime($r->salary_month));
+
+            $numDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+            $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
+            if ($user_id != '0') {
+                $salaries = Payroll::query()
+                    ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
+                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+                    ->orderBy('users.name', 'ASC')
+                    ->where('users.deletion_status', 0)
+                    ->where('users.id', $user_id)
+                    ->get([
+                        'payrolls.*',
+                        'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
+                        'designations.designation', 'designations.grade_id',
+                        'payment_grades.grade',
+                    ])
+                    ->toArray();
+                // dd($salaries);
+            } elseif ($grade_id != '0') {
+                $salaries = Payroll::query()
+                    ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
+                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+                    ->orderBy('users.name', 'ASC')
+                    ->where('users.deletion_status', 0)
+                    ->where('payment_grades.id', $grade_id)
+                    ->get([
+                        'payrolls.*',
+                        'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
+                        'designations.designation', 'designations.grade_id',
+                        'payment_grades.grade',
+                    ])
+                    ->toArray();
+                // dd($salaries);
+            } else {
+                $salaries = Payroll::query()
+                    ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
+                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+                    ->orderBy('users.name', 'ASC')
+                    ->where('users.deletion_status', 0)
+                    ->get([
+                        'payrolls.*',
+                        'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
+                        'designations.designation', 'designations.grade_id',
+                        'payment_grades.grade',
+                    ])
+                    ->toArray();
+                // dd($salaries);
+            }
+            $pdf = PDF::loadView('administrator.hrm.payroll.payslip', compact('salaries', 'salryMonth', 'totalHolidays', 'salaryMonthAndYear'));
+
+            // download PDF file with download method
+            return $pdf->stream('pdf_file_payslip.pdf');
+            //return view('administrator.hrm.payroll.payslip', compact('salaries', 'totalHolidays', 'salryMonth','salaryMonthAndYear'));
         }
 
-        $pdf = PDF::loadView('administrator.hrm.payroll.payslip', compact('salaries','salryMonth','totalHolidays','salaryMonthAndYear'),[],[
-            'format' => 'A4',
-            'default_font'=>'bangla'
-        ]);
-
-        // download PDF file with download method
-        return $pdf->stream('pdf_file_payslip.pdf');
-        //return view('administrator.hrm.payroll.payslip', compact('salaries', 'totalHolidays', 'salryMonth','salaryMonthAndYear'));
     }
 
 }

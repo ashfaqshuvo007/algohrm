@@ -70,9 +70,9 @@
                                 <th>{{ __('Total Days in month') }}</th>
                                 <th>{{ __('Working Days') }}</th>
                                 <th>{{ __('Holidays') }}</th>
-                                <th>{{ __('C.L') }}</th>
+                                {{-- <th>{{ __('C.L') }}</th>
                                 <th>{{ __('S.L') }}</th>
-                                <th>{{ __('E.L') }}</th>
+                                <th>{{ __('E.L') }}</th> --}}
                                 <th>{{ __('Absent Days') }}</th>
                                 <th>{{ __('Basic Salary') }}</th>
                                 <th>{{ __('House Rent') }}</th>
@@ -97,11 +97,12 @@
                             @php $sl = 1; @endphp
                             @foreach($salaries as $salary)
                             @php
-                                $present = \App\Attendance::where('employee_id',$salary['employee_id'])->whereMonth('created_at',$salryMonth)->first()->toArray();
-                                // dd((int)$present['overtime_hours']);
+                                $present = \App\Attendance::where('employee_id',$salary['employee_id'])->whereMonth('created_at',$salryMonth)->get()->toArray();
                                 $presentCount = count($present);
                                 $workingDays = date("t") - $totalHolidays;
                                 $absent_days = $workingDays - $presentCount;
+                                $hours_overtime = array_column($present,'overtime_hours');
+                                $total_overtime = array_sum($hours_overtime);
                             @endphp
                             <tr>
                                 <td>{{ $sl++ }}</td>
@@ -118,9 +119,9 @@
                                 <td>{{ date("t") }}</td>
                                 <td>{{ date("t") - $totalHolidays }}</td>
                                 <td>{{ $totalHolidays}}</td>
+                                {{-- <td>0</td>
                                 <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
+                                <td>0</td> --}}
                                 <td>{{  $absent_days }}</td>
                                 <td>{{$salary['basic_salary']}}</td>
                                 <td>{{$salary['house_rent']}}</td>
@@ -132,10 +133,10 @@
                                 <td>{{ $gross_salary - $total_deduction }}</td>
                                 <td>
                                     @php
-                                        if($present['overtime_hours'] < 0){
+                                        if($total_overtime < 0){
                                             $overtime_hours = 0;
                                         }else{
-                                            $overtime_hours = $present['overtime_hours'];
+                                            $overtime_hours = $total_overtime;
                                         }
                                         $audit_overtime_hours = 60;
                                         $actual_overtime_hours = $overtime_hours > $audit_overtime_hours ? $audit_overtime_hours : $overtime_hours;
@@ -143,8 +144,20 @@
                                     {{ $actual_overtime_hours  }}
                                 </td>
                                 <td>{{$salary['overtime_rate']}}</td>
-                                <td>{{ $actual_overtime_hours * (int)$salary['overtime_rate'] }}</td>
-                                <td>{{($salary['increment_amount'] == null) ? 0 : $salary['increment_amount']}}</td><td>
+                                <td>
+                                    @php
+                                        $overtime_taka = $actual_overtime_hours * (int)$salary['overtime_rate'] 
+                                    @endphp
+                                    {{ $overtime_taka }}
+                                </td>
+                                <td>
+                                    @php
+                                        $increment = ($salary['increment_amount'] == null) ? 0 : $salary['increment_amount']
+                                    @endphp
+                                    
+                                    {{ $increment }}
+                                </td>
+                                <td>
                                     @php
                                       if($absent_days > 0){
                                           $bonus = 0;
@@ -156,7 +169,7 @@
                                     {{$bonus}}
                                 </td>
                                 @php
-                                    $total_additional = ($actual_overtime_hours * (int)$salary['overtime_rate']) + $bonus + $salary['increment_amount'] ;
+                                    $total_additional = $bonus + $increment + $overtime_taka;
                                     $net_payable = $gross_salary + $total_additional;
                                 @endphp
                                 <td>{{ $total_additional}}</td>

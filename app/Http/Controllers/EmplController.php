@@ -329,6 +329,7 @@ class EmplController extends Controller
         $employee->joining_date = $request->get('joining_date');
         $employee->designation_id = $request->get('designation_id');
         $employee->joining_position = $request->get('joining_position');
+        $employee->employee_type = $request->get('employee_type');
         $employee->access_label = 2;
         $employee->marital_status = $request->get('marital_status');
         $employee->id_name = $request->get('id_name');
@@ -516,6 +517,5 @@ class EmplController extends Controller
         return $pdf->download($file_name);
 //        return view('administrator.people.employee.employee_id_card_pdf', compact('employee', 'created_by', 'designations', 'departments'));
     }
-
 
 }
