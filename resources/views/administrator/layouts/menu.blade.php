@@ -17,6 +17,7 @@
                 @permission('manage-employee')
                 <li><a href="{{ url('/people/employees/create') }}"><i class="fa fa-circle-o"></i>{{ __(' New Employee') }}</a></li>
                 <li><a href="{{ url('/people/employees') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Employees') }}</a></li>
+                <li><a href="{{ route('bulkIdCardsCreate')}}"><i class="fa fa-circle-o"></i> {{ __('Create Id Cards') }}</a></li>
                 {{-- <li><a href="{{ url('/people/pullUsers') }}"><i class="fa fa-circle-o"></i> {{ __('Pull Employees') }}</a></li> --}}
                 
                 @endpermission

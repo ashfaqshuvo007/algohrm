@@ -125,6 +125,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/people/employees/details/{id}', 'EmplController@show');
     Route::get('/people/employees/download-pdf/{id}', 'EmplController@pdf');
     Route::get('/people/employees/download-emplpoyee-id-card-pdf/{id}', 'EmplController@downLoadEmployeeIdCard');
+
+    Route::get('/people/employees/bulk-employee-id-cards-create', 'EmplController@employeeBulkIdCardsCreate')->name('bulkIdCardsCreate');
+    Route::post('/people/employees/download-deapartmentwise-bulk-emplpoyee-id-card-pdf', 'EmplController@generateDepartementWiseEmployeeBulkIdCards')->name('bulkIdCardsDownload');
+
     Route::get('/people/employees/edit/{id}', 'EmplController@edit');
     Route::post('/people/employees/update/{id}', 'EmplController@update');
     Route::get('/people/employees/delete/{id}', 'EmplController@destroy');

@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Department;
 use App\Designation;
 use App\Device;
+use App\Holiday;
+use App\PaymentGrade;
 use App\Payroll;
 use App\Role;
 use App\User;
+use App\WorkingDay;
 use DB;
 use Illuminate\Http\Request;
 use PDF;
@@ -517,5 +520,28 @@ class EmplController extends Controller
         return $pdf->download($file_name);
 //        return view('administrator.people.employee.employee_id_card_pdf', compact('employee', 'created_by', 'designations', 'departments'));
     }
+
+    public function employeeBulkIdCardsCreate()
+    {
+        $departments = Department::where('deletion_status', 0)->get();
+        return view('administrator.people.employee.emplolyee_bulk_id_cards_create', compact('departments'));
+    }
+
+    public function generateDepartementWiseEmployeeBulkIdCards(Request $request)
+    {
+//dd($request);
+        $departmentName = Department::where('id',$request->department_id)->first();
+        $designation_ids = Designation::where('department_id',$request->department_id)->pluck('id');
+//        dump($designation_ids);
+        $employees = User::where('role','employee')->whereIn('designation_id',$designation_ids)->get();
+//        dd($employees);
+
+        $pdf = PDF::loadView('administrator.people.employee.departmentwise_employee_id_card_bulk_pdf', compact('employees','departmentName'));
+        $file_name = 'EMPLOYEES-' . $departmentName->department . '.pdf';
+        return $pdf->stream($file_name);
+//        return $pdf->download($file_name);
+    }
+
+
 
 }

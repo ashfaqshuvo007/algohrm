@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Attendance;
 use App\AuditPayroll;
+use App\Department;
+use App\Designation;
 use App\Holiday;
 use App\PaymentGrade;
 use App\Payroll;
@@ -36,7 +38,7 @@ class PayrollController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function go(Request $request)
@@ -81,7 +83,7 @@ class PayrollController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -118,7 +120,8 @@ class PayrollController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    function list() {
+    function list()
+    {
         $salaries = Payroll::query()
             ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
             ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
@@ -140,6 +143,7 @@ class PayrollController extends Controller
         $grades = PaymentGrade::all();
         return view('administrator.hrm.payroll.generate_wage_list', compact('employees', 'grades'));
     }
+
     //hrm/audit/generate_wage_list
     public function generate_audit_wages_list()
     {
@@ -283,7 +287,7 @@ class PayrollController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Payroll  $payroll
+     * @param \App\Payroll $payroll
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -309,8 +313,8 @@ class PayrollController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Payroll  $payroll
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Payroll $payroll
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -380,9 +384,8 @@ class PayrollController extends Controller
 
     public function payslip()
     {
-        $employees = User::where('role', 'employee')->get();
-        $grades = PaymentGrade::all();
-        return view('administrator.hrm.payroll.payslip_create', compact('employees', 'grades'));
+        $departments = Department::all();
+        return view('administrator.hrm.payroll.payslip_create', compact('departments'));
     }
 
     public function generatePayslip(Request $r)
@@ -399,8 +402,7 @@ class PayrollController extends Controller
         } else {
             $salryMonth = date('m', strtotime($r->salary_month));
             $salaryMonthAndYear = date('"F Y"', strtotime($r->salary_month));
-            $user_id = $r->emp_office_id;
-            $grade_id = $r->emp_grade;
+            $department_id = $r->department_id;
             // dump($r);
 
             $monthly_holidays = Holiday::whereMonth('date', '=', $salryMonth)
@@ -419,54 +421,24 @@ class PayrollController extends Controller
             $numDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
             $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
-            if ($user_id != '0') {
-                $salaries = Payroll::query()
-                    ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
-                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
-                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-                    ->orderBy('users.name', 'ASC')
-                    ->where('users.deletion_status', 0)
-                    ->where('users.id', $user_id)
-                    ->get([
-                        'payrolls.*',
-                        'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
-                        'designations.designation', 'designations.grade_id',
-                        'payment_grades.grade',
-                    ])
-                    ->toArray();
-                // dd($salaries);
-            } elseif ($grade_id != '0') {
-                $salaries = Payroll::query()
-                    ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
-                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
-                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-                    ->orderBy('users.name', 'ASC')
-                    ->where('users.deletion_status', 0)
-                    ->where('payment_grades.id', $grade_id)
-                    ->get([
-                        'payrolls.*',
-                        'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
-                        'designations.designation', 'designations.grade_id',
-                        'payment_grades.grade',
-                    ])
-                    ->toArray();
-                // dd($salaries);
-            } else {
-                $salaries = Payroll::query()
-                    ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
-                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
-                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-                    ->orderBy('users.name', 'ASC')
-                    ->where('users.deletion_status', 0)
-                    ->get([
-                        'payrolls.*',
-                        'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
-                        'designations.designation', 'designations.grade_id',
-                        'payment_grades.grade',
-                    ])
-                    ->toArray();
-                // dd($salaries);
-            }
+
+            $departmentName = Department::where('id',$r->department_id)->first();
+            $designation_ids = Designation::where('department_id',$r->department_id)->pluck('id');
+            $salaries = User::query()
+                ->leftJoin('payrolls','users.id','=','payrolls.user_id')
+                ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+                ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+                ->where('role','employee')->whereIn('designation_id',$designation_ids)
+                ->where('users.deletion_status', 0)
+                ->get([
+                    'payrolls.*',
+                    'users.name', 'users.joining_date', 'users.employee_id',
+                    'designations.designation', 'designations.grade_id',
+                    'payment_grades.grade',
+                ])
+                ->toArray();
+
+
             $pdf = PDF::loadView('administrator.hrm.payroll.payslip', compact('salaries', 'salryMonth', 'totalHolidays', 'salaryMonthAndYear'));
 
             // download PDF file with download method
