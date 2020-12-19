@@ -49,12 +49,12 @@
     <section class="content">
         <div class="box">
             @php
-                if ($employee->employee_type == 'Executive')
+                if ($employee->employee_type == 'executive')
                     {
                         $profileHeaderBackgroundColor = "#03949c";
                         $userSocialDetailsBackgroundColor = "#03949c";
                     }
-                elseif ($employee->employee_type == 'Staff')
+                elseif ($employee->employee_type == 'staff')
                     {
                         $profileHeaderBackgroundColor = "#ff4500";
                         $userSocialDetailsBackgroundColor = "#ff4500";
