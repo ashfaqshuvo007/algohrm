@@ -71,7 +71,7 @@
                     <select name="emp_office_id" id="emp_office_id" class="form-control">
                       <option value="0" selected>{{ __('All Employees') }}</option>
                       @foreach($employees as $employee)
-                      <option value="{{$employee->employee_id}}">{{ $employee->employee_id }}</option>
+                      <option value="{{$employee->id}}">{{ $employee->employee_id }}</option>
                       @endforeach
                     </select>
                     @if ($errors->has('emp_office_id'))
