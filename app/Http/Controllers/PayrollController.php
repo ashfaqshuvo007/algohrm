@@ -120,8 +120,7 @@ class PayrollController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    function list()
-    {
+    function list() {
         $salaries = Payroll::query()
             ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
             ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
@@ -422,13 +421,13 @@ class PayrollController extends Controller
 
             $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
 
-            $departmentName = Department::where('id',$r->department_id)->first();
-            $designation_ids = Designation::where('department_id',$r->department_id)->pluck('id');
+            $departmentName = Department::where('id', $r->department_id)->first();
+            $designation_ids = Designation::where('department_id', $r->department_id)->pluck('id');
             $salaries = User::query()
-                ->leftJoin('payrolls','users.id','=','payrolls.user_id')
+                ->leftJoin('payrolls', 'users.id', '=', 'payrolls.user_id')
                 ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
                 ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-                ->where('role','employee')->whereIn('designation_id',$designation_ids)
+                ->where('role', 'employee')->whereIn('designation_id', $designation_ids)
                 ->where('users.deletion_status', 0)
                 ->get([
                     'payrolls.*',
@@ -437,7 +436,6 @@ class PayrollController extends Controller
                     'payment_grades.grade',
                 ])
                 ->toArray();
-
 
             $pdf = PDF::loadView('administrator.hrm.payroll.payslip', compact('salaries', 'salryMonth', 'totalHolidays', 'salaryMonthAndYear'));
 
