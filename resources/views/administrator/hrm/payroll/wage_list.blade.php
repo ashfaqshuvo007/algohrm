@@ -97,9 +97,9 @@
                             @php $sl = 1; @endphp
                             @foreach($salaries as $salary)
                             @php
-                                $present = \App\Attendance::where('employee_id',$salary['employee_id'])->whereMonth('created_at',$salryMonth)->get()->toArray();
+                                $present = \App\Attendance::where('employee_id',$salary['employee_id'])->whereMonth('attendance_date',$salryMonth)->get()->toArray();
                                 $presentCount = count($present);
-                                $workingDays = date("t") - $totalHolidays;
+                                $workingDays = $numDays - $totalHolidays;
                                 $absent_days = $workingDays - $presentCount;
                                 $hours_overtime = array_column($present,'overtime_hours');
                                 $total_overtime = array_sum($hours_overtime);

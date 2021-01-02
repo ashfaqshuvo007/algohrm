@@ -278,7 +278,7 @@ class PayrollController extends Controller
                 // dd($salaries);
             }
 
-            return view('administrator.hrm.payroll.wage_list', compact('salaries', 'totalHolidays', 'salryMonth'));
+            return view('administrator.hrm.payroll.wage_list', compact('salaries', 'totalHolidays', 'numDays', 'salryMonth'));
         }
 
     }
