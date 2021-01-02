@@ -261,6 +261,23 @@ class PayrollController extends Controller
                     ])
                     ->toArray();
                 // dd($salaries);
+            } elseif (($grade_id != '0') && ($user_id != '0')) {
+                $salaries = Payroll::query()
+                    ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
+                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+                    ->orderBy('users.name', 'ASC')
+                    ->where('users.deletion_status', 0)
+                    ->where('payment_grades.id', $grade_id)
+                    ->where('users.id', $user_id)
+                    ->get([
+                        'payrolls.*',
+                        'users.name', 'users.joining_date', 'users.id_number', 'users.employee_id',
+                        'designations.designation', 'designations.grade_id',
+                        'payment_grades.grade',
+                    ])
+                    ->toArray();
+                // dd($salaries);
             } else {
                 $salaries = Payroll::query()
                     ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
