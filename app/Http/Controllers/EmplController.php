@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use App\Department;
 use App\Designation;
 use App\Device;
-use App\Holiday;
-use App\PaymentGrade;
 use App\Payroll;
 use App\Role;
 use App\User;
-use App\WorkingDay;
 use DB;
 use Illuminate\Http\Request;
 use PDF;
@@ -121,6 +118,7 @@ class EmplController extends Controller
             'role' => 'required',
         ], [
             'designation_id.required' => 'The designation field is required.',
+            'department_id.required' => 'The department field is required.',
             'contact_no_one.required' => 'The contact no field is required.',
             'web.regex' => 'The URL format is invalid.',
             'name.regex' => 'No number is allowed.',
@@ -259,8 +257,8 @@ class EmplController extends Controller
             ->select('id', 'designation')
             ->get()
             ->toArray();
-        $roles = Role::all();
-        return view('administrator.people.employee.edit_employee', compact('employee', 'roles', 'designations'));
+        $departments = Department::all();
+        return view('administrator.people.employee.edit_employee', compact('employee', 'departments', 'designations'));
     }
 
     /**
@@ -300,11 +298,14 @@ class EmplController extends Controller
             'physical_ability' => 'required',
             'joining_date' => 'nullable',
             'designation_id' => 'required|numeric',
+            'department_id' => 'required|numeric',
             'marital_status' => 'nullable',
             'id_name' => 'nullable',
             'id_number' => 'nullable|max:100',
         ], [
             'designation_id.required' => 'The designation field is required.',
+            'department_id.required' => 'The department field is required.',
+            'physical_ability.required' => 'The physical ability field is required.',
             'contact_no_one.required' => 'The contact no field is required.',
             'web.regex' => 'The URL format is invalid.',
             'name.regex' => 'No number is allowed.',
@@ -331,7 +332,8 @@ class EmplController extends Controller
         $employee->reference = $request->get('reference');
         $employee->joining_date = $request->get('joining_date');
         $employee->designation_id = $request->get('designation_id');
-        $employee->joining_position = $request->get('joining_position');
+        $employee->department_id = $request->get('department_id');
+        $employee->physical_ability = $request->get('physical_ability');
         $employee->employee_type = $request->get('employee_type');
         $employee->access_label = 2;
         $employee->marital_status = $request->get('marital_status');
@@ -530,18 +532,16 @@ class EmplController extends Controller
     public function generateDepartementWiseEmployeeBulkIdCards(Request $request)
     {
 //dd($request);
-        $departmentName = Department::where('id',$request->department_id)->first();
-        $designation_ids = Designation::where('department_id',$request->department_id)->pluck('id');
+        $departmentName = Department::where('id', $request->department_id)->first();
+        $designation_ids = Designation::where('department_id', $request->department_id)->pluck('id');
 //        dump($designation_ids);
-        $employees = User::where('role','employee')->whereIn('designation_id',$designation_ids)->get();
+        $employees = User::where('role', 'employee')->whereIn('designation_id', $designation_ids)->get();
 //        dd($employees);
 
-        $pdf = PDF::loadView('administrator.people.employee.departmentwise_employee_id_card_bulk_pdf', compact('employees','departmentName'));
+        $pdf = PDF::loadView('administrator.people.employee.departmentwise_employee_id_card_bulk_pdf', compact('employees', 'departmentName'));
         $file_name = 'EMPLOYEES-' . $departmentName->department . '.pdf';
         return $pdf->stream($file_name);
 //        return $pdf->download($file_name);
     }
-
-
 
 }

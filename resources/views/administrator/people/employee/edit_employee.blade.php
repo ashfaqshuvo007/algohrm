@@ -1,6 +1,10 @@
 @extends('administrator.master')
 @section('title', __('Edit team member'))
 
+@php
+    $department_id = \App\Designation::where('id',$employee['designation_id'])->pluck('department_id');
+    // dd($department_id[0]);
+@endphp
 @section('main_content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -273,19 +277,19 @@
                             </div>
                             <!-- /.form-group -->
 
-                            <label for="joining_position">{{ __(' Department') }} <span class="text-danger">*</span></label>
-                            <div class="form-group{{ $errors->has('joining_position') ? ' has-error' : '' }} has-feedback">
-                                <select name="joining_position" id="joining_position" class="form-control">
-                                <?php $departments= \App\Department::all();?>
+                            <label for="department_id">{{ __(' Department') }} <span class="text-danger">*</span></label>
+                            <div class="form-group{{ $errors->has('department_id') ? ' has-error' : '' }} has-feedback">
+                                <select name="department_id" id="department_id" class="form-control">
+
                                      <option value="" selected disabled>{{ __(' Select one') }}</option>
                                     
                                     @foreach($departments as $department)
                                     <option value="{{ $department['id'] }}">{{ $department['department'] }}</option>
                                     @endforeach
                                 </select>
-                                @if ($errors->has('joining_position'))
+                                @if ($errors->has('department_id'))
                                 <span class="help-block">
-                                    <strong>{{ $errors->first('joining_position') }}</strong>
+                                    <strong>{{ $errors->first('department_id') }}</strong>
                                 </span>
                                 @endif
                             </div>
@@ -474,7 +478,9 @@
         document.forms['employee_edit_form'].elements['id_name'].value = "{{ $employee['id_name'] }}";
         document.forms['employee_edit_form'].elements['marital_status'].value = "{{ $employee['marital_status'] }}";
         document.forms['employee_edit_form'].elements['designation_id'].value = "{{ $employee['designation_id'] }}";
+        document.forms['employee_edit_form'].elements['department_id'].value = "{{ $department_id[0] }}";
+        document.forms['employee_edit_form'].elements['physical_ability'].value = "{{ $employee['physical_ability'] }}";
+        document.forms['employee_edit_form'].elements['employee_type'].value = "{{ $employee['employee_type'] }}";
         document.forms['employee_edit_form'].elements['role'].value = "{{ $employee['role'] }}";
-        document.forms['employee_edit_form'].elements['joining_position'].value = "{{ $employee['joining_position'] }}";
     </script>
     @endsection
