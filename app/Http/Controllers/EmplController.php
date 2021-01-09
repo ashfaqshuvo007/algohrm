@@ -70,8 +70,9 @@ class EmplController extends Controller
         $roles = Role::all();
 
         $devices = Device::all();
+        $departments = Department::all();
 
-        return view('administrator.people.employee.add_employee', compact('designations', 'roles', 'devices'));
+        return view('administrator.people.employee.add_employee', compact('designations', 'roles', 'devices', 'departments'));
     }
 
     /**
@@ -91,7 +92,7 @@ class EmplController extends Controller
             'father_name' => 'nullable|max:100',
             'mother_name' => 'nullable|max:100',
             'spouse_name' => 'nullable|max:100',
-            // 'email' => 'nullable|email|unique:users|max:100',
+            'email' => 'required|email|max:100',
             'contact_no_one' => 'required|max:20',
             'emergency_contact' => 'nullable|max:20',
             // 'web' => 'nullable|max:150|regex:' . $url,
@@ -128,22 +129,7 @@ class EmplController extends Controller
         $result = User::create($employee + ['created_by' => auth()->user()->id, 'access_label' => 2, 'password' => bcrypt(12345678)]);
         $inserted_id = $result->id;
 
-        // // Enter Details to Device
-        // $device = Device::where('id', $r->device_id)->first();
-        // $port = (string) $device->device_port_public_h;
-        // $ip = (string) $device->device_ip_hidden;
-
-        // $zklib = new ZKLib($ip, $port, 'TCP');
-        // $zklib->connect();
-
-        // $zklib->disableDevice();
-        // $deviceUsersCount = count($zklib->getUser());
-        // $zklib->setUser($deviceUsersCount + 1, $request->employee_id, $request->name, '12345678', 0);
-
-        // $zklib->enableDevice();
-        // $zklib->disconnect();
-
-        $result->attachRole(Role::where('name', $request->role)->first());
+        $result->attachRole(Role::where('id', $request->role)->first());
 
         if (!empty($inserted_id)) {
             return redirect('/people/employees/create')->with('message', 'Add successfully.');
@@ -258,7 +244,8 @@ class EmplController extends Controller
             ->get()
             ->toArray();
         $departments = Department::all();
-        return view('administrator.people.employee.edit_employee', compact('employee', 'departments', 'designations'));
+        $roles = Role::all();
+        return view('administrator.people.employee.edit_employee', compact('employee', 'departments', 'designations', 'roles'));
     }
 
     /**
@@ -342,9 +329,9 @@ class EmplController extends Controller
         $employee->role = $request->get('role');
         $affected_row = $employee->save();
 
-        // DB::table('role_user')
-        //     ->where('user_id', $id)
-        //     ->update(['role_id' => $request->input('role')]);
+        DB::table('role_user')
+            ->where('user_id', $id)
+            ->update(['role_id' => $request->input('role')]);
 
         if (!empty($affected_row)) {
             return redirect('/people/employees')->with('message', 'Update successfully.');
@@ -517,8 +504,19 @@ class EmplController extends Controller
             ->select('id', 'department')
             ->get();
 
-        $pdf = PDF::loadView('administrator.people.employee.employee_id_card_pdf', compact('employee', 'created_by', 'designations', 'departments'));
-        $file_name = 'EMPLOYEE-' . $employee->name . '.pdf';
+        $employee = User::leftjoin('departments', 'users.department_id', '=', 'departments.id')
+            ->leftJoin('designations', 'users.designation_id', '=', 'designations.id')
+            ->where('users.id', $id)
+            ->select([
+                'users.employee_id', 'users.name', 'users.employee_type', 'users.joining_date', 'users.avatar',
+                'designations.designation',
+                'departments.department',
+            ])
+            ->first();
+        // dd($employee);
+
+        $pdf = PDF::loadView('administrator.people.employee.employee_id_card_pdf', compact('employee'));
+        $file_name = 'IdCard-' . $employee->name . '.pdf';
         return $pdf->download($file_name);
 //        return view('administrator.people.employee.employee_id_card_pdf', compact('employee', 'created_by', 'designations', 'departments'));
     }
@@ -531,17 +529,43 @@ class EmplController extends Controller
 
     public function generateDepartementWiseEmployeeBulkIdCards(Request $request)
     {
-//dd($request);
-        $departmentName = Department::where('id', $request->department_id)->first();
-        $designation_ids = Designation::where('department_id', $request->department_id)->pluck('id');
-//        dump($designation_ids);
-        $employees = User::where('role', 'employee')->whereIn('designation_id', $designation_ids)->get();
-//        dd($employees);
+        // dd($request);
+        if ($request->department_id == 0) {
+            $departmentName = 'All Departments';
+            $employees = User::leftjoin('departments', 'users.department_id', '=', 'departments.id')
+                ->leftJoin('designations', 'users.designation_id', '=', 'designations.id')
+                ->where('role', '>=', 2)
+                ->select([
+                    'users.employee_id', 'users.name', 'users.employee_type', 'users.joining_date', 'users.avatar',
+                    'designations.designation',
+                    'departments.department',
+                ])
+                ->get()->toArray();
 
-        $pdf = PDF::loadView('administrator.people.employee.departmentwise_employee_id_card_bulk_pdf', compact('employees', 'departmentName'));
-        $file_name = 'EMPLOYEES-' . $departmentName->department . '.pdf';
-        return $pdf->stream($file_name);
+            $pdf = PDF::loadView('administrator.people.employee.departmentwise_employee_id_card_bulk_pdf', compact('employees'));
+            $file_name = 'EMPLOYEES-' . $departmentName . '.pdf';
+            return $pdf->stream($file_name);
+            //        return $pdf->download($file_name);
+        } else {
+            $departmentName = Department::where('id', $request->department_id)->first();
+
+            $employees = User::leftjoin('departments', 'users.department_id', '=', 'departments.id')
+                ->leftJoin('designations', 'users.designation_id', '=', 'designations.id')
+                ->where('role', '>=', 2)
+                ->where('departments.id', $request->department_id)
+                ->select([
+                    'users.employee_id', 'users.name', 'users.employee_type', 'users.joining_date', 'users.avatar',
+                    'designations.designation',
+                    'departments.department',
+                ])
+                ->get()->toArray();
+
+            $pdf = PDF::loadView('administrator.people.employee.departmentwise_employee_id_card_bulk_pdf', compact('employees', 'departmentName'));
+            $file_name = 'EMPLOYEES-' . $departmentName->department . '.pdf';
+            return $pdf->stream($file_name);
 //        return $pdf->download($file_name);
+        }
+
     }
 
 }

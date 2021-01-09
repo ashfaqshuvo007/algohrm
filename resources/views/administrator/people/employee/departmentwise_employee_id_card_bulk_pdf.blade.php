@@ -52,14 +52,13 @@
             <div class="box-body">
                 @foreach($employees as $employee)
                     @php
-                        $designationName = \App\Designation::where('id',$employee->designation_id)->pluck('designation');
-
-                        if ($employee->employee_type == 'Executive')
+                        // dd($employee['employee_type']);
+                        if ($employee['employee_type'] == 'executive')
                             {
                                 $profileHeaderBackgroundColor = "#03949c";
                                 $userSocialDetailsBackgroundColor = "#03949c";
                             }
-                        elseif ($employee->employee_type == 'Staff')
+                        elseif ($employee['employee_type'] == 'staff')
                             {
                                 $profileHeaderBackgroundColor = "#ff4500";
                                 $userSocialDetailsBackgroundColor = "#ff4500";
@@ -81,8 +80,8 @@
                                 </div>
                                 <div class="row user-detail">
                                     <div class="col-sm-12 ">
-                                        @if(!empty($employee->avatar))
-                                            <img src="{{ url('public/profile_picture/' . $employee->avatar) }}"
+                                        @if(!empty($employee['avatar']))
+                                            <img src="{{ url('public/profile_picture/' . $employee['avatar']) }}"
                                                  class="img-responsive img-thumbnail rounded-circle"style="border-radius: 50%">
                                         @else
                                             <img src="{{ url('public/profile_picture/blank_profile_picture.png') }}"
@@ -95,31 +94,31 @@
                                             <tbody>
                                             <tr>
                                                 <th style="font-size: 10px">Employee ID</th>
-                                                <td style="font-size: 10px">{{ $employee->employee_id }}</td>
+                                                <td style="font-size: 10px">{{ $employee['employee_id'] }}</td>
                                             </tr>
                                             <tr>
                                                 <th style="font-size: 10px">Name</th>
-                                                <td style="font-size: 10px">{{ $employee->name }}</td>
+                                                <td style="font-size: 10px">{{ ucwords($employee['name'] )}}</td>
                                             </tr>
 
                                             <tr>
 
                                                 <th style="font-size: 10px">Designation</th>
-                                                <td style="font-size: 10px">{{$designationName[0]  }}</td>
+                                                <td style="font-size: 10px">{{ucfirst($employee['designation'])  }}</td>
                                             </tr>
                                             <tr>
                                                 <th style="font-size: 10px">Department</th>
                                                 <td style="font-size: 10px">
-                                                    {{$departmentName->department}}
+                                                    {{ucfirst($employee['department'])}}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th style="font-size: 10px">Type</th>
-                                                <td style="font-size: 10px">{{ $employee->employee_type }}</td>
+                                                <td style="font-size: 10px">{{ ucfirst($employee['employee_type']) }}</td>
                                             </tr>
                                             <tr>
                                                 <th style="font-size: 10px">Joining Date</th>
-                                                <td style="font-size: 10px">{{ date("D d F Y", strtotime($employee->joining_date)) }}</td>
+                                                <td style="font-size: 10px">{{ date("d-m-Y", strtotime($employee['joining_date'])) }}</td>
                                             </tr>
                                             </tbody>
                                         </table>

@@ -95,30 +95,26 @@
                                             </tr>
                                             <tr>
                                                 <th style="font-size: 10px">Name</th>
-                                                <td style="font-size: 10px">{{ $employee->name }}</td>
+                                                <td style="font-size: 10px">{{ ucwords($employee->name) }}</td>
                                             </tr>
 
                                             <tr>
                                                 <th style="font-size: 10px">Designation</th>
-                                                <td style="font-size: 10px">{{ $employee->designation }}</td>
+                                                <td style="font-size: 10px">{{ ucfirst($employee->designation) }}</td>
                                             </tr>
                                             <tr>
                                                 <th style="font-size: 10px">Department</th>
                                                 <td style="font-size: 10px">
-                                                    @foreach($departments as $department)
-                                                        @if($employee->joining_position == $department->id)
-                                                            {{ $department->department }}
-                                                        @endif
-                                                    @endforeach
+                                                    {{ ucfirst($employee->department) }}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th style="font-size: 10px">Type</th>
-                                                <td style="font-size: 10px">{{ $employee->employee_type }}</td>
+                                                <td style="font-size: 10px">{{ ucfirst($employee->employee_type )}}</td>
                                             </tr>
                                             <tr>
                                                 <th style="font-size: 10px">Joining Date</th>
-                                                <td style="font-size: 10px">{{ date("D d F Y", strtotime($employee->joining_date)) }}</td>
+                                                <td style="font-size: 10px">{{ date("d-m-Y", strtotime($employee->joining_date)) }}</td>
                                             </tr>
                                             </tbody>
                                         </table>

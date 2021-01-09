@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Attendance;
 use App\AuditPayroll;
 use App\Department;
-use App\Designation;
 use App\Holiday;
 use App\PaymentGrade;
 use App\Payroll;
@@ -421,27 +420,54 @@ class PayrollController extends Controller
 
             $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
 
-            $departmentName = Department::where('id', $r->department_id)->first();
-            $designation_ids = Designation::where('department_id', $r->department_id)->pluck('id');
-            $salaries = User::query()
-                ->leftJoin('payrolls', 'users.id', '=', 'payrolls.user_id')
-                ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
-                ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-                ->where('role', 'employee')->whereIn('designation_id', $designation_ids)
-                ->where('users.deletion_status', 0)
-                ->get([
-                    'payrolls.*',
-                    'users.name', 'users.joining_date', 'users.employee_id',
-                    'designations.designation', 'designations.grade_id',
-                    'payment_grades.grade',
-                ])
-                ->toArray();
+            if ($department_id == 0) {
+                $departmentName = Department::where('id', $r->department_id)->first();
+                $salaries = User::query()
+                    ->leftJoin('payrolls', 'users.id', '=', 'payrolls.user_id')
+                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+                    ->leftJoin('departments', 'users.department_id', '=', 'departments.id')
+                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+                    ->where('users.role', '>=', 2)
+                    ->where('users.deletion_status', 0)
+                    ->get([
+                        'payrolls.*',
+                        'users.name', 'users.joining_date', 'users.employee_id',
+                        'designations.designation', 'designations.grade_id',
+                        'departments.department',
+                        'payment_grades.grade',
+                    ])
+                    ->toArray();
+                // dd($salaries);
+                //return view('administrator.hrm.payroll.payslip', compact('salaries', 'totalHolidays', 'salryMonth','salaryMonthAndYear'));
 
+            } else {
+                $departmentName = Department::where('id', $r->department_id)->first();
+                // $designation_ids = Designation::where('department_id', $r->department_id)->pluck('id');
+                $salaries = User::query()
+                    ->leftJoin('payrolls', 'users.id', '=', 'payrolls.user_id')
+                    ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+                    ->leftJoin('departments', 'users.department_id', '=', 'departments.id')
+                    ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+                    ->where('users.role', '>=', 2)
+                    ->where('users.department_id', $r->department_id)
+                    ->where('users.deletion_status', 0)
+                    ->get([
+                        'payrolls.*',
+                        'users.name', 'users.joining_date', 'users.employee_id',
+                        'designations.designation', 'designations.grade_id',
+                        'departments.department',
+                        'payment_grades.grade',
+                    ])
+                    ->toArray();
+                // dd($salaries);
+
+            }
             $pdf = PDF::loadView('administrator.hrm.payroll.payslip', compact('salaries', 'salryMonth', 'totalHolidays', 'salaryMonthAndYear'));
 
             // download PDF file with download method
             return $pdf->stream('pdf_file_payslip.pdf');
             //return view('administrator.hrm.payroll.payslip', compact('salaries', 'totalHolidays', 'salryMonth','salaryMonthAndYear'));
+
         }
 
     }

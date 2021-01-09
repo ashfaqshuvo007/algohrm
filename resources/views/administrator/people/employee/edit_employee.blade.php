@@ -1,10 +1,5 @@
 @extends('administrator.master')
 @section('title', __('Edit team member'))
-
-@php
-    $department_id = \App\Designation::where('id',$employee['designation_id'])->pluck('department_id');
-    // dd($department_id[0]);
-@endphp
 @section('main_content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -196,6 +191,34 @@
                                 @endif
                             </div>
                             <!-- /.form-group -->
+
+                            
+                            <label for="insurance">{{ __('Insurance') }}</label>
+                            <div class="form-group{{ $errors->has('insurance') ? ' has-error' : '' }} has-feedback">
+                                <select name="insurance" id="insurance" class="form-control">
+                                    <option value="yes">{{ __('Yes') }}</option>
+                                    <option value="no">{{ __('No') }}</option>
+                                </select>
+                                @if ($errors->has('insurance'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('insurance') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <!-- /.form-group -->
+
+                            <label for="weight">{{ __('Weight(in kg)') }}</label>
+                            <div class="form-group{{ $errors->has('weight') ? ' has-error' : '' }} has-feedback">
+                                <input type="text" name="weight" id="weight" class="form-control" value="{{ $employee['weight'] }}" placeholder="{{ __('Enter Weight...') }}">
+                                
+                                @if ($errors->has('weight'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('weight') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <!-- /.form-group -->
+                            
                         </div>
                         <!-- /.col -->
 
@@ -360,7 +383,7 @@
                             <!-- /.form-group -->
 
 
-                            {{-- <label for="role">{{ __(' Role') }}<span class="text-danger">*</span></label>
+                            <label for="role">{{ __(' Role') }}<span class="text-danger">*</span></label>
                             <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }} has-feedback">
                                 <select name="role" id="role" class="form-control">
                                     <option value="" selected disabled>{{ __(' Select one') }}</option>
@@ -373,7 +396,7 @@
                                     <strong>{{ $errors->first('role') }}</strong>
                                 </span>
                                 @endif
-                            </div> --}}
+                            </div>
                             <!-- /.form-group -->
 
                             <label for="height">{{ __('Height(in cm)') }}</label>
@@ -388,31 +411,6 @@
                             </div>
                             <!-- /.form-group -->
 
-                            <label for="insurance">{{ __('Insurance') }}</label>
-                            <div class="form-group{{ $errors->has('insurance') ? ' has-error' : '' }} has-feedback">
-                                <select name="insurance" id="insurance" class="form-control">
-                                    <option value="yes">{{ __('Yes') }}</option>
-                                    <option value="no">{{ __('No') }}</option>
-                                </select>
-                                @if ($errors->has('insurance'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('insurance') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                            <!-- /.form-group -->
-
-                            <label for="weight">{{ __('Weight(in kg)') }}</label>
-                            <div class="form-group{{ $errors->has('weight') ? ' has-error' : '' }} has-feedback">
-                                <input type="text" name="weight" id="weight" class="form-control" value="{{ $employee['weight'] }}" placeholder="{{ __('Enter Weight...') }}">
-                                
-                                @if ($errors->has('weight'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('weight') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                            <!-- /.form-group -->
                         </div>
                         <!-- /.col -->
                         <div class="col-md-12">
@@ -478,7 +476,7 @@
         document.forms['employee_edit_form'].elements['id_name'].value = "{{ $employee['id_name'] }}";
         document.forms['employee_edit_form'].elements['marital_status'].value = "{{ $employee['marital_status'] }}";
         document.forms['employee_edit_form'].elements['designation_id'].value = "{{ $employee['designation_id'] }}";
-        document.forms['employee_edit_form'].elements['department_id'].value = "{{ $department_id[0] }}";
+        document.forms['employee_edit_form'].elements['department_id'].value = "{{ $employee['department_id']}}";
         document.forms['employee_edit_form'].elements['physical_ability'].value = "{{ $employee['physical_ability'] }}";
         document.forms['employee_edit_form'].elements['employee_type'].value = "{{ $employee['employee_type'] }}";
         document.forms['employee_edit_form'].elements['role'].value = "{{ $employee['role'] }}";

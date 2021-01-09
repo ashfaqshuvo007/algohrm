@@ -84,11 +84,10 @@
                             <td class="text-center">{{ date("d F Y", strtotime($employee['created_at'])) }}</td>
                            
                             <td class="text-center">
-                               <a href="{{ url('/people/employees/download-emplpoyee-id-card-pdf/' . $employee['id']) }}"><i class="icon fa fa-download"></i> {{ __('Download') }}</a>
-                               <a href="{{ url('/people/employees/details/' . $employee['id']) }}"><i class="icon fa fa-eye"></i> {{ __('View') }}</a>
-                               <a href="{{ url('/people/employees/edit/' . $employee['id']) }}"><i class="icon fa fa-edit"></i> {{ __('Edit') }}</a>
-                               <a href="{{ url('/people/employees/id-card/' . $employee['id']) }}"><i class="icon fa fa-eye"></i> {{ __('ID CARD') }}</a>
-                               <a href="{{ url('/people/employees/edit-employee-profile-image/'.$employee['id']) }}"><i class="icon fa fa-image"></i> {{ __('Change Image') }}</a>
+                               <a href="{{ url('/people/employees/download-employee-id-card-pdf/' . $employee['id']) }}"><i class="icon fa fa-download" data-toggle="tooltip" data-placement="top" title="Download Id Card"></i></a>
+                               <a href="{{ url('/people/employees/details/' . $employee['id']) }}"><i class="icon fa fa-eye" data-toggle="tooltip" data-placement="top" title="See Employee Details"></i></a>
+                               <a href="{{ url('/people/employees/edit/' . $employee['id']) }}"><i class="icon fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit Employee Details"></i></a>
+                               <a href="{{ url('/people/employees/edit-employee-profile-image/'.$employee['id']) }}"><i class="icon fa fa-image" data-toggle="tooltip" data-placement="top" title="Change Profile Image"></i></a>
 {{--                               <a href="{{ url('/people/employees/payslip-generate/' . $employee['id']) }}"><i class="icon fa fa-money"></i> {{ __('Payslip') }}</a>--}}
                             </td>
                         </tr>
