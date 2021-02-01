@@ -71,7 +71,7 @@
 
                 <div class="container">
                         <div class="row">
-                            <div class="col-md-4   main-section text-center" style="width: 219px; height: 366px">
+                            <div class="col-md-4   main-section text-center" style="width: 240px; height: 366px">
                                 <div class="row">
                                     <div class="col-sm-12 profile-header"
                                          style="background-color: {{$profileHeaderBackgroundColor}}">
@@ -85,7 +85,7 @@
                                                  class="img-responsive img-thumbnail rounded-circle"style="border-radius: 50%">
                                         @else
                                             <img src="{{ url('public/profile_picture/blank_profile_picture.png') }}"
-                                                 alt="blank_profile_picture" class="img-responsive img-thumbnail"
+                                                 alt="blank_profile_picture" class="img-responsive img-thumbnail rounded-circle"
                                                  style="border-radius: 50%">
 
                                         @endif
@@ -93,32 +93,31 @@
                                         <table class="table" style="text-align: left;width: 100%;border: none !important;">
                                             <tbody>
                                             <tr>
-                                                <th style="font-size: 10px">Employee ID</th>
-                                                <td style="font-size: 10px">{{ $employee['employee_id'] }}</td>
+                                                <th style="font-size: 9px">Employee ID</th>
+                                                <td style="font-size: 8px">{{ $employee['employee_id'] }}</td>
                                             </tr>
                                             <tr>
-                                                <th style="font-size: 10px">Name</th>
-                                                <td style="font-size: 10px">{{ ucwords($employee['name'] )}}</td>
+                                                <th style="font-size: 9px">Name</th>
+                                                <td style="font-size: 8px">{{ ucwords($employee['name'] )}}</td>
                                             </tr>
 
                                             <tr>
-
-                                                <th style="font-size: 10px">Designation</th>
-                                                <td style="font-size: 10px">{{ucfirst($employee['designation'])  }}</td>
+                                                <th style="font-size: 9px">Designation</th>
+                                                <td style="font-size: 8px">{{ucfirst($employee['designation'])  }}</td>
                                             </tr>
                                             <tr>
-                                                <th style="font-size: 10px">Department</th>
-                                                <td style="font-size: 10px">
+                                                <th style="font-size: 9px">Department</th>
+                                                <td style="font-size: 8px">
                                                     {{ucfirst($employee['department'])}}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th style="font-size: 10px">Type</th>
-                                                <td style="font-size: 10px">{{ ucfirst($employee['employee_type']) }}</td>
+                                                <th style="font-size: 9px">Employee Type</th>
+                                                <td style="font-size: 8px">{{ ucfirst($employee['employee_type']) }}</td>
                                             </tr>
                                             <tr>
-                                                <th style="font-size: 10px">Joining Date</th>
-                                                <td style="font-size: 10px">{{ date("d-m-Y", strtotime($employee['joining_date'])) }}</td>
+                                                <th style="font-size: 9px">Joining Date</th>
+                                                <td style="font-size: 8px">{{ date("d-m-Y", strtotime($employee['joining_date'])) }}</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -127,8 +126,8 @@
                                 <div class="row user-social-detail"
                                      style="background-color: {{$userSocialDetailsBackgroundColor}}">
                                     <div class="col-sm-4" style="color: white">
-                                        <h6>Contact Address</h6>
-                                        <h6>22/A, Fatullah, Narayanganj</h6>
+                                        <h6 style="color: white;font-weight:bold;">Contact Address</h6>
+                                        <h6 style="color: white;font-weight:bold;">22/A, Fatullah, Narayanganj</h6>
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +135,7 @@
                         <br>
                         <div class="row">
                         <div class="col-md-4  main-section text-center"
-                             style="width: 219px; height: 366px">
+                             style="width: 240px; height: 366px">
                             <div class="row">
                                 <div class="col-lg-4 profile-header"
                                      style="background-color: {{$profileHeaderBackgroundColor}}">
@@ -157,15 +156,15 @@
                                         <p style="font-size: 10px;margin-bottom: 0">EMAIL: info@mavendesignltd.com</p>
                                         <p style="font-size: 10px;margin-bottom: 0">WEBSITE: www.mavendesignltd.com</p>
                                     </div>
-                                    <img src="#">
+                                    {{-- <img src="#"> --}}
                                     <hr>
                                 </div>
                             </div>
                             <div class="row user-social-detail"
                                  style="background-color: {{$userSocialDetailsBackgroundColor}}">
                                 <div class="col-lg-4" style="color: white">
-                                    <h6>Contact Address</h6>
-                                    <h6>22/A, Fatullah, Narayanganj</h6>
+                                    <h6 style="color: white;font-weight:bold;">Contact Address</h6>
+                                    <h6 style="color: white;font-weight:bold;">22/A, Fatullah, Narayanganj</h6>
                                 </div>
                             </div>
                         </div>

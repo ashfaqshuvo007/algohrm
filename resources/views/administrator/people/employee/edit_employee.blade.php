@@ -1,6 +1,9 @@
 @extends('administrator.master')
 @section('title', __('Edit team member'))
 @section('main_content')
+@php
+    // dd($employee);
+@endphp
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -370,7 +373,7 @@
                                 <select name="employee_type" id="employee_type" class="form-control">
                                     <option value="" selected>{{ __('Select Employee Type') }}</option>
                                     <option value="executive">{{ __('Executive') }}</option>
-                                    <option value="stuff">{{ __('Stuff') }}</option>
+                                    <option value="staff">{{ __('Staff') }}</option>
                                     <option value="worker">{{ __('Worker') }}</option>
                                     
                                 </select>
