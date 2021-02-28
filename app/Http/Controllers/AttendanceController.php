@@ -236,28 +236,30 @@ class AttendanceController extends Controller
         $number_of_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
         $attendances = Attendance::query()
-            ->leftjoin('leave_categories as leave', 'attendances.leave_category_id', '=', 'leave.id')
+        // ->leftjoin('leave_categories as leave', 'attendances.leave_category_id', '=', 'leave.id')
             ->whereYear('attendances.attendance_date', '=', $year)
             ->whereMonth('attendances.attendance_date', '=', $month)
-            ->get(['attendances.*', 'leave.leave_category'])
+            ->get(['attendances.*'])
             ->toArray();
 
+        dump($attendances);
         $employees = User::query()
             ->leftjoin('designations as designations', 'users.designation_id', '=', 'designations.id')
             ->orderBy('users.name', 'ASC')
-            ->where('users.access_label', '>=', 2)
-            ->where('users.access_label', '<=', 3)
+            ->where('users.role', '>=', 2)
             ->get(['designations.designation', 'users.name', 'users.id'])
             ->toArray();
-
+        dump($employees);
         $weekly_holidays = WorkingDay::where('working_status', 0)
             ->get()
             ->toArray();
+        dump($weekly_holidays);
 
         $monthly_holidays = Holiday::whereYear('date', '=', $year)
             ->whereMonth('date', '=', $month)
             ->get(['date', 'holiday_name'])
             ->toArray();
+        dd($monthly_holidays);
 
         return view('administrator.hrm.attendance.get_report', compact('date', 'attendances', 'employees', 'number_of_days', 'weekly_holidays', 'monthly_holidays'));
     }

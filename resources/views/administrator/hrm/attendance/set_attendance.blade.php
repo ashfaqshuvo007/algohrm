@@ -34,9 +34,16 @@
                     </div>  
                     <div  class="col-md-6">
                         <input type="text" id="myInput2" class="form-control" placeholder="{{ __('Search by name or official employee id..') }}">
-                    </div>                 
+                    </div> 
+                    <div  class="col-md-3">
+                        <button type="button" class="tip btn btn-primary btn-flat" title="Export Excel" data-original-title="Label Export As Excel" id="btnExport">
+                              <i class="fa fa-excel"></i>
+                              <span class="hidden-sm hidden-xs"> {{ __('Export As Excel') }}</span>
+                        </button>
+                      </div>                
               </div>
               <!-- /. end col -->
+              <br><br>
               <div class="col-md-12">
                 @if (!empty(Session::get('message')))
                 <div class="alert alert-success alert-dismissible" id="notification_box">
@@ -98,4 +105,20 @@
 </section>
 <!-- /.content -->
 </div>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+<script>
+$(document).ready(function(){
+    $("#btnExport").click(function() {
+        var d = new Date();
+        var date = '{{ $date }}'
+        let table = document.getElementsByTagName("table");
+        TableToExcel.convert(table[0], { // html code may contain multiple tables so here we are refering to 1st table tag
+           name: `AttendanceReport-${date}.xlsx`, // fileName you could use any name
+           sheet: {
+              name: 'Sheet 1' // sheetName
+           }
+        });
+    });
+});
+</script>
 @endsection
