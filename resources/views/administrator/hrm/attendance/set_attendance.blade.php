@@ -2,6 +2,7 @@
 @section('title', __('Set Attendance'))
 
 @section('main_content')
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -20,7 +21,7 @@
         <!-- Default box -->
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title btn-success">{{ __('New Attendance') }}</h3>
+                <h3 class="box-title">{{ __('Device: ') }} {{ $device_name[0]}}</h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
@@ -30,7 +31,7 @@
             <div class="box-body">
                 <div class="col-md-12">                    
                     <div class=" col-sm-3">
-                        <p class="">Set Attendance For : <span class="text-primary h4">{{ $date }}</span></p>
+                        <p class="">For Date: <span class="text-primary h4">{{ $date }}</span></p>
                     </div>  
                     <div  class="col-md-6">
                         <input type="text" id="myInput2" class="form-control" placeholder="{{ __('Search by name or official employee id..') }}">
@@ -111,9 +112,10 @@ $(document).ready(function(){
     $("#btnExport").click(function() {
         var d = new Date();
         var date = '{{ $date }}'
+        var device_name = '{{ $device_name[0]}}'
         let table = document.getElementsByTagName("table");
         TableToExcel.convert(table[0], { // html code may contain multiple tables so here we are refering to 1st table tag
-           name: `AttendanceReport-${date}.xlsx`, // fileName you could use any name
+           name: `AttendanceReport-${device_name}-${date}.xlsx`, // fileName you could use any name
            sheet: {
               name: 'Sheet 1' // sheetName
            }

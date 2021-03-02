@@ -173,7 +173,7 @@ class DeviceAttendanceController extends Controller
         $zklib->disconnect();
 
         // dd($attendances);
-        $past_att = DeviceAttendance::whereDate('created_at', date('Y-m-d'))->first();
+        $past_att = DeviceAttendance::where('device_id', $r->device_id)->whereDate('created_at', date('Y-m-d'))->first();
         if (empty($past_att)) {
             foreach ($attendances as $key => $val) {
                 $device_att = new DeviceAttendance;
@@ -185,9 +185,18 @@ class DeviceAttendanceController extends Controller
 
                 $device_att->save();
             }
+
+            // Clear Attendance from Device
+            // $zklib = new ZKLib($ip, $port, 'TCP');
+            // $zklib->connect();
+            // $zklib->disableDevice();
+            // $attendances = $zklib->clearAttendance();
+            // $zklib->enableDevice();
+            // $zklib->disconnect();
+
             return redirect('/hrm/attendance/manage')->with('message', 'Data Saved Successfully!');
         } else {
-            return redirect('/device/getAttendance/select')->with('exception', 'Data already exists for this date!');
+            return redirect('/hrm/attendance/manage')->with('exception', 'Data already exists for this date!');
         }
     }
 

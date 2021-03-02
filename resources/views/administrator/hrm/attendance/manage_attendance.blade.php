@@ -48,13 +48,30 @@
                         {{ csrf_field() }}
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
-                                <div class="input-group margin">
+                                <div class="input-group ">
                                     <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                                     <input type="text" name="date" class="form-control" id="datepicker">
-                                    <span class="input-group-btn">
-                                      <button type="submit" class="btn btn-info btn-flat"><i class="icon fa fa-arrow-right"></i>{{ __('Go') }} </button>
-                                  </span>
                               </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-laptop"></i></div>
+                                    <select name="device_id" id="device_id" class="form-control">
+                                        <option value="0" selected >{{ __('All Devices') }}</option>
+                                        @foreach($devices as $device)
+                                        <option value="{{$device->id}}">{{ $device->device_name }}</option>
+                                        @endforeach
+                                    </select>
+                              </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-6">
+                                <button type="submit" class="btn btn-info btn-flat"><i class="icon fa fa-arrow-right"></i>{{ __('Show Attendace') }} </button>
                             </div>
                         </div>
                   </form>
