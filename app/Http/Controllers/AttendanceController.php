@@ -132,7 +132,7 @@ class AttendanceController extends Controller
     }
     public function manualAttendanceSelect(Request $r)
     {
-        $employee = User::where('id', $r->user_id)->where('role', 'employee')->first();
+        $employee = User::where('id', $r->user_id)->first();
         $date = date('Y-m-d');
 
         return view('administrator.hrm.attendance.manual_attendance', compact('employee', 'date'));
