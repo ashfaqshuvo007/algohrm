@@ -126,7 +126,8 @@ class AttendanceController extends Controller
 
     public function manualAttendance()
     {
-        $employees = User::where('role', 'employee')->get();
+        $employees = User::where('role', '>', 1)->get();
+        // dd($employees);
         return view('administrator.hrm.attendance.manual_attendance_select', compact('employees'));
     }
     public function manualAttendanceSelect(Request $r)

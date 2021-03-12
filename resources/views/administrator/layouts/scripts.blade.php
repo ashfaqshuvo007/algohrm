@@ -176,6 +176,11 @@
             showInputs: false
         });
 
+
+        //Manual Attendance Select dropdown
+        employee_id_list
+        $('#employee_id_list').select2();
+
     });
 </script>
 <!-- For All Type of Print -->

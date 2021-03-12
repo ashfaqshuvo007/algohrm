@@ -91,7 +91,7 @@
                                             <tbody>
                                             <tr>
                                                 <th style="font-size: 9px">Employee ID</th>
-                                                <td style="font-size: 8px">{{ $employee->employee_id }}</td>
+                                                <td style="font-size: 10px;color: red;">{{ $employee->employee_id }}</td>
                                             </tr>
                                             <tr>
                                                 <th style="font-size: 9px">Name</th>

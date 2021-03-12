@@ -50,7 +50,7 @@
               <div class="col-sm-offset-3 col-sm-6">
                 <div class="input-group margin">
                   <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                  <select name="user_id" class="form-control">
+                  <select name="user_id" class="form-control" id="employee_id_list">
                     <option selected disabled>{{ __('Select One Employee') }}</option>
                     @foreach($employees as $employee)
                     <option value="{{ $employee['id'] }}"><strong>{{ $employee['employee_id'] }}</option>
