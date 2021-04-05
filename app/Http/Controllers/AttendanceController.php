@@ -160,7 +160,7 @@ class AttendanceController extends Controller
                 'overtime_hours' => $overtimeHours,
             ];
             $result = Attendance::create($data + ['created_by' => auth()->user()->id]);
-            return view('administrator.hrm.attendance.manage_attendance')->with('message', 'Attendance saved successfully!');
+            return redirect('/hrm/attendance/manualAttendance')->with('message', 'Attendance saved successfully!');
 
         } else {
             return redirect('/hrm/attendance/manualAttendance')->with('exception', 'Attendance already for this date already exists!!');
