@@ -125,12 +125,28 @@
             autoclose: true,
             format: "yyyy-mm-dd"
         });
+        $('#datepicker3').datepicker('setDate', 'now');
 
         //Date picker
         $('#datepicker4').datepicker({
             autoclose: true,
             format: "yyyy-mm-dd"
         });
+
+        //Attendance From Date picker
+        $('#fromDatePicker').datepicker({
+            autoclose: true,
+            format: "yyyy-mm-dd"
+        });
+        $('#fromDatePicker').datepicker('setDate', 'now');
+
+        //Attendance From Date picker
+        $('#endDatePicker').datepicker({
+            autoclose: true,
+            format: "yyyy-mm-dd"
+        });
+        $('#endDatePicker').datepicker('setDate', 'now');
+
 
         //Month picker
         $('#monthpicker').datepicker({

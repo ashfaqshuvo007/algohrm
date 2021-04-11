@@ -202,6 +202,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/hrm/attendance/showPastAttendance', 'AttendanceController@set_past_attendance');
     Route::post('/hrm/attendance/storePastAttendance', 'AttendanceController@storePastAttendance');
 
+    // {{ New Attendance Routes}}
+    Route::get('/hrm/attendance/details/getReport/go', 'AttendanceController@attendanceReportGo');
+    Route::post('/hrm/attendance/showReport', 'AttendanceController@attendanceShowReport');
+
     // Payroll/Wages Section
     Route::get('/hrm/payroll', 'PayrollController@index');
     Route::post('/hrm/payroll/go', 'PayrollController@go');

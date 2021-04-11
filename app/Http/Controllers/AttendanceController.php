@@ -97,7 +97,16 @@ class AttendanceController extends Controller
     {
         // dd($r);
         $date = $r->date;
-        $past_att = Attendance::where('attendance_date', $date)->get();
+        $past_att = Attendance::leftjoin('users', 'attendances.employee_id', '=', 'users.employee_id')
+            ->where('attendance_date', $date)
+            ->select([
+                'users.employee_id',
+                'users.name',
+                'users.employee_type',
+                'attendances.check_in',
+                'attendances.check_out',
+            ])
+            ->get();
         return view('administrator.hrm.attendance.set_past_attendance', compact('past_att', 'date'));
     }
 
@@ -252,7 +261,7 @@ class AttendanceController extends Controller
             ->leftjoin('designations as designations', 'users.designation_id', '=', 'designations.id')
             ->orderBy('users.name', 'ASC')
             ->where('users.role', '>=', 2)
-            ->get(['designations.designation', 'users.name', 'users.id'])
+            ->get(['designations.designation', 'users.name', 'users.id', 'users.employee_id'])
             ->toArray();
         dump($employees);
         $weekly_holidays = WorkingDay::where('working_status', 0)
@@ -264,7 +273,7 @@ class AttendanceController extends Controller
             ->whereMonth('date', '=', $month)
             ->get(['date', 'holiday_name'])
             ->toArray();
-        dd($monthly_holidays);
+        // dd($monthly_holidays);
 
         return view('administrator.hrm.attendance.get_report', compact('date', 'attendances', 'employees', 'number_of_days', 'weekly_holidays', 'monthly_holidays'));
     }
@@ -377,6 +386,28 @@ class AttendanceController extends Controller
         $pdf = PDF::loadView('administrator.hrm.attendance.detailsAttendenseReportPdf', compact('attendance', 'startdate', 'enddate', 'empid', 'attds', 'abs'));
 
         return $pdf->download('AttendenceStatement.pdf');
+
+    }
+
+    public function attendanceReportGo()
+    {
+        return view('administrator.hrm.attendance.get_attendance_report');
+    }
+
+    public function attendanceShowReport(Request $r)
+    {
+        $date = date("Y-m-d", strtotime($r->date));
+        $att_user_details = Attendance::leftjoin('users', 'attendances.employee_id', '=', 'users.employee_id')
+            ->where('attendance_date', $date)
+            ->select([
+                'users.employee_id',
+                'users.name',
+                'users.employee_type',
+                'attendances.check_in',
+                'attendances.check_out',
+            ])
+            ->get();
+        return view('administrator.hrm.attendance.attendance_chart', compact('att_user_details', 'date'));
 
     }
 }

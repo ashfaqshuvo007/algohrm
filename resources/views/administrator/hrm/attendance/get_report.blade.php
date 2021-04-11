@@ -94,25 +94,20 @@
                                 <span class="btn btn-xs btn-danger btn-flat" data-toggle="tooltip" data-original-title="Weekly Holiday">{{ __('H') }}</span>
                                 @endif
                                 @endforeach
-
-                                @foreach($attendances as $attendance)
-                                @if($attendance['user_id'] == $employee['id'])
-                                @if($attendance['attendance_date'] == $day)
-                                @if($attendance['attendance_status'] == 1)
-                                <span class="btn btn-xs btn-success btn-flat" data-toggle="tooltip" data-original-title="Present"> {{ __('P') }} </span>
-                                @endif
-                                @if($attendance['attendance_status'] == 0)
                                 
-                                @if($attendance['leave_category_id'] == 0)
-                                <span class="btn btn-xs btn-warning btn-flat" data-toggle="tooltip" data-original-title="Absence">{{ __('A') }}</span> 
-                                @else
-                                <span class="btn btn-xs btn-info btn-flat" data-toggle="tooltip" data-original-title="{{ $attendance['leave_category'] }}">{{ __('L') }}</span>
-                                @endif
+                                    @foreach($attendances as $attendance)
+                                        @if($attendance['employee_id'] == $employee['employee_id'])
+                                            @if($attendance['attendance_date'] == $day)
+                                                @if($attendance['attendance_status'] == 1)
+                                                <span class="btn btn-xs btn-success btn-flat" data-toggle="tooltip" data-original-title="Present"> {{ __('P') }} </span>
+                                                @else
+                                                {{-- @if($attendance['attendance_status'] != 1) --}}
+                                                <span class="btn btn-xs btn-warning btn-flat" data-toggle="tooltip" data-original-title="Absence">{{ __('A') }}</span> 
+                                                @endif
+                                            @endif
+                                        @endif
+                                    @endforeach
                                 
-                                @endif
-                                @endif
-                                @endif
-                                @endforeach
                             </td>
                             @endfor
                         </tr>

@@ -104,10 +104,11 @@
             <ul class="treeview-menu">
                 @permission('manage-attendance')
                 <li><a href="{{ url('/hrm/attendance/manage') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Attendance') }} </a></li>
-                <li><a href="{{ url('/device/pullAttendance') }}"><i class="fa fa-circle-o"></i>{{ __(' Pull Device Attendance') }}</a></li>
+                <li><a href="{{ url('/device/pullAttendance') }}"><i class="fa fa-circle-o"></i>{{ __('Check Device Attendance') }}</a></li>
                 @endpermission
                 @permission('attendance-report')
                 {{-- <li><a href="{{ url('/hrm/attendance/details/report/go') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Statement') }}</a></li> --}}
+                <li><a href="{{ url('/hrm/attendance/details/getReport/go') }}"><i class="fa fa-circle-o"></i>{{ __('Get Attendance Report') }}</a></li>
                 <li><a href="{{ url('/hrm/attendance/manualAttendance') }}"><i class="fa fa-circle-o"></i>{{ __(' Add Manual Attendance') }}</a></li>
                 <li><a href="{{ url('/hrm/attendance/editPastAttendance') }}"><i class="fa fa-circle-o"></i>{{ __(' Edit Past Attendance') }}</a></li>
                 {{-- <li><a href="{{ url('/hrm/attendance/report') }}"><i class="fa fa-circle-o"></i>{{ __(' Attendance Report') }}</a></li> --}}
