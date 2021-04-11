@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Department;
 use App\Designation;
 use App\Device;
-use App\Payroll;
+use App\Holiday;
 use App\Role;
 use App\User;
+use App\WorkingDay;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use PDF;
@@ -83,7 +85,7 @@ class EmplController extends Controller
      */
     public function store(Request $request)
     {
-
+        // dump($request);
         $url = '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/';
 
         $employee = request()->validate([
@@ -125,6 +127,7 @@ class EmplController extends Controller
             'name.regex' => 'No number is allowed.',
             'access_label' => 'The position field is required.',
         ]);
+        // dd($employee);
 
         $result = User::create($employee + ['created_by' => auth()->user()->id, 'access_label' => 2, 'password' => bcrypt(12345678)]);
         $inserted_id = $result->id;
@@ -380,38 +383,52 @@ class EmplController extends Controller
         // return $pdf->download($file_name);
         return view('administrator.people.employee.show_employee_id_card', compact('employee', 'created_by', 'designations', 'departments'));
     }
+
     public function showPayslip($id)
     {
+        $salryMonth = date('m', strtotime(Carbon::now()->subMonth(1)));
+        $salaryMonthAndYear = date('"F Y"', strtotime(Carbon::now()->subMonth(1)));
+        // dump($salaryMonthAndYear);
 
-        // Employee Platform Details
-        $employee = DB::table('users')
-            ->join('designations', 'users.designation_id', '=', 'designations.id')
-            ->select('users.*', 'designations.designation')
+        $monthly_holidays = Holiday::whereMonth('date', '=', $salryMonth)
+            ->pluck('date')
+            ->toArray();
+
+        $holidayCount = count($monthly_holidays);
+
+        $weekly_holidays = WorkingDay::where('working_status', 0)
+            ->pluck('day')
+            ->toArray();
+
+        $month = date('m', strtotime(Carbon::now()->subMonth(1)));
+        $year = date('Y', strtotime(Carbon::now()->subMonth(1)));
+
+        $numDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+        $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
+
+        $salaries = User::query()
+            ->leftJoin('payrolls', 'users.id', '=', 'payrolls.user_id')
+            ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
+            ->leftJoin('departments', 'users.department_id', '=', 'departments.id')
+            ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
+            ->where('users.role', '>=', 2)
             ->where('users.id', $id)
-            ->first();
-//        $created_by = User::where('id', $employee->created_by)
-        //            ->select('id', 'name')
-        //            ->first();
-        $designations = Designation::where('deletion_status', 0)
-            ->select('id', 'designation')
-            ->get();
-        $departments = Department::where('deletion_status', 0)
-            ->select('id', 'department')
-            ->get();
+            ->where('users.deletion_status', 0)
+            ->get([
+                'payrolls.*',
+                'users.name', 'users.joining_date', 'users.employee_id',
+                'designations.designation', 'designations.grade_id',
+                'departments.department',
+                'payment_grades.grade',
+            ])
+            ->toArray();
+        // dd($salaries);
 
-//        $employeeID = User::where('id',$id)
-        //            ->select('users.employee_id')
-        //            ->get();
+        $pdf = PDF::loadView('administrator.hrm.payroll.single_payslip', compact('salaries', 'numDays', 'salryMonth', 'totalHolidays', 'salaryMonthAndYear'));
 
-//        dd($employee);
-
-        $salary = Payroll::where('user_id', $id)
-            ->select('payrolls.*')
-            ->first();
-
-//        dd($salary['basic_salary']);
-
-        return view('administrator.people.employee.show_employee_payslip', compact('employee', 'designations', 'departments', 'salary'));
+        // download PDF file with download method
+        return $pdf->stream($salaries[0]['name'] . '_payslip.pdf');
     }
 
     public function edit_employee_profile_image(Request $request, $id)

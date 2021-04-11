@@ -255,7 +255,16 @@
                             </div>
                             <!-- /.form-group -->
 
-                            <input type="hidden" name="home_district" value="None">
+                            <label for="home_district">{{ __(' Home District') }}</label>
+                            <div class="form-group{{ $errors->has('home_district') ? ' has-error' : '' }} has-feedback">
+                                <input type="text" name="home_district" id="home_district" class="form-control" value="{{ old('home_district') }}">
+                                @if ($errors->has('home_district'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('home_district') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <!-- /.form-group -->
 
        
                             <!-- /.form-group -->
@@ -484,6 +493,8 @@
     document.forms['employee_add_form'].elements['gender'].value = "{{ old('gender') }}";
         document.forms['employee_add_form'].elements['id_name'].value = "{{ old('id_name') }}";
     document.forms['employee_add_form'].elements['designation_id'].value = "{{ old('designation_id') }}";
+    document.forms['employee_add_form'].elements['department_id'].value = "{{ old('department_id')}}";
+
     document.forms['employee_add_form'].elements['role'].value = "{{ old('role') }}";
     document.forms['employee_add_form'].elements['joining_position'].value = "{{ old('joining_position') }}";
     document.forms['employee_add_form'].elements['marital_status'].value = "{{ old('marital_status') }}";

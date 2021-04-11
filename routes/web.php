@@ -275,8 +275,6 @@ Route::group(['middleware' => 'auth'], function () {
     //
     Route::get('/hrm/provident-funds/', 'SalaryPaymentController@provident_fund');
 
-    // Noyon
-
     //working days
     Route::get('/setting/working-days', 'WorkingDayController@index');
     Route::post('/setting/working-days/update/', 'WorkingDayController@update');

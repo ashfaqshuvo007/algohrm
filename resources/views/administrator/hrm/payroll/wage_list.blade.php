@@ -79,7 +79,7 @@
                                 <th>{{ __('Medical Allowance') }}</th>
                                 <th>{{ __('Food Allowance') }}</th>
                                 <th>{{ __('Convaynce') }}</th>
-                                <th>{{ __('Absent Deduction') }}</th>
+                                <th>{{ __('Absent Deduction')}} </th>
                                 <th>{{ __('Total As per attendance') }}</th>
                                 <th>{{ __('Overtime Hours') }}</th>
                                 <th>{{ __('Overtime rate') }}</th>
@@ -97,7 +97,8 @@
                             @php $sl = 1; @endphp
                             @foreach($salaries as $salary)
                             @php
-                                $present = \App\Attendance::where('employee_id',$salary['employee_id'])->whereMonth('attendance_date',$salryMonth)->get()->toArray();
+
+                                $present = \App\Attendance::where('employee_id',$salary['employee_id'])->where(DB::raw('MONTH(attendance_date)'), $salryMonth)->get()->toArray();
                                 $presentCount = count($present);
                                 $workingDays = $numDays - $totalHolidays;
                                 $absent_days = $workingDays - $presentCount;
@@ -116,8 +117,8 @@
                                 @php $gross_salary = (int)$salary['basic_salary'] + (int)$salary['house_rent'] + (int)$salary['medical_allowance'] + (int)$salary['food_allowance'] + (int)$salary['convayence'] ; @endphp
                                 {{ $gross_salary }}
                                 </td>
-                                <td>{{ date("t") }}</td>
-                                <td>{{ date("t") - $totalHolidays }}</td>
+                                <td>{{ $numDays }}</td>
+                                <td>{{ $numDays - $totalHolidays }}</td>
                                 <td>{{ $totalHolidays}}</td>
                                 {{-- <td>0</td>
                                 <td>0</td>
@@ -128,8 +129,16 @@
                                 <td>{{$salary['medical_allowance']}}</td>
                                 <td>{{$salary['food_allowance']}}</td>
                                 <td>{{$salary['convayence']}}</td>
-                                <td>{{$salary['absent_deduction']}}</td>
-                                @php $total_deduction = ((int)$salary['absent_deduction'] * ($workingDays - $presentCount)); @endphp
+                                @php
+                                    $tot_absent_deduction = ($salary['employee_type'] == 'worker') ? ($salary['absent_deduction'] * $absent_days) : 0;
+                                @endphp
+                                <td>{{$tot_absent_deduction }}</td>
+                                @php 
+                                
+                                    $total_deduction = ($salary['employee_type'] == 'worker') ? ((int)$salary['absent_deduction'] * ($workingDays - $presentCount)) : 0; 
+                                
+                                
+                                @endphp
                                 <td>{{ $gross_salary - $total_deduction }}</td>
                                 <td>
                                     @php
@@ -151,7 +160,7 @@
                                 </td>
                                 <td>
                                     @php
-                                        $increment = ($salary['increment_amount'] == null) ? 0 : $salary['increment_amount']
+                                        $increment = ($salary['increment_amount'] == null) ? 0 : $salary['increment_amount'];
                                     @endphp
                                     
                                     {{ $increment }}
@@ -169,8 +178,19 @@
                                 </td>
                             <td>    
                                 @php
-                                    $total_additional = $bonus + $increment + $overtime_taka;
-                                    $net_payable = $gross_salary + $total_additional;
+                                    $join = strtotime($salary['joining_date']);
+                                    $today = strtotime(date("Y-m-d"));
+                                    $days = (int)(($join - $today)/86400);
+
+                                    $factor = $days/365;
+                                    if (($factor) > 0){
+                                        $act_increment_amount = $increment * $factor;
+                                    }else{
+                                        $act_increment_amount = $increment * 0;
+                                    }
+
+                                    $total_additional = $bonus + $act_increment_amount + $overtime_taka;
+                                    $net_payable = $gross_salary + $total_additional - $total_deduction;
                                 @endphp
                                 {{  $total_additional}}
                             </td>

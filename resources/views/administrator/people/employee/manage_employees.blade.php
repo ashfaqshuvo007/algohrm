@@ -88,7 +88,7 @@
                                <a href="{{ url('/people/employees/details/' . $employee['id']) }}"><i class="icon fa fa-eye" data-toggle="tooltip" data-placement="top" title="See Employee Details"></i></a>
                                <a href="{{ url('/people/employees/edit/' . $employee['id']) }}"><i class="icon fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit Employee Details"></i></a>
                                <a href="{{ url('/people/employees/edit-employee-profile-image/'.$employee['id']) }}"><i class="icon fa fa-image" data-toggle="tooltip" data-placement="top" title="Change Profile Image"></i></a>
-{{--                               <a href="{{ url('/people/employees/payslip-generate/' . $employee['id']) }}"><i class="icon fa fa-money"></i> {{ __('Payslip') }}</a>--}}
+                              <a href="{{ url('/people/employees/payslip-generate/' . $employee['id']) }}"><i class="icon fa fa-file" data-toggle="tooltip" data-placement="top" title="Generate Payslip for Last Month"></i></a>
                             </td>
                         </tr>
                         @endforeach
