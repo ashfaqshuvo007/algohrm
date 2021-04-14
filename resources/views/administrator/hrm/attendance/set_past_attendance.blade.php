@@ -67,8 +67,9 @@
                     <tbody id="search_area">
                         
                        
-                        @php $sl = 1; @endphp
+                        @php $sl = 1;@endphp
                         @foreach($past_att as $employee)
+                       
                         <tr>
                             <td>{{ $sl++ }}</td>
                             <td>{{ $employee->employee_id}}</td>
@@ -77,11 +78,11 @@
                             <td>{{ $employee->check_out }}</td>
                             <td class="text-center">
                                 {{-- <a href="{{ url('hrm/attendance/past/'.$employee->id.'/edit') }}"><i class="icon fa fa-edit"></i></a> --}}
-                                <a href="#" data-toggle="modal" data-target="#editAttendance"><i class="icon fa fa-edit"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#editAttendance{{$employee->id}}"><i class="icon fa fa-edit"></i></a>
                             </td>
                         </tr>
                         <!-- Modal -->
-                <div class="modal fade" id="editAttendance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="editAttendance{{$employee->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <form action="{{ url('/hrm/attendance/storePastAttendance') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="row_id" id="row_id" class="form-control" value="{{ $employee->id }}">
@@ -96,37 +97,37 @@
                         </div>
                         <div class="modal-body">
                             <label for="date">{{ __('Date') }}</label>
-                                        <div class="form-group{{ $errors->has('date') ? ' has-error' : '' }} has-feedback">
-                                            <input type="date" name="date" id="date" class="form-control" value="{{ $date }}" disabled>
-                                            @if ($errors->has('date'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first('date') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
-                                        <!-- /.form-group -->
+                            <div class="form-group{{ $errors->has('date') ? ' has-error' : '' }} has-feedback">
+                                <input type="date" name="date" id="date" class="form-control" value="{{ $date }}" disabled>
+                                @if ($errors->has('date'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('date') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <!-- /.form-group -->
                     
-                                        <label for="check_in">{{ __('Check In Time') }} </label>
-                                        <div class="form-group{{ $errors->has('check_in') ? ' has-error' : '' }} has-feedback">
-                                        <input type="text" name="check_in" id="check_in" class="form-control" value="{{$employee->check_in}}" >
-                                            @if ($errors->has('check_in'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first('check_in') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
-                                        <!-- /.form-group -->
-                    
-                                        <label for="check_out">{{ __('Check Out Time') }} </label>
-                                        <div class="form-group{{ $errors->has('check_out') ? ' has-error' : '' }} has-feedback">
-                                            <input type="text" name="check_out" id="check_out" class="form-control" value="{{$employee->check_out}}">
-                                            @if ($errors->has('check_out'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first('check_out') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
-                                        <!-- /.form-group -->
+                            <label for="check_in">{{ __('Check In Time') }} </label>
+                            <div class="form-group{{ $errors->has('check_in') ? ' has-error' : '' }} has-feedback">
+                            <input type="text" name="check_in" id="check_in" class="form-control check_in" value="{{$employee->check_in}}" >
+                                @if ($errors->has('check_in'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('check_in') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <!-- /.form-group -->
+        
+                            <label for="check_out">{{ __('Check Out Time') }} </label>
+                            <div class="form-group{{ $errors->has('check_out') ? ' has-error' : '' }} has-feedback">
+                                <input type="text" name="check_out" id="check_out" class="form-control check_out" value="{{$employee->check_out}}">
+                                @if ($errors->has('check_out'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('check_out') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <!-- /.form-group -->
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -152,11 +153,12 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $.datetimepicker.setDateFormatter('moment');
+
          // /In Time picker
-         $('#check_in').datetimepicker();
+         $('.check_in').datetimepicker();
 
         // Out Time picker
-        $('#check_out').datetimepicker();
+        $('.check_out').datetimepicker();
 
        
     });

@@ -139,14 +139,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/people/pullUsers', 'EmplController@pullUsersSelect');
     Route::post('/people/saveDeviceUsers', 'EmplController@saveDeviceUsers');
 
-    // Folder Section //
+    // Folder Section
     Route::get('/folders', 'FolderController@index');
     Route::get('/folders/create', 'FolderController@create');
     Route::post('/folders/store', 'FolderController@store');
+    Route::get('/folders/delete/{id}', 'FolderController@destroy');
 
     // File Section //
     Route::get('/files/{id}', 'FileController@index');
     Route::get('/files/create/{id}', 'FileController@create');
+    Route::get('/files/delete/{id}', 'FileController@destroy');
     Route::post('/files/store/{id}', 'FileController@store');
     Route::get('/files/download/{file}', 'FileController@download');
 

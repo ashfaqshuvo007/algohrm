@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use DB;
 use App\File;
+use DB;
+use Illuminate\Http\Request;
+
 class FileController extends Controller
 {
     /**
@@ -15,13 +16,13 @@ class FileController extends Controller
     public function index($id)
     {
         $files = DB::table('files')
-        ->join('users', 'files.created_by', '=', 'users.id')
-        ->join('folders', 'files.folder_id', '=', 'folders.id')
-        ->select('files.*', 'users.name')
-        ->where('files.folder_id', $id)
-        ->where('files.deletion_status', 0)
-        ->orderBy('files.id', 'DESC')
-        ->get();
+            ->join('users', 'files.created_by', '=', 'users.id')
+            ->join('folders', 'files.folder_id', '=', 'folders.id')
+            ->select('files.*', 'users.name')
+            ->where('files.folder_id', $id)
+            ->where('files.deletion_status', 0)
+            ->orderBy('files.id', 'DESC')
+            ->get();
         $folder_id = $id;
 
         return view('administrator.file.manage_files', compact('files', 'folder_id'));
@@ -52,7 +53,7 @@ class FileController extends Controller
             'publication_status' => 'required',
         ]);
 
-        $file_name = time().'.'.request()->file_name->getClientOriginalExtension();
+        $file_name = time() . '.' . request()->file_name->getClientOriginalExtension();
         request()->file_name->move(public_path('uploaded_files'), $file_name);
 
         $result = File::create([
@@ -65,18 +66,19 @@ class FileController extends Controller
         $inserted_id = $result->id;
 
         if (!empty($inserted_id)) {
-            return redirect('/files/'.$id)->with('message', 'Add successfully.');
+            return redirect('/files/' . $id)->with('message', 'Add successfully.');
         }
-        return redirect('/files/'.$id)->with('exception', 'Operation failed !');
+        return redirect('/files/' . $id)->with('exception', 'Operation failed !');
     }
 
 /**
- * Return Downloadable File 
+ * Return Downloadable File
  */
-public function download($file_name) {
-    $file_path = public_path('uploaded_files/' . $file_name);
-    return response()->download($file_path);
-}
+    public function download($file_name)
+    {
+        $file_path = public_path('uploaded_files/' . $file_name);
+        return response()->download($file_path);
+    }
 
     /**
      * Display the specified resource.
@@ -120,6 +122,15 @@ public function download($file_name) {
      */
     public function destroy($id)
     {
-        //
+        $file = File::findOrFail($id);
+        unlink(public_path('uploaded_files/') . $file->file_name);
+        $deleted_id = $file->delete();
+
+        if (!empty($deleted_id)) {
+            return redirect()->back()->with('message', 'Deleted successfully.');
+        } else {
+            return redirect()->back()->with('exception', 'Operation Failed!');
+
+        }
     }
 }

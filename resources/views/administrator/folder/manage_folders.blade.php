@@ -62,18 +62,40 @@
                                 <th>{{ __('Folder Description') }}</th>
                                 <th class="text-center">{{ __('Added by') }}</th>
                                 <th class="text-center">{{ __('Added') }}</th>
+                                <th class="text-center">{{ __('Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @php ($sl = 1)
                             @foreach($folders as $folder)
                             <tr>
-                                <td>{{ $sl++ }}</td>
-                                <td><a href="{{ url('/files/'.$folder->id) }}">{{ $folder->folder_name }}</a></td>
-                                <td>{{str_limit($folder->folder_description, 65)}}</td>
-                                <td>{{ $folder->name }}</td>
+                                <td class="text-center">{{ $sl++ }}</td>
+                                <td class="text-center"><a href="{{ url('/files/'.$folder->id) }}">{{ $folder->folder_name }}</a></td>
+                                <td>{!! str_limit($folder->folder_description, 65) !!}</td>
+                                <td class="text-center">{{ $folder->name }}</td>
                                 <td class="text-center">{{ date("d F Y", strtotime($folder->created_at)) }}</td>
+                                <td class="text-center"><a href="#" data-toggle="modal" data-target="#actionModal" ><i class="icon fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i></a></td>
                             </tr>
+                            <div class="modal fade" tabindex="-1" id="actionModal" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title">Delete Folder</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <p>Are you sure you want to delete this folder ? This may contain many files . Please check its content.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <a href="{{ url('/folders/delete/'.$folder->id) }}" class="btn btn-primary">Confirm</a>
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
                             @endforeach
                         </tbody>
                     </table>

@@ -240,7 +240,7 @@
             <ul class="treeview-menu">
                 @permission('file-upload')
                 <li><a href="{{ url('/folders/create')}}"><i class="fa fa-circle-o"></i> <span>{{ __('New Upload') }}</span></a></li>
-                <li><a href="{{ url('/folders')}}"><i class="fa fa-circle-o"></i> <span>{{ __('File List') }}</span></a></li>
+                <li><a href="{{ url('/folders')}}"><i class="fa fa-circle-o"></i> <span>{{ __('Folders List') }}</span></a></li>
                 @endpermission
            
             </ul>

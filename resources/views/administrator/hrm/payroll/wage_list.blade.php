@@ -102,8 +102,15 @@
                                 $presentCount = count($present);
                                 $workingDays = $numDays - $totalHolidays;
                                 $absent_days = $workingDays - $presentCount;
-                                $hours_overtime = array_column($present,'overtime_hours');
-                                $total_overtime = array_sum($hours_overtime);
+                                if($salary['employee_type'] == 'worker'){
+                                    
+                                    $hours_overtime = array_column($present,'overtime_hours');
+                                    $total_overtime = array_sum($hours_overtime);
+                                }else{
+                                    $hours_overtime = "N/A";
+                                    $total_overtime = "N/A";
+                                }
+                                
                             @endphp
                             <tr>
                                 <td>{{ $sl++ }}</td>
@@ -130,32 +137,39 @@
                                 <td>{{$salary['food_allowance']}}</td>
                                 <td>{{$salary['convayence']}}</td>
                                 @php
-                                    $tot_absent_deduction = ($salary['employee_type'] == 'worker') ? ($salary['absent_deduction'] * $absent_days) : 0;
+                                    $tot_absent_deduction = $salary['absent_deduction'] * $absent_days;
                                 @endphp
                                 <td>{{$tot_absent_deduction }}</td>
                                 @php 
-                                
-                                    $total_deduction = ($salary['employee_type'] == 'worker') ? ((int)$salary['absent_deduction'] * ($workingDays - $presentCount)) : 0; 
-                                
-                                
+                                    $total_deduction = (int)$salary['absent_deduction'] * ($workingDays - $presentCount); 
                                 @endphp
                                 <td>{{ $gross_salary - $total_deduction }}</td>
                                 <td>
                                     @php
+                                    if($salary['employee_type'] == 'worker'){
                                         if($total_overtime < 0 ){
                                             $actual_overtime = 0;
                                         }else{
                                             $actual_overtime = $total_overtime ;
                                         }
-
+                                    }else{
+                                        $actual_overtime = "N/A";
+                                    }
                                     @endphp
                                     {{ $actual_overtime  }}
                                 </td>
-                                <td>{{$salary['overtime_rate']}}</td>
+                                @php
+                                    if($salary['employee_type'] == 'worker'){
+                                       
+                                        $overtime_rate = (int)$salary['overtime_rate'];
+                                        $overtime_taka = (int)$actual_overtime * $overtime_rate;
+                                    }else{
+                                        $overtime_rate = "N/A";
+                                        $overtime_taka = "N/A";
+                                    }
+                                @endphp
+                                <td>{{$overtime_rate}}</td>
                                 <td>
-                                    @php
-                                        $overtime_taka = $actual_overtime * (int)$salary['overtime_rate'] 
-                                    @endphp
                                     {{ $overtime_taka }}
                                 </td>
                                 <td>
@@ -189,7 +203,7 @@
                                         $act_increment_amount = $increment * 0;
                                     }
 
-                                    $total_additional = $bonus + $act_increment_amount + $overtime_taka;
+                                    $total_additional = $bonus + (int)$act_increment_amount + (int)$overtime_taka;
                                     $net_payable = $gross_salary + $total_additional - $total_deduction;
                                 @endphp
                                 {{  $total_additional}}

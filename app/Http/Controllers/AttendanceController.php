@@ -105,6 +105,8 @@ class AttendanceController extends Controller
                 'users.employee_type',
                 'attendances.check_in',
                 'attendances.check_out',
+                'attendances.id',
+
             ])
             ->get();
         return view('administrator.hrm.attendance.set_past_attendance', compact('past_att', 'date'));
@@ -112,7 +114,6 @@ class AttendanceController extends Controller
 
     public function storePastAttendance(Request $r)
     {
-        // dd($r);
         $in_time = date('Y-m-d H:s:i', strtotime($r->check_in));
         $out_time = date('Y-m-d H:s:i', strtotime($r->check_out));
 
@@ -127,7 +128,7 @@ class AttendanceController extends Controller
             'total_hours' => $diff_in_hours,
             'overtime_hours' => $overtimeHours,
         ];
-        $result = Attendance::where('id', $r->row_id)->update($past_att + ['created_by' => auth()->user()->id]);
+        $result = Attendance::where('id', $r->row_id)->update($past_att);
 
         return redirect('/hrm/attendance/editPastAttendance')->with('message', 'Updated Successfully');
 

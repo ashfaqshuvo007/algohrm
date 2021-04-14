@@ -58,7 +58,7 @@
                                 <th>{{ __('Uploded File') }}</th>
                                 <th class="text-center">{{ __('Added by') }}</th>
                                 <th class="text-center">{{ __('Created at') }}</th>
-                                <th class="text-center">{{ __('Download') }}</th>
+                                <th class="text-center">{{ __('Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,9 +71,31 @@
                                 <td class="text-center" >{{ $file->name }}</td>
                                 <td class="text-center">{{ date("d F Y", strtotime($file->created_at)) }}</td>
                                 <td class="text-center">
-                                    <a href="{{ url('/files/download/'.$file->file_name) }}" class="btn btn-success btn-xs btn-flat btn-block" data-toggle="tooltip" data-original-title="Click to download"><i class="icon fa fa-cloud-download"> {{ __('Downlod') }}</i></a>
+                                    <a href="{{ url('/files/download/'.$file->file_name) }}" data-toggle="tooltip" data-original-title="Click to download"><i class="icon fa fa-cloud-download"></i></a>
+                                    <a href="#" data-toggle="modal" data-target="#actionModal" ><i class="icon fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i></a>
                                 </td>
                             </tr>
+                            <div class="modal fade" tabindex="-1" id="actionModal" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title">Delete File</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <p>Are you sure you want to delete this file?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <a href="{{ url('/files/delete/'.$file->id) }}" class="btn btn-primary">Confirm</a>
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            
                             @endforeach
                         </tbody>
                     </table>

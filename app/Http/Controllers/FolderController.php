@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\File;
 use App\Folder;
 use DB;
+use Illuminate\Http\Request;
 
-class FolderController extends Controller {
+class FolderController extends Controller
+{
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         $folders = DB::table('folders')
-                ->join('users', 'folders.created_by', '=', 'users.id')
-                ->select('folders.*', 'users.name')
-                ->where('folders.deletion_status', 0)
-                ->orderBy('folders.id', 'DESC')
-                ->get();
+            ->join('users', 'folders.created_by', '=', 'users.id')
+            ->select('folders.*', 'users.name')
+            ->where('folders.deletion_status', 0)
+            ->orderBy('folders.id', 'DESC')
+            ->get();
         return view('administrator.folder.manage_folders', compact('folders'));
     }
 
@@ -28,7 +31,8 @@ class FolderController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         return view('administrator.folder.add_folder');
     }
 
@@ -38,12 +42,13 @@ class FolderController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $folder = request()->validate([
             'folder_name' => 'required|max:100',
             'folder_description' => 'required',
-            'publication_status' => 'required'
-                ], [
+            'publication_status' => 'required',
+        ], [
             'folder_name.required' => 'The folder name is required.',
         ]);
 
@@ -62,7 +67,8 @@ class FolderController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         //
     }
 
@@ -72,7 +78,8 @@ class FolderController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         //
     }
 
@@ -83,7 +90,8 @@ class FolderController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         //
     }
 
@@ -93,8 +101,22 @@ class FolderController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
-        //
+    public function destroy($id)
+    {
+        $files = File::where('folder_id', $id)->first();
+        if (!empty($files)) {
+            return redirect()->back()->with('exception', 'The folder is not empty!');
+        } else {
+            $folder = Folder::findOrFail($id);
+            $deleted_id = $folder->delete();
+            if (!empty($deleted_id)) {
+                return redirect()->back()->with('message', ' Deleted Successfully!');
+            } else {
+                return redirect()->back()->with('exception', ' Operation Failed!');
+            }
+
+        }
+
     }
 
 }
