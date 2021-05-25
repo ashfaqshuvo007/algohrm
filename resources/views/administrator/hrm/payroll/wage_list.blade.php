@@ -137,13 +137,15 @@
                                 <td>{{$salary['food_allowance']}}</td>
                                 <td>{{$salary['convayence']}}</td>
                                 @php
-                                    $tot_absent_deduction = $salary['absent_deduction'] * $absent_days;
+                
+                                    $amount_to_deduct = floor($gross_salary / $numDays);
+                                    $tot_absent_deduction = $amount_to_deduct * $absent_days;
                                 @endphp
                                 <td>{{$tot_absent_deduction }}</td>
                                 @php 
                                     $total_deduction = (int)$salary['absent_deduction'] * ($workingDays - $presentCount); 
                                 @endphp
-                                <td>{{ $gross_salary - $total_deduction }}</td>
+                                <td>{{ $gross_salary - $tot_absent_deduction }}</td>
                                 <td>
                                     @php
                                     if($salary['employee_type'] == 'worker'){
@@ -204,7 +206,7 @@
                                     }
 
                                     $total_additional = $bonus + (int)$act_increment_amount + (int)$overtime_taka;
-                                    $net_payable = $gross_salary + $total_additional - $total_deduction;
+                                    $net_payable = $gross_salary + $total_additional - $tot_absent_deduction;
                                 @endphp
                                 {{  $total_additional}}
                             </td>
@@ -236,7 +238,7 @@ $(document).ready(function(){
         var date = d.getDate();
         let table = document.getElementsByTagName("table");
         TableToExcel.convert(table[0], { // html code may contain multiple tables so here we are refering to 1st table tag
-           name: `WageList.xlsx`, // fileName you could use any name
+           name: `WageList-${date}.xlsx`, // fileName you could use any name
            sheet: {
               name: 'Sheet 1' // sheetName
            }

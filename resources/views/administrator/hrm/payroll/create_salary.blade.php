@@ -193,44 +193,6 @@
           </div>
         </div>
         <!-- /.end.col -->
-        <div class="col-md-6"> 
-          <div class="box box-warning">
-            <div class="box-header with-border">
-              <h3 class="box-title">{{ __('Deductions') }}</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              {{-- <div class="form-group{{ $errors->has('tax_deduction') ? ' has-error' : '' }}">
-                <label for="tax_deduction">{{ __('Tax Deduction') }}</label>
-                <input type="number" name="tax_deduction" value="{{ old('tax_deduction') }}" class="form-control" id="tax_deduction" placeholder="{{ __('Enter tax deduction..') }}">
-                @if ($errors->has('tax_deduction'))
-                <span class="help-block">
-                  <strong>{{ $errors->first('tax_deduction') }}</strong>
-                </span>
-                @endif
-              </div> --}}
-              <div class="form-group{{ $errors->has('absent_deduction') ? ' has-error' : '' }}">
-                <label for="absent_deduction">{{ __('Absent Deduction amount') }}</label>
-                <input type="number" name="absent_deduction" value="{{ old('absent_deduction') }}" class="form-control" id="absent_deduction" placeholder="{{ __('Enter deduction amount in absence') }}">
-                @if ($errors->has('absent_deduction'))
-                <span class="help-block">
-                  <strong>{{ $errors->first('absent_deduction') }}</strong>
-                </span>
-                @endif
-              </div>
-              {{-- <div class="form-group{{ $errors->has('other_deduction') ? ' has-error' : '' }}">
-                <label for="other_deduction">{{ __('Other Deduction') }}</label>
-                <input type="number" name="other_deduction" value="{{ old('other_deduction') }}" class="form-control" id="other_deduction" placeholder="{{ __('Enter other deduction..') }}">
-                @if ($errors->has('other_deduction'))
-                <span class="help-block">
-                  <strong>{{ $errors->first('other_deduction') }}</strong>
-                </span>
-                @endif
-              </div> --}}
-            </div>
-            <!-- /.box-body -->
-          </div>
-        </div>
         <!-- /.end.col -->
 
         <div class="col-md-6">
@@ -294,7 +256,7 @@
         <!-- /.end.col -->
         
 
-        {{-- <div class="col-md-12">
+        <div class="col-md-12">
           <div class="box box-danger">
             <div class="box-header with-border">
               <h3 class="box-title">{{ __('Total Salary Details') }}</h3>
@@ -305,22 +267,11 @@
                 <label for="gross_salary">{{ __('Gross Salary') }}</label>
                 <input type="number" disabled class="form-control" id="gross_salary">
               </div>
-              <div class="form-group{{ $errors->has('total_deduction') ? ' has-error' : '' }}">
-                <label for="total_deduction">{{ __('Total Deduction') }}</label>
-                <input type="number" disabled class="form-control" id="total_deduction">
-              </div>
-              <div class="form-group">
-                <label for="net_salary">{{ __('Net Salary') }}</label>
-                <input type="number" disabled class="form-control" id="net_salary">
-              </div>
+              
             </div>
             <!-- /.box-body -->
-
-            <div class="box-footer">
-              <button type="submit" class="btn btn-primary btn-flat pull-right"><i class="fa fa-save"></i> {{ __('Save Details') }}</button>
-            </div>
           </div>
-        </div> --}}
+        </div>
         <!-- /.end.col -->
         <div class="box-footer">
           <button type="submit" class="btn btn-primary btn-flat pull-right"><i class="fa fa-save"></i> {{ __('Save Details') }}</button>
