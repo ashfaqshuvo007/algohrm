@@ -424,8 +424,7 @@ class EmplController extends Controller
             ])
             ->toArray();
         // dd($salaries);
-
-        $pdf = PDF::loadView('administrator.hrm.payroll.single_payslip', compact('salaries', 'numDays', 'salryMonth', 'totalHolidays', 'salaryMonthAndYear'));
+        $pdf = PDF::loadView('administrator.hrm.payroll.single_payslip', compact('salaries', 'numDays', 'salryMonth', 'totalHolidays', 'salaryMonthAndYear'))->setPaper(array(0, 0, 204, 650))->setOptions(['dpi' => 72]);
 
         // download PDF file with download method
         return $pdf->stream($salaries[0]['name'] . '_payslip.pdf');
@@ -534,8 +533,8 @@ class EmplController extends Controller
 
         $pdf = PDF::loadView('administrator.people.employee.employee_id_card_pdf', compact('employee'));
         $file_name = 'IdCard-' . $employee->name . '.pdf';
-        return $pdf->download($file_name);
-//        return view('administrator.people.employee.employee_id_card_pdf', compact('employee', 'created_by', 'designations', 'departments'));
+        return $pdf->stream($file_name);
+        // return view('administrator.people.employee.employee_id_card_pdf', compact('employee', 'created_by', 'designations', 'departments'));
     }
 
     public function employeeBulkIdCardsCreate()

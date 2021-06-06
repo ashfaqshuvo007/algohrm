@@ -19,17 +19,22 @@
     <!-- /My Stylesheet -->
     <!-- Google Font -->
 
-{{--    <style>--}}
-{{--        @font-face--}}
-{{--        {--}}
-{{--            font-family: 'bangla';--}}
-{{--            src: url({{ storage_path('fonts/SolaimanLipi.ttf') }}) format('truetype');--}}
-{{--        }--}}
-{{--        th{--}}
-{{--            background-color: red;--}}
-{{--        }--}}
-
-{{--    </style>--}}
+   <style>
+       body{
+           margin: 0;
+           padding: 0;
+       }
+       .bangla{
+           font-family: DejaVu Sans;
+       }
+       .table{
+           font-size: 20px;
+           text-align:left;"
+       }
+       tr,td{
+           font-size:9px;
+       }
+ </style>
 <!-- jQuery 3 -->
     <script src="{{ asset('public/backend/bower_components/jquery/dist/jquery.min.js') }}"></script>
 </head>
@@ -55,92 +60,100 @@
                     <div id="printable_area">
 
                         <div>
-                            <div class="row col-md-12 text-center">
-                                <h2>MAVEN DESIGN LTD</h2>
-                                <h4>Prodhan Tower, 22/A DN, Lalpur, Fatullah, Narayangonj</h4>
-                                <h5>PAYSLIP</h5>
-                                <p><b>{{$salaryMonthAndYear}}</b></p>
+                            <div class="row col-md-12" style="text-align:center;font-size: 10px">
+                                <p style="margin-bottom: 0px;">MAVEN DESIGN LTD</p>
+                                <p style="margin-bottom: 0px;">Prodhan Tower, 22/A DN, Lalpur, Fatullah, Narayangonj</p>
+                                <p style="margin-bottom: 0px;">PAYSLIP -- &nbsp;<b>{{$salaryMonthAndYear}}</b></p>
+                                <p style="margin-bottom: 0px;"> For : &nbsp;<b>{{ $salary['name']  }}</p>
                             </div>
-                            <div class="row col-md-12 text-center">
-                                <table class="table">
-                                    <tbody>
-                                    <tr>
-                                        <th>EMPLOYEE ID</th>
-                                        <td>{{ $salary['employee_id'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>NAME</th>
-                                        <td>{{ $salary['name'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>DESIGNATION</th>
-                                        <td>{{ $salary['designation'] }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>GRADE</th>
-                                        <td>{{ $salary['grade_id'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>JOINING DATE</th>
-                                        <td>{{ $salary['joining_date'] }}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <br>
+                            
                         </div>
-                        <div class="row col-md-12 text-center">
+                        <div class="row col-md-12" >
                             <table class="table">
                                 <tbody>
                                 <tr>
-                                    <th>BASIC SALARY</th>
-                                    <td>{{$salary['basic_salary']}} </td>
+                                    <td>EMPLOYEE ID : </td>
+                                    <td style="text-align:right">{{ $salary['employee_id'] }}</td>
                                 </tr>
                                 <tr>
-                                    <th>HOUSE RENT</th>
-                                    <td>{{$salary['house_rent']}}</td>
+                                    <td>DESIGNATION : </td>
+                                    <td style="text-align:right">{{ $salary['designation'] }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>GRADE : </td>
+                                    <td style="text-align:right">{{ $salary['grade_id'] }}</td>
                                 </tr>
                                 <tr>
-                                    <th>MEDICAL ALLOWANCE</th>
-                                    <td>{{$salary['medical_allowance']}}</td>
+                                    <td>JOINING DATE: </td>
+                                    <td style="text-align:right">{{ $salary['joining_date'] }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="row col-md-12">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>BASIC SALARY : </td>
+                                    <td style="text-align:right">{{$salary['basic_salary']}} </td>
                                 </tr>
                                 <tr>
-                                    <th>CONVAYENCE</th>
-                                    <td>{{$salary['convayence']}}</td>
+                                    <td>HOUSE RENT : </td>
+                                    <td style="text-align:right">{{$salary['house_rent']}}</td>
                                 </tr>
                                 <tr>
-                                    <th>FOOD ALLOWANCE</th>
-                                    <td>{{$salary['food_allowance']}}</td>
+                                    <td>MEDICAL ALLOWANCE : </td>
+                                    <td style="text-align:right">{{$salary['medical_allowance']}}</td>
                                 </tr>
                                 <tr>
-                                    <th>OVERTIME (HOURS)</th>
-                                    <td>
+                                    <td>CONVAYENCE : </td>
+                                    <td style="text-align:right">{{$salary['convayence']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>FOOD ALLOWANCE : </td>
+                                    <td style="text-align:right">{{$salary['food_allowance']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>OVERTIME (HOURS) : </td>
+                                    <td style="text-align:right">
                                         @php
+                                        if($salary['employee_type'] == 'worker'){
                                             if($total_overtime < 0 ){
                                                 $actual_overtime = 0;
                                             }else{
                                                 $actual_overtime = $total_overtime ;
                                             }
-
+                                        }else{
+                                            $actual_overtime = "N/A";
+                                        }
                                         @endphp
                                         {{ $actual_overtime  }}
                                     </td>
                                 </tr>
+                                @php
+                                    if($salary['employee_type'] == 'worker'){
+                                       
+                                        $overtime_rate = (int)$salary['overtime_rate'];
+                                        $overtime_taka = (int)$actual_overtime * $overtime_rate;
+                                    }else{
+                                        $overtime_rate = "N/A";
+                                        $overtime_taka = "N/A";
+                                    }
+                                @endphp
                                 <tr>
-                                    <th>OVERTIME RATE</th>
-                                    <td>{{$salary['overtime_rate']}}</td>
+                                    <td>OVERTIME RATE : </td>
+                                    <td style="text-align:right">{{$overtime_rate}}</td>
                                 </tr>
                                 <tr>
-                                    <th>OVERTIME TAKA</th>
-                                    @php
-                                        $overtime_taka = $actual_overtime * (int)$salary['overtime_rate']
-                                    @endphp
-
-                                    <td>{{ $overtime_taka }}</td>
+                                    <td>OVERTIME TAKA : </td>
+                                    <td style="text-align:right">{{ $overtime_taka }}</td>
                                 </tr>
                                 <tr>
-                                    <th>ATTENDANCE BONUS</th>
-                                    <td>
+                                    <td>ATTENDANCE BONUS : </td>
+                                    <td style="text-align:right">
                                         @php
                                             if($absent_days > 0){
                                                 $bonus = 0;
@@ -154,7 +167,7 @@
                                 </tr>
 
                                 <tr>
-                                    <th>INCREMENT AMOUNT (added per year)</th>
+                                    <td>INCREMENT AMOUNT (added per year)</td>
                                     @php
                                     $increment = ($salary['increment_amount'] == null) ? 0 : $salary['increment_amount'];
 
@@ -170,36 +183,45 @@
                                     }
 
                                     @endphp
-                                    <td>{{ $act_increment_amount }}</td>
+                                    <td style="text-align:right">{{ $act_increment_amount }}</td>
                                 </tr>
 
                                 <tr>
-                                    <th>ABSENT DEDUCTION</th>
-                                    @php $total_deduction = ((int)$salary['absent_deduction'] * ($workingDays - $presentCount)); @endphp
-                                    <td>{{$total_deduction}}</td>
+                                    <td>ABSENT DEDUCTION : </td>
+                                    @php
+                                    $gross_salary = (int)$salary['basic_salary'] + (int)$salary['house_rent'] + (int)$salary['medical_allowance'] + (int)$salary['food_allowance'] + (int)$salary['convayence'] + (int)$act_increment_amount + (int)$bonus + (int)$overtime_taka; 
+                                    $total_additional = $bonus + $act_increment_amount + $overtime_taka;
+                                    $amount_to_deduct = floor($gross_salary / $numDays);
+                                    $tot_absent_deduction = $amount_to_deduct * $absent_days;
+                                    $net_payable = $gross_salary + $total_additional - $tot_absent_deduction; 
+
+                                    @endphp
+                                    <td style="text-align:right">{{$tot_absent_deduction}}</td>
                                 </tr>
                                 </tbody>
                             </table>
-
+                        </div>
+                        <hr>
+                        @php
+                            $gross_salary = (int)$salary['basic_salary'] + (int)$salary['house_rent'] + (int)$salary['medical_allowance'] + (int)$salary['food_allowance'] + (int)$salary['convayence'] + (int)$act_increment_amount + (int)$bonus + (int)$overtime_taka; 
+                            $total_additional = $bonus + $act_increment_amount + $overtime_taka;
+                            $net_payable = $gross_salary + $total_additional - $tot_absent_deduction;
+                        @endphp
+                        <div class="row col-md-12">
                             <table class="table">
                                 <tbody>
                                 <tr>
-                                    <th>GROSS SALARY</th>
-                                    <td> @php $gross_salary = (int)$salary['basic_salary'] + (int)$salary['house_rent'] + (int)$salary['medical_allowance'] + (int)$salary['food_allowance'] + (int)$salary['convayence'] + (int)$act_increment_amount + (int)$bonus + (int)$overtime_taka; @endphp
+                                    <td>GROSS SALARY : </td>
+                                    <td style="text-align:right"> @php @endphp
                                         {{ $gross_salary }}</td>
                                 </tr>
                                 <tr>
-                                    <th>TOTAL DEDUCTION</th>
-                                    <td>{{$total_deduction}}</td>
+                                    <td>TOTAL DEDUCTION : </td>
+                                    <td style="text-align:right"> - {{$tot_absent_deduction}}</td>
                                 </tr>
-                                @php
-                                    $total_additional = $bonus + $act_increment_amount + $overtime_taka;
-                                    $net_payable = $gross_salary + $total_additional - $total_deduction;
-                                @endphp
-
                                 <tr>
-                                    <th>TOTAL PAYABLE</th>
-                                    <td>{{ $net_payable }}</td>
+                                    <td><b>TOTAL PAYABLE : </b></td>
+                                    <td style="text-align:right"><b>{{ $net_payable }}</b></td>
                                 </tr>
 
                                 </tbody>
@@ -217,3 +239,6 @@
         <!-- /.content -->
     </div>
 @endforeach
+<p style="font-size:5px; text-align:center;">Developed by <b>Algodevs</b></p>
+</body>
+</html>

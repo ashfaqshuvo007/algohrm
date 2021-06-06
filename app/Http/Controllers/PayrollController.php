@@ -11,7 +11,7 @@ use App\Payroll;
 use App\User;
 use App\WorkingDay;
 use Illuminate\Http\Request;
-use niklasravnsborg\LaravelPdf\Facades\Pdf;
+use PDF;
 
 class PayrollController extends Controller
 {
@@ -222,7 +222,6 @@ class PayrollController extends Controller
                         'payment_grades.grade',
                     ])
                     ->toArray();
-                // dd($salaries);
             }
 
             return view('administrator.hrm.payroll.wage_list', compact('salaries', 'totalHolidays', 'numDays', 'salryMonth'));
@@ -462,7 +461,8 @@ class PayrollController extends Controller
                 // dd($salaries);
 
             }
-            $pdf = PDF::loadView('administrator.hrm.payroll.payslip', compact('salaries', 'numDays', 'salryMonth', 'totalHolidays', 'salaryMonthAndYear'));
+
+            $pdf = PDF::loadView('administrator.hrm.payroll.payslip', compact('salaries', 'numDays', 'salryMonth', 'totalHolidays', 'salaryMonthAndYear'))->setPaper(array(0, 0, 204, 650))->setOptions(['dpi' => 72]);
 
             // download PDF file with download method
             return $pdf->stream('pdf_file_payslip.pdf');
