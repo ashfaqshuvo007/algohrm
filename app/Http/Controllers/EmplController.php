@@ -26,8 +26,7 @@ class EmplController extends Controller
     {
         $employees = User::query()
             ->join('designations', 'users.designation_id', '=', 'designations.id')
-            ->whereBetween('users.access_label', [2, 3])
-            ->where('users.deletion_status', 0)
+            ->where('users.role', '>=', 2)
             ->select('employee_id', 'users.id', 'users.name', 'users.contact_no_one', 'users.created_at', 'users.activation_status', 'designations.designation')
             ->orderBy('users.employee_id', 'ASC')
             ->get()
@@ -404,15 +403,15 @@ class EmplController extends Controller
         $year = date('Y', strtotime(Carbon::now()->subMonth(1)));
 
         $numDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
+        $numDays = (int) $numDays;
         $totalHolidays = $holidayCount + (count($weekly_holidays) * 4);
+        $workingDays = $numDays - $totalHolidays;
 
         $salaries = User::query()
             ->leftJoin('payrolls', 'users.id', '=', 'payrolls.user_id')
             ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
             ->leftJoin('departments', 'users.department_id', '=', 'departments.id')
             ->leftjoin('payment_grades', 'designations.grade_id', '=', 'payment_grades.id')
-            ->where('users.role', '>=', 2)
             ->where('users.id', $id)
             ->where('users.deletion_status', 0)
             ->get([
@@ -424,7 +423,7 @@ class EmplController extends Controller
             ])
             ->toArray();
         // dd($salaries);
-        $pdf = PDF::loadView('administrator.hrm.payroll.single_payslip', compact('salaries', 'numDays', 'salryMonth', 'totalHolidays', 'salaryMonthAndYear'))->setPaper(array(0, 0, 204, 650))->setOptions(['dpi' => 72]);
+        $pdf = PDF::loadView('administrator.hrm.payroll.single_payslip', compact('salaries', 'numDays', 'salryMonth', 'totalHolidays', 'salaryMonthAndYear', 'workingDays'))->setPaper(array(0, 0, 204, 650))->setOptions(['dpi' => 72]);
 
         // download PDF file with download method
         return $pdf->stream($salaries[0]['name'] . '_payslip.pdf');

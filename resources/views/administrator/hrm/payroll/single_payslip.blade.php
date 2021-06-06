@@ -45,7 +45,6 @@
     @php
         $present = \App\Attendance::where('employee_id',$salary['employee_id'])->where(DB::raw('MONTH(attendance_date)'), $salryMonth)->get()->toArray();
         $presentCount = count($present);
-        $workingDays = $numDays - $totalHolidays;
         $absent_days = $workingDays - $presentCount;
         $hours_overtime = array_column($present,'overtime_hours');
         $total_overtime = array_sum($hours_overtime);
@@ -139,17 +138,17 @@
                                         $overtime_rate = (int)$salary['overtime_rate'];
                                         $overtime_taka = (int)$actual_overtime * $overtime_rate;
                                     }else{
-                                        $overtime_rate = "N/A";
-                                        $overtime_taka = "N/A";
+                                        $overtime_rate = 0;
+                                        $overtime_taka = 0;
                                     }
                                 @endphp
                                 <tr>
                                     <td>OVERTIME RATE : </td>
-                                    <td style="text-align:right">{{$overtime_rate}}</td>
+                                    <td style="text-align:right">{{($overtime_rate == 0) ? "N/A" : $overtime_rate}}</td>
                                 </tr>
                                 <tr>
                                     <td>OVERTIME TAKA : </td>
-                                    <td style="text-align:right">{{ $overtime_taka }}</td>
+                                    <td style="text-align:right">{{ ($overtime_taka == 0) ? "N/A" : $overtime_taka}}</td>
                                 </tr>
                                 <tr>
                                     <td>ATTENDANCE BONUS : </td>
@@ -192,6 +191,8 @@
                                     $gross_salary = (int)$salary['basic_salary'] + (int)$salary['house_rent'] + (int)$salary['medical_allowance'] + (int)$salary['food_allowance'] + (int)$salary['convayence'] + (int)$act_increment_amount + (int)$bonus + (int)$overtime_taka; 
                                     $total_additional = $bonus + $act_increment_amount + $overtime_taka;
                                     $amount_to_deduct = floor($gross_salary / $numDays);
+                                    $amount_to_deduct = intval($amount_to_deduct);
+                                    $absent_days = intval($absent_days);
                                     $tot_absent_deduction = $amount_to_deduct * $absent_days;
                                     $net_payable = $gross_salary + $total_additional - $tot_absent_deduction; 
 

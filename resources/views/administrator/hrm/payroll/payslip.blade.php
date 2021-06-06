@@ -141,17 +141,17 @@
                                         $overtime_rate = (int)$salary['overtime_rate'];
                                         $overtime_taka = (int)$actual_overtime * $overtime_rate;
                                     }else{
-                                        $overtime_rate = "N/A";
-                                        $overtime_taka = "N/A";
+                                        $overtime_rate = 0;
+                                        $overtime_taka = 0;
                                     }
                                 @endphp
                                 <tr>
                                     <td>OVERTIME RATE : </td>
-                                    <td style="text-align:right">{{$overtime_rate}}</td>
+                                    <td style="text-align:right">{{($overtime_rate == 0) ? "N/A" : $overtime_rate}}</td>
                                 </tr>
                                 <tr>
                                     <td>OVERTIME TAKA : </td>
-                                    <td style="text-align:right">{{ $overtime_taka }}</td>
+                                    <td style="text-align:right">{{ ($overtime_taka == 0) ? "N/A" : $overtime_taka}}</td>
                                 </tr>
                                 <tr>
                                     <td>ATTENDANCE BONUS : </td>
