@@ -100,7 +100,7 @@
             <div class="box-body">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-4 main-section text-center" style="width: 205px; height: 325px">
+                            <div class="col-md-4 main-section text-center" style="width: 205px; max-height: 325px">
                                 <div class="row">
                                     <div class="col-sm-12 profile-header"style="background-color: {{$profileHeaderBackgroundColor}}">
                                         <h4 style="color: white">MAVEN DESIGN LTD.</h4>
@@ -110,11 +110,11 @@
                                     <div class="col-sm-12 ">
                                         @if(!empty($employee->avatar))
                                             <img src="{{ url('public/profile_picture/' . $employee->avatar) }}"
-                                                 style="border-radius: 50%" class="img-thumbnail rounded">
+                                                 style="border-radius: 50%" class="" width="100" height="100">
                                         @else
                                             <img src="{{ url('public/profile_picture/blank_profile_picture.png') }}"
                                                  alt="blank_profile_picture"
-                                                 style="border-radius: 50%" class="img-thumbnail rounded">
+                                                 style="border-radius: 50%" class="" width="100" height="100">
 
                                         @endif
 
@@ -161,7 +161,7 @@
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-4  main-section text-center" style="width: 205px; height: 325px">
+                            <div class="col-md-4  main-section text-center" style="width: 205px; max-height: 325px">
                                 <div class="row profile-header">
                                     <div style="background-color: {{$profileHeaderBackgroundColor}}">
                                         <img src="{{url('public/backend/img/mavenDesignTransparentLogo.png')}}"

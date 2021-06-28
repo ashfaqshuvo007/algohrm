@@ -143,14 +143,15 @@ class LeaveAppController extends Controller
 
     public function index()
     {
+
         $leave_applications = LeaveApplication::query()
-            ->leftjoin('users as users', 'users.id', '=', 'leave_applications.created_by')
+            ->leftjoin('users as users', 'users.id', '=', 'leave_applications.holiday_for')
             ->leftjoin('leave_categories as leave_categories', 'leave_categories.id', '=', 'leave_applications.leave_category_id')
             ->orderBy('leave_applications.id', 'DESC')
             ->where('leave_applications.deletion_status', 0)
             ->get([
                 'leave_applications.*',
-                'users.name',
+                'users.name as user_name',
                 'leave_categories.leave_category',
             ])
             ->toArray();
@@ -165,9 +166,11 @@ class LeaveAppController extends Controller
             ->leftjoin('leave_categories as leave_categories', 'leave_categories.id', '=', 'leave_applications.leave_category_id')
             ->orderBy('leave_applications.id', 'DESC')
             ->where('leave_applications.deletion_status', 0)
+            ->where('leave_applications.created_by', auth()->user()->id)
             ->get([
                 'leave_applications.*',
                 'users.name',
+                'users.employee_id',
                 'leave_categories.leave_category',
             ])
             ->toArray();
@@ -187,16 +190,9 @@ class LeaveAppController extends Controller
             ->select('id', 'leave_category')
             ->get();
 
-        $userRole = User::where('id', \Auth::user()->id)->where('employee_id', null)->first();
-        if ($userRole->employee_id == null) {
-            $employees = User::where('employee_id', '!=', null)->get();
+        $employees = User::where('role', '>=', 2)->get();
 
-            return view('administrator.hrm.leave_application.add_leave_application', compact('leave_categorys', 'employees','userRole'));
-        } else {
-            return view('administrator.hrm.leave_application.add_leave_application', compact('leave_categorys'));
-
-        }
-        // dd($leave_categorys);
+        return view('administrator.hrm.leave_application.add_leave_application', compact('leave_categorys', 'employees'));
 
     }
 
@@ -208,16 +204,16 @@ class LeaveAppController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request->all();
         $leave_application = $this->validate($request, [
             'leave_category_id' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
+            'reason' => 'required',
         ]);
 
         $days = Carbon::parse(request('start_date'))->diffInDays(Carbon::parse(request('end_date')));
 
-        $result = LeaveApplication::create($leave_application + ['last_leave_date' => request('last_leave_date')] + ['last_leave_period' => request('last_leave_period')] + ['last_leave_category_id' => request('last_leave_category_id')] + ['leave_address' => request('leave_address')] + ['during_leave' => request('during_leave')] + ['reason' => request('reason')] + ['created_by' => auth()->user()->id]);
+        $result = LeaveApplication::create($leave_application + ['last_leave_date' => request('last_leave_date')] + ['last_leave_period' => request('last_leave_period')] + ['last_leave_category_id' => request('last_leave_category_id')] + ['leave_address' => request('leave_address')] + ['during_leave' => request('during_leave')] + ['reason' => request('reason')] + ['created_by' => auth()->user()->id] + ['holiday_for' => request('holiday_for')]);
         $inserted_id = $result->id;
 
         if (!empty($inserted_id)) {
@@ -258,9 +254,9 @@ class LeaveAppController extends Controller
             ->update(['publication_status' => 1]);
 
         if (!empty($affected_row)) {
-            return redirect('/hrm/application_lists/')->with('message', 'Accepted successfully.');
+            return redirect('/hrm/leave_application/')->with('message', 'Accepted successfully.');
         }
-        return redirect('/hrm/application_lists/')->with('exception', 'Operation failed !');
+        return redirect('/hrm/leave_application/')->with('exception', 'Operation failed !');
     }
 
     public function not_approved($id)
@@ -269,9 +265,9 @@ class LeaveAppController extends Controller
             ->update(['publication_status' => 2]);
 
         if (!empty($affected_row)) {
-            return redirect('/hrm/application_lists/')->with('message', 'Not Accepted.');
+            return redirect('/hrm/leave_application/')->with('message', 'Not Accepted.');
         }
-        return redirect('/hrm/application_lists/')->with('exception', 'Operation failed !');
+        return redirect('/hrm/leave_application/')->with('exception', 'Operation failed !');
     }
 
     /**
@@ -306,6 +302,29 @@ class LeaveAppController extends Controller
     public function destroy(LeaveApplication $leaveApplication)
     {
         //
+    }
+
+    function print($id) {
+        $leave_application = LeaveApplication::query()
+            ->leftjoin('users as users', 'users.id', '=', 'leave_applications.created_by')
+            ->leftjoin('designations as designations', 'users.designation_id', '=', 'designations.id')
+            ->leftjoin('leave_categories as leave_categories', 'leave_categories.id', '=', 'leave_applications.leave_category_id')
+            ->orderBy('leave_applications.id', 'DESC')
+            ->where('leave_applications.id', $id)
+            ->where('leave_applications.deletion_status', 0)
+            ->first([
+                'leave_applications.*',
+                'users.name',
+                'users.employee_id',
+                'designations.designation',
+                'leave_categories.leave_category',
+            ])
+            ->toArray();
+        // dd($leave_application);
+        $pdf = PDF::loadView('administrator.hrm.leave_application.leave_application_print', compact('leave_application'));
+
+        // download PDF file with download method
+        return $pdf->stream('pdf_file_leave_application.pdf');
     }
 
 }

@@ -41,9 +41,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Application Listes//
     Route::get('/hrm/application_lists', 'LeaveAppController@apllicationLists');
-    Route::get('/hrm/leave_application/approved/{id}', 'LeaveAppController@approved');
-    Route::get('/hrm/leave_application/not_approved/{id}', 'LeaveAppController@not_approved');
+    Route::get('/hrm/leave_application/approved/{id}', 'LeaveAppController@approved')->name('leave_application.approved');
+    Route::get('/hrm/leave_application/not_approved/{id}', 'LeaveAppController@not_approved')->name('leave_application.not_approved');
     Route::get('/hrm/application_lists/{id}', 'LeaveAppController@show');
+    Route::get('/hrm/leave_application/print/{id}', 'LeaveAppController@print');
+    // /hrm/leave_application/print/
 
     //Leave Application//
     Route::get('/hrm/leave_application', 'LeaveAppController@index');

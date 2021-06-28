@@ -68,21 +68,23 @@
                 @endif
               </div>
               <!-- /.form-group -->
-              @if($userRole)
-              <label for="user_id">{{ __('Select User') }}<span class="text-danger">*</span></label>
-              <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }} has-feedback">
-                <select name="user_id_id"  class="form-control">
+              @if(auth()->user()->role == null)
+              <label for="holiday_for">{{ __('Holiday For') }}<span class="text-danger">*</span></label>
+              <div class="form-group{{ $errors->has('holiday_for') ? ' has-error' : '' }} has-feedback">
+                <select name="holiday_for"  class="form-control" required>
                   <option value="" selected disabled>{{ __('Select one') }}</option>
                   @foreach( $employees as $user)
-                  <option value="{{ $user->id }}"> {{ $user_id->name }} </option>
+                  <option value="{{ $user->id }}"> {{ $user->name }} </option>
                   @endforeach
                 </select>
-                @if ($errors->has('user_id'))
+                @if ($errors->has('holiday_for'))
                 <span class="help-block">
-                  <strong>{{ $errors->first('user_id') }}</strong>
+                  <strong>{{ $errors->first('holiday_for') }}</strong>
                 </span>
                 @endif
               </div>
+              @else 
+              <input type="hidden" name="holiday_for" value="{{ auth()->user()->id }}">
               @endif
               <!-- /.form-group -->
 

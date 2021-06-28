@@ -15,7 +15,7 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <style>
- .name{
+        .name{
             font-size: 9px;
             font-align: left;
         }
@@ -105,7 +105,7 @@
 
                 <div class="container">
                         <div class="row">
-                            <div class="col-md-4   main-section text-center"style="width: 205px; height: 325px">
+                            <div class="col-md-4   main-section text-center"style="width: 205px; max-height: 325px">
                                 <div class="row">
                                     <div class="col-sm-12 profile-header"
                                          style="background-color: {{$profileHeaderBackgroundColor}}">
@@ -116,11 +116,11 @@
                                     <div class="col-sm-12 ">
                                         @if(!empty($employee['avatar']))
                                             <img src="{{ url('public/profile_picture/' . $employee['avatar']) }}"
-                                                 class="img-responsive img-thumbnail "style="border-radius: 50%">
+                                                 class=" "style="border-radius: 50%" width="100" height="100">
                                         @else
                                             <img src="{{ url('public/profile_picture/blank_profile_picture.png') }}"
-                                                 alt="blank_profile_picture" class="img-responsive img-thumbnail "
-                                                 style="border-radius: 50%">
+                                                 alt="blank_profile_picture" class=" "
+                                                 style="border-radius: 50%" width="100" height="100">
 
                                         @endif
 
@@ -168,8 +168,7 @@
                         </div>
                         <br><br>
                         <div class="row">
-                        <div class="col-md-4  main-section text-center"
-                            style="width: 205px; height: 325px">
+                        <div class="col-md-4  main-section text-center"style="width: 205px; max-height: 325px">
                             <div class="row">
                                 <div class="col-lg-4 profile-header"
                                      style="background-color: {{$profileHeaderBackgroundColor}}">

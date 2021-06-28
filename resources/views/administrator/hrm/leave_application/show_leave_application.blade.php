@@ -7,7 +7,7 @@ use Carbon\Carbon;
 @section('main_content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
-  <section class="content-header">
+  <section class="content-header no-printme">
     <h1>
      {{ __('Show Leave Application') }} 
     </h1>
@@ -24,7 +24,7 @@ use Carbon\Carbon;
 <section class="content">
   <!-- Default box -->
   <div class="box">
-    <div class="box-header with-border">
+    <div class="box-header with-border no-printme">
       <h3 class="box-title"> {{ __('Leave Application') }}</h3>
 
       <div class="box-tools pull-right">
@@ -33,11 +33,11 @@ use Carbon\Carbon;
       </div>
     </div>
     <div class="box-body">
-      <a href="{{ url('/hrm/leave_application') }}" class="btn btn-primary btn-flat"><i class="fa fa-arrow-left"></i>{{ __('Back') }} </a>
-      <button class="btn btn-default btn-flat pull-right" onclick="printDiv('printable_area')"><i class="fa fa-print"></i>{{ __('Print') }} </button>
+      <a href="{{ url('/hrm/leave_application') }}" class="btn btn-primary btn-flat no-printme"><i class="fa fa-arrow-left"></i>{{ __('Back') }} </a>
+      <a href="{{ url('/hrm/leave_application/print/'.$leave_application['id']) }}" class="btn btn-default btn-flat pull-right no-printme"><i class="fa fa-print"></i>{{ __('Print') }} </a>
       <hr>
       
-      <div id="printable_area" class="table-responsive">
+      <div id="printable_area printme" class="table-responsive">
         <div class="text-center">
           <h4><strong>{{ __('APPLICATION FOR LEAVE') }}</strong></h4>
         </div>
@@ -97,7 +97,7 @@ use Carbon\Carbon;
           </tr>
           <tr>
             <td>{{ __('Performing person during leave') }}</td>
-            <td">{{ $leave_application['during_leave'] }} Days</td>
+            <td>{{ $leave_application['during_leave'] }}</td>
           </tr>
    
           <tr>
@@ -153,7 +153,7 @@ use Carbon\Carbon;
       <br>
       <hr>
       <div>
-        <strong>{{ __('Head of Chamber') }}</strong>
+        <strong>{{ __('Head of Department') }}</strong>
       </div>
     </div><!--pintable-->
   </div>
@@ -164,3 +164,25 @@ use Carbon\Carbon;
 <!-- /.content -->
 </div>
 @endsection
+<script type="text/javascript">
+  function printmyDiv(id){
+       
+    var is_chrome = function () { return Boolean(window.chrome); }
+        if(is_chrome) {
+            var printContents = document.getElementById(id).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            setTimeout(function(){window.close();}, 10000); 
+            //give them 10 seconds to print, then close
+        }else{
+            var printContents = document.getElementById(id).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            window.close();
+        }
+}
+</script>

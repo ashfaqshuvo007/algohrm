@@ -45,9 +45,22 @@
     @php
         $present = \App\Attendance::where('employee_id',$salary['employee_id'])->where(DB::raw('MONTH(attendance_date)'), $salryMonth)->get()->toArray();
         $presentCount = count($present);
-        $workingDays = $numDays - $totalHolidays;
-        $absent_days = (int)$workingDays - (int)$presentCount;
-        $absent_days = (int)$absent_days;
+        $leaves = \App\LeaveApplication::where('holiday_for',$salary['user_id'])->whereMonth('start_date',$salryMonth)->where('publication_status',1)->first();
+        // dd($leaves);
+        if(!empty($leaves)){
+            $leaveCategory = \App\LeaveCategory::where('id',$leaves->leave_category_id)->first();
+            $leaveCount = \Carbon\Carbon::parse($leaves->start_date)->diffInDays(\Carbon\Carbon::parse($leaves->end_date))+1;
+            
+            $workingDays = $numDays - $totalHolidays;
+            $absent_days = (int)$workingDays - (int)$presentCount; - (int)$leaveCount;
+            $absent_days = (int)$absent_days;
+            dd($absent_days);
+        }else{
+            $workingDays = $numDays - $totalHolidays;
+            $absent_days = (int)$workingDays - (int)$presentCount;
+            $absent_days = (int)$absent_days;
+        }
+       
        
         $hours_overtime = array_column($present,'overtime_hours');
         $total_overtime = array_sum($hours_overtime);
@@ -154,7 +167,7 @@
                                     <td style="text-align:right">{{ ($overtime_taka == 0) ? "N/A" : $overtime_taka}}</td>
                                 </tr>
                                 <tr>
-                                    <td>ATTENDANCE BONUS : </td>
+                                    <td>ATTD. BONUS : </td>
                                     <td style="text-align:right">
                                         @php
                                             if($absent_days > 0){

@@ -191,7 +191,6 @@ class PayrollController extends Controller
                         'payment_grades.grade',
                     ])
                     ->toArray();
-                // dd($salaries);
             } elseif ($grade_id != '0') {
                 $salaries = Payroll::query()
                     ->leftjoin('users', 'payrolls.user_id', '=', 'users.id')
@@ -279,7 +278,7 @@ class PayrollController extends Controller
             ->toArray();
         // dd($salaries);
 
-        return view('administrator.hrm.payroll.audit_wage_list', compact('salaries', 'totalHolidays', 'salryMonth'));
+        return view('administrator.hrm.payroll.audit_wage_list', compact('salaries', 'totalHolidays', 'salryMonth', 'numDays'));
     }
 
     /**
@@ -345,7 +344,24 @@ class PayrollController extends Controller
         $affected_row = $salary->save();
 
         if (!empty($affected_row)) {
-            return redirect('/hrm/payroll/')->with('message', 'Update successfully.');
+            $audit_salary = AuditPayroll::find($id);
+            $audit_salary->employee_type = $request->get('employee_type');
+            $audit_salary->basic_salary = $request->get('basic_salary');
+            $audit_salary->house_rent = $request->get('house_rent');
+            $audit_salary->medical_allowance = $request->get('medical_allowance');
+            $audit_salary->food_allowance = $request->get('food_allowance');
+            $audit_salary->convayence = $request->get('convayence');
+            $audit_salary->overtime_rate = $request->get('overtime_rate');
+            $audit_salary->absent_deduction = $request->get('absent_deduction');
+            $audit_salary->att_bonus = $request->get('att_bonus');
+            $audit_salary->increment_amount = $request->get('increment_amount');
+            $audit_affected_row = $audit_salary->save();
+            if (!empty($audit_affected_row)) {
+                return redirect('/hrm/payroll/')->with('message', 'Update successfully.');
+            } else {
+                return redirect('/hrm/payroll/')->with('exception', 'Operation failed !');
+            }
+
         }
         return redirect('/hrm/payroll/')->with('exception', 'Operation failed !');
     }

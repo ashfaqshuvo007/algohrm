@@ -194,7 +194,7 @@
 
 
         //Manual Attendance Select dropdown
-        employee_id_list
+        // employee_id_list
         $('#employee_id_list').select2();
 
     });

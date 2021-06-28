@@ -57,6 +57,7 @@ use Carbon\Carbon;
                         <thead>
                             <tr>
                                 <th>{{ __('SL#') }}</th>
+                                <th>{{ __('Employee Name') }}</th>
                                 <th>{{ __('Reason') }}</th>
                                 <th>{{ __('Starts Date') }}</th>
                                 <th>{{ __('End Date') }}</th>
@@ -72,7 +73,9 @@ use Carbon\Carbon;
                         @foreach($leave_applications as $leave_application)
                           <tr>
                             <td>{{  $sl++ }}</td>
+                            <td>{{  $leave_application['user_name'] }}</td>
                             <td>{{str_limit($leave_application['reason'], 65)}}</td>
+                            
                             <td>{{ date('d/m/Y', strtotime($leave_application['start_date'])) }}</td>
                             <td>{{ date('d/m/Y', strtotime($leave_application['end_date'])) }}</td>
                             <td class="text-center">
@@ -82,16 +85,16 @@ use Carbon\Carbon;
                             <td>{{ $leave_application['leave_category'] }}</td>
                             <td>{{ date("D d F Y h:ia", strtotime($leave_application['created_at'])) }}</td>
                             <td class="text-center">
-                            @if($leave_application['publication_status'] == 0)
-                            <a href="" class="btn btn-warning btn-xs btn-flat btn-block" data-toggle="tooltip" data-original-title="Pending"><i class="icon fa fa-hourglass-2"></i>{{ __('Pending') }} </a>
-                            @elseif($leave_application['publication_status'] == 1)
-                              <a href="" class="btn btn-success btn-xs btn-flat btn-block" data-toggle="tooltip" data-original-title="Accepted"><i class="icon fa fa-smile-o"> {{ __('Accepted') }}</i></a>
-                            @else
-                              <a href="" class="btn btn-danger btn-xs btn-flat btn-block" data-toggle="tooltip" data-original-title="Not Accepted"><i class="icon fa fa-flag"></i> {{ __('Not Accepted') }}</a>
-                            @endif
+                                @if($leave_application['publication_status'] == 0)
+                                <a href="{{ route('leave_application.approved',$leave_application['id'])}}" class="btn btn-warning btn-xs btn-flat btn-block" data-toggle="tooltip" data-original-title="Pending"><i class="icon fa fa-hourglass-2"></i>{{ __('Pending') }} </a>
+                                @elseif($leave_application['publication_status'] == 1)
+                                <a href="{{ route('leave_application.not_approved' ,$leave_application['id'])}}" class="btn btn-success btn-xs btn-flat btn-block" data-toggle="tooltip" data-original-title="Accepted"><i class="icon fa fa-smile-o"> {{ __('Accepted') }}</i></a>
+                                @else
+                                <a href="{{ route('leave_application.approved',$leave_application['id'])}}" class="btn btn-danger btn-xs btn-flat btn-block" data-toggle="tooltip" data-original-title="Not Accepted"><i class="icon fa fa-flag"></i> {{ __('Not Accepted') }}</a>
+                                @endif
                           </td>
                           <td class="text-center">
-                           <a href="{{ url('/hrm/leave_application/' .$leave_application['id']) }}"><i class="icon fa fa-file-text"></i> {{ __('Details') }}</a>
+                           <a href="{{ url('/hrm/leave_application/' .$leave_application['id']) }}">{{ __('Details') }}</a>
                         </td>
                     </tr>
                     @endforeach

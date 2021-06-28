@@ -46,7 +46,7 @@
         <div class="col-md-12">
           <form action="{{ url('/device/saveDeviceAttendance') }}" method="post">
             {{ csrf_field() }}
-            <p class="h3 text-primary text-center">Please Pull and Save Device attendance everyday</p>
+            <p class="h3 text-primary text-center">Please Pull Device attendance into the system everyday. <br>Also Please make sure to go to 'Manage Attendance' on the SAME DAY and save data by date per device</p>
             <div class="form-group{{ $errors->has('device_id') ? ' has-error' : '' }}">
               <div class="col-sm-offset-3 col-sm-6">
                 <div class="input-group margin">

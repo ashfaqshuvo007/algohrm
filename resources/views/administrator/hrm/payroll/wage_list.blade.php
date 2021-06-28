@@ -70,9 +70,9 @@
                                 <th>{{ __('Total Days in month') }}</th>
                                 <th>{{ __('Working Days') }}</th>
                                 <th>{{ __('Holidays') }}</th>
-                                {{-- <th>{{ __('C.L') }}</th>
                                 <th>{{ __('S.L') }}</th>
-                                <th>{{ __('E.L') }}</th> --}}
+                                <th>{{ __('C.L') }}</th>
+                                <th>{{ __('E.L') }}</th>
                                 <th>{{ __('Absent Days') }}</th>
                                 <th>{{ __('Basic Salary') }}</th>
                                 <th>{{ __('House Rent') }}</th>
@@ -97,18 +97,31 @@
                             @php $sl = 1; @endphp
                             @foreach($salaries as $salary)
                             @php
-
+                                // dd($salary['user_id']);
                                 $present = \App\Attendance::where('employee_id',$salary['employee_id'])->where(DB::raw('MONTH(attendance_date)'), $salryMonth)->get()->toArray();
                                 $presentCount = count($present);
-                                $workingDays = $numDays - $totalHolidays;
-                                $absent_days = $workingDays - $presentCount;
+                                $leaves = \App\LeaveApplication::where('holiday_for',$salary['user_id'])->whereMonth('start_date',$salryMonth)->where('publication_status',1)->first();
+                                // dd($leaves);
+                                if(!empty($leaves)){
+                                    $leaveCategory = \App\LeaveCategory::where('id',$leaves->leave_category_id)->first();
+                                    $leaveCount = \Carbon\Carbon::parse($leaves->start_date)->diffInDays(\Carbon\Carbon::parse($leaves->end_date))+1;
+                                    
+                                    $workingDays = $numDays - $totalHolidays;
+                                    $absent_days = $workingDays - $presentCount - $leaveCount;
+                                    
+                                }else{
+                                    $workingDays = $numDays - $totalHolidays;
+                                    $absent_days = $workingDays - $presentCount;
+                                }
+                                
+                                
                                 if($salary['employee_type'] == 'worker'){
                                     
                                     $hours_overtime = array_column($present,'overtime_hours');
                                     $total_overtime = array_sum($hours_overtime);
                                 }else{
                                     $hours_overtime = "N/A";
-                                    $total_overtime = "N/A";
+                                    $total_overtime = "N/A"; 
                                 }
                                 
                             @endphp
@@ -127,9 +140,22 @@
                                 <td>{{ $numDays }}</td>
                                 <td>{{ $numDays - $totalHolidays }}</td>
                                 <td>{{ $totalHolidays}}</td>
-                                {{-- <td>0</td>
-                                <td>0</td>
-                                <td>0</td> --}}
+
+                                @php
+                                if(!empty($leaveCategory)){
+                                    $sickCategoryCount = ($leaveCategory->leave_category == 'S.L') ? $leaveCount : 0;
+                                    $casualCategoryCount = ($leaveCategory->leave_category == 'C.L') ? $leaveCount : 0;
+                                    $eCategoryCount = ($leaveCategory->leave_category == 'E.L') ? $leaveCount : 0;
+                                } else{
+                                    $sickCategoryCount =  0;
+                                    $casualCategoryCount =  0;
+                                    $eCategoryCount =  0;
+                                }
+                                @endphp
+                                <td>{{$sickCategoryCount }}</td>
+                                <td>{{ $casualCategoryCount}}</td>
+                                <td>{{  $eCategoryCount}}</td>
+                                
                                 <td>{{  $absent_days }}</td>
                                 <td>{{$salary['basic_salary']}}</td>
                                 <td>{{$salary['house_rent']}}</td>
@@ -138,10 +164,11 @@
                                 <td>{{$salary['convayence']}}</td>
                                 @php
                 
-                                    $amount_to_deduct = floor($gross_salary / $numDays);
+                                    $amount_to_deduct = intval($gross_salary / $numDays);
                                     $tot_absent_deduction = $amount_to_deduct * $absent_days;
                                 @endphp
                                 <td>{{$tot_absent_deduction }}</td>
+
                                 @php 
                                     $total_deduction = (int)$salary['absent_deduction'] * ($workingDays - $presentCount); 
                                 @endphp

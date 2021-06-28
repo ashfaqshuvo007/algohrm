@@ -168,7 +168,7 @@
             </ul>
         </li>
          @endpermission --}}
-        {{--@permission('leave-application')
+        @permission('leave-application')
          <li class="treeview">
             <a href="#">
                 <i class="glyphicon glyphicon-send text-purple"></i> <span>{{ __('Leave Management') }}</span>
@@ -178,21 +178,22 @@
             </a>
             <ul class="treeview-menu">
              
-                {{-- @permission('manage-leave-application')
+                @permission('manage-leave-application')
                 <li><a href="{{ url('/setting/leave_categories/create') }}"><i class="fa fa-circle-o"></i>{{ __('New Leave Category') }}</a></li>
                 <li><a href="{{ url('/setting/leave_categories') }}"><i class="fa fa-circle-o"></i>{{ __('Leave Category List') }}</a></li>
-                {{-- <li><a href="{{ url('/hrm/application_lists') }}"><i class="fa fa-circle-o"></i> <span>{{ __('Leave Application List') }}</span></a></li> --}}
-                {{--@endpermission --}}
-                {{-- @permission('my-leave-application')
-                <li><a href="{{ url('/hrm/leave_application/create') }}"><i class="fa fa-circle-o"></i> <span>{{ __('New Leave Application') }}</span></a></li>
                 <li><a href="{{ url('/hrm/leave_application') }}"><i class="fa fa-circle-o"></i> <span>{{ __('Leave Application Manage') }}</span></a></li>
-                @endpermission --}}
-                {{-- @permission('leave-reports')
+                
+                @endpermission
+                @permission('my-leave-application')
+                <li><a href="{{ url('/hrm/leave_application/create') }}"><i class="fa fa-circle-o"></i> <span>{{ __('New Leave Application') }}</span></a></li>
+                <li><a href="{{ url('/hrm/application_lists') }}"><i class="fa fa-circle-o"></i> <span>{{ __('Leave Application List') }}</span></a></li>
+                @endpermission
+                @permission('leave-reports')
                 <li><a href="{{ url('/hrm/leave-reports') }}"><i class="fa fa-circle-o"></i> <span>{{ __('Leave Reports') }}</span></a></li>
-                @endpermission 
+                @endpermission
             </ul>
-        </li> -
-        @endpermission --}}
+        </li> 
+        @endpermission
          {{-- @permission('manage-award')
          <li class="treeview">
             <a href="#">
@@ -263,7 +264,7 @@
                 <li><a href="{{ url('/setting/departments') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Departments') }} </a></li>
                 <li><a href="{{ url('/setting/designations') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Designations') }} </a></li>
                 <li><a href="{{ url('/setting/employee_grades') }}"><i class="fa fa-circle-o"></i> {{ __('Manage Grades') }}</a></li>
-                <li><a href="{{ url('/setting/leave_categories') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Leave Categories') }} </a></li>
+                {{-- <li><a href="{{ url('/setting/leave_categories') }}"><i class="fa fa-circle-o"></i>{{ __('Manage Leave Categories') }} </a></li> --}}
                 <li><a href="{{ url('/setting/working-days') }}"><i class="fa fa-circle-o"></i> {{ __('Set Working Day') }}</a></li>
                 <li><a href="{{ url('/setting/holidays') }}"><i class="fa fa-circle-o"></i>{{ __('Holiday List') }} </a></li>
                 {{-- <li><a href="{{ url('/setting/personal-events') }}"><i class="fa fa-circle-o"></i>{{ __('Personal Event') }} </a></li> --}}
