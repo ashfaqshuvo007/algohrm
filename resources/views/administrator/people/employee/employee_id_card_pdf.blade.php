@@ -28,10 +28,10 @@
             text-align: right;
         }
         table{
-            margin: 7px 0px;
+            margin: 5px 0px;
         }
         .main-section{
-            border:1px solid #138496;
+            /* border:1px solid #138496; */
             background-color: #fff;
         }
         .profile-header{
@@ -100,7 +100,7 @@
             <div class="box-body">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-4 main-section text-center" style="width: 205px; max-height: 325px">
+                            <div class="col-md-4 main-section text-center" style="width: 210px; max-height: 330px; max-width: 210px; height: 330px">
                                 <div class="row">
                                     <div class="col-sm-12 profile-header"style="background-color: {{$profileHeaderBackgroundColor}}">
                                         <h4 style="color: white">MAVEN DESIGN LTD.</h4>
@@ -118,7 +118,7 @@
 
                                         @endif
 
-                                        <table style="text-align: left;width: 100%;border: none !important;">
+                                        <table style="text-align: left;width: 100%;border: none !important; margin-bottom: 0px;">
                                             <tbody>
                                             <tr>
                                                 <th>Employee ID</th>
@@ -159,20 +159,20 @@
                                 </div>
                             </div>
                         </div>
-                        <br>
+                        <br><br><br>
                         <div class="row">
-                            <div class="col-md-4  main-section text-center" style="width: 205px; max-height: 325px">
+                            <div class="col-md-4  main-section text-center" style="width: 210px; max-height: 330px; max-width: 210px; height: 330px">
                                 <div class="row profile-header">
                                     <div style="background-color: {{$profileHeaderBackgroundColor}}">
                                         <img src="{{url('public/backend/img/mavenDesignTransparentLogo.png')}}"
                                             alt="MAVEN DESIGN LTD. LOGO" class="img-responsive">
-                                    </div>
+                                    </div>s
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-4" style="margin-bottom: 2px;">
-                                        <p style="font-size: 8px; margin:30px 0px 0px 0px;"><b>If found, please return to the following address</b>
+                                    <div class="col-lg-4" style="margin-bottom: 8px;">
+                                        <p style="font-size: 9px; margin:30px 0px 0px 0px;"><b>If found, please return to the following address</b>
                                         </p>
-                                        <h6 style="color: #ff4600; margin: 2px 0px">MAVEN DESIGN LTD.</h6>
+                                        <h6 style="color: #ff4600; margin: 8px 0px">MAVEN DESIGN LTD.</h6>
                                         <div class="text-center address">
                                             <p>PRODHAN TOWER, 22/A DN ROAD</p>
                                             <p>LALPUR FATULLAH, NARAYANGANJ, BANGLADESH</p>
