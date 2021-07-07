@@ -27,6 +27,7 @@ class EmplController extends Controller
         $employees = User::query()
             ->join('designations', 'users.designation_id', '=', 'designations.id')
             ->where('users.role', '>=', 2)
+            ->where('users.deletion_status', '!=', 1)
             ->select('employee_id', 'users.id', 'users.name', 'users.contact_no_one', 'users.created_at', 'users.activation_status', 'designations.designation')
             ->orderBy('users.employee_id', 'ASC')
             ->get()
@@ -88,7 +89,7 @@ class EmplController extends Controller
         $url = '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/';
 
         $employee = request()->validate([
-            'employee_id' => 'required|max:250',
+            'employee_id' => 'required|max:250|unique:users',
             'name' => 'required|max:100',
             'father_name' => 'nullable|max:100',
             'mother_name' => 'nullable|max:100',
