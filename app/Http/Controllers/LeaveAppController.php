@@ -12,6 +12,27 @@ use PDF;
 
 class LeaveAppController extends Controller
 {
+    public function newReports()
+    {
+        // $leave_applications = LeaveApplication::whereMonth('created_at',)
+        return view('administrator.hrm.leave_application.get_application');
+    }
+
+    public function showReport(Request $request)
+    {
+        // dd($request);
+        $month = date('m', strtotime($request->leave_month));
+        // dump($month);
+        $leave_applications = LeaveApplication::leftJoin('leave_categories', 'leave_applications.leave_category_id', '=', 'leave_categories.id')
+            ->whereMonth('leave_applications.created_at', $month)
+            ->select([
+                'leave_applications.*',
+                'leave_categories.leave_category as category',
+            ])
+            ->get();
+        return view('administrator.hrm.leave_application.leave_app_report', compact('leave_applications', 'month'));
+
+    }
 
     public function reports()
     {

@@ -105,7 +105,7 @@
 
                 <div class="container">
                         <div class="row">
-                            <div class="col-md-4   main-section text-center"style="width: 210px; max-height: 330px ;max-width: 210px;height: 330px">
+                            <div class="col-md-4   main-section text-center"style="width: 205px; max-height: 328px; max-width: 205px; height: 328px">
                                 <div class="row">
                                     <div class="col-sm-12 profile-header"
                                          style="background-color: {{$profileHeaderBackgroundColor}}">
@@ -132,7 +132,7 @@
                                             </tr>
                                             <tr>
                                                 <th>Name</th>
-                                                <td>{{ ucwords($employee['name'] )}}</td>
+                                                <td class="name">{{ ucwords($employee['name'] )}}</td>
                                             </tr>
 
                                             <tr>
@@ -168,7 +168,7 @@
                         </div>
                         <br><br><br>
                         <div class="row">
-                        <div class="col-md-4  main-section text-center"style="width: 210px; max-height: 330px ;max-width: 210px;height: 330px">
+                        <div class="col-md-4  main-section text-center"style="width: 205px; max-height: 328px; max-width: 205px; height: 328px">
                             <div class="row">
                                 <div class="col-lg-4 profile-header"
                                      style="background-color: {{$profileHeaderBackgroundColor}}">
@@ -177,10 +177,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 " style="margin-bottom: 8px;">
+                                <div class="col-lg-4 " style="margin-bottom: 10px;">
                                     <p style="font-size: 9px; margin:10px 0px 5px 0px;"><b>If you found this card please return to the following address</b>
                                     </p>
-                                    <h6 style="color: #ff4600; margin: 8px 0px">MAVEN DESIGN LTD.</h6>
+                                    <h6 style="color: #ff4500; margin: 9.25px 0px">MAVEN DESIGN LTD.</h6>
                                     <div class="text-center address">
                                         <p>PRODHAN TOWER, 22/A DN ROAD</p>
                                         <p>LALPUR FATULLAH, NARAYANGANJ, BANGLADESH</p>

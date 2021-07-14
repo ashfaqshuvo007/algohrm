@@ -172,8 +172,8 @@ class DeviceAttendanceController extends Controller
         $zklib->enableDevice();
         $zklib->disconnect();
 
-        // dd($attendances);
         $past_att = DeviceAttendance::where('device_id', $r->device_id)->whereDate('created_at', date('Y-m-d'))->first();
+
         if (empty($past_att)) {
             foreach ($attendances as $key => $val) {
                 $device_att = new DeviceAttendance;
@@ -187,12 +187,12 @@ class DeviceAttendanceController extends Controller
             }
 
             // Clear Attendance from Device
-            // $zklib = new ZKLib($ip, $port, 'TCP');
-            // $zklib->connect();
-            // $zklib->disableDevice();
-            // $attendances = $zklib->clearAttendance();
-            // $zklib->enableDevice();
-            // $zklib->disconnect();
+            $zklib = new ZKLib($ip, $port, 'TCP');
+            $zklib->connect();
+            $zklib->disableDevice();
+            $attendances = $zklib->clearAttendance();
+            $zklib->enableDevice();
+            $zklib->disconnect();
 
             return redirect('/hrm/attendance/manage')->with('message', 'Data Saved Successfully!');
         } else {

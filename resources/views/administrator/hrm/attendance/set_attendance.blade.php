@@ -21,7 +21,7 @@
         <!-- Default box -->
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">{{ __('Device: ') }} {{ $device_name[0]}}</h3>
+                <h3 class="box-title">{{ __('Device: ') }} {{ ($deviceId == 0) ? $device_name : $device_name->device_name }}</h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
@@ -73,28 +73,29 @@
                         </tr>
                     </thead>
                     <tbody id="search_area">
-                        
-                        @php $sl = 1; @endphp
-                        @foreach($groupedAttendance as $employee)
-                        @php
-                            if(sizeof($employee) > 1 ){
-                                $checkout = $employee[count($employee) - 1]->date_time;
-                            } else{
-                                $checkout = ' Null';
-                            }
-                        @endphp
+                        @if(!is_null($groupedAttendance))
+                            @php $sl = 1; @endphp
+                            @foreach($groupedAttendance as $employee)
+                            @php
+                                if(sizeof($employee) > 1 ){
+                                    $checkout = $employee[count($employee) - 1]->date_time;
+                                } else{
+                                    $checkout = ' Null';
+                                }
+                            @endphp
+                            <tr>
+                                <td>{{ $sl++ }}</td>
+                                <td>{{ $employee[0]->employee_id}}</td>
+                                <td>{{ $employee[0]->name }}</td>
+                                <td>{{ $employee[0]->date_time }}</td>
+                                <td>{{ $checkout }}</td>
+                            </tr>
+                            @endforeach
+                        @else 
                         <tr>
-                            <td>{{ $sl++ }}</td>
-                            <td>{{ $employee[0]->employee_id}}
-                                {{-- <a href="{{ url('/hrm/attendance/details/' . $employee['id']) }}">{{ $employee['name'] }}</a>
-                                <input type="hidden" name="user_id[]" value="{{ $employee['id'] }}">
-                                <input type="hidden" name="attendance_date[]" value="{{ $date }}"> --}}
-                            </td>
-                            <td>{{ $employee[0]->name }}</td>
-                            <td>{{ $employee[0]->date_time }}</td>
-                            <td>{{ $checkout }}</td>
+                            <td colspan="5">{{__('No data Available!')}}</td>
                         </tr>
-                        @endforeach
+                        @endif
                     </tbody>
                     </table>
                 </form>

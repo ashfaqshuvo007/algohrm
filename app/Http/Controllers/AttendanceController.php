@@ -37,19 +37,35 @@ class AttendanceController extends Controller
     public function set_attendance(Request $request)
     {
         // dd($request)
-
+        $deviceId = $request->device_id;
         $attendance_date = $request->date;
-        $device_name = Device::where('id', $request->device_id)->pluck('device_name');
-        $att_user_details = DeviceAttendance::leftjoin('users', 'device_attendances.employee_id', '=', 'users.employee_id')
-            ->where('date_time', 'LIKE', $attendance_date . '%')
-            ->where('device_id', $request->device_id)
-            ->select([
-                'users.employee_id',
-                'users.name',
-                'users.employee_type',
-                'device_attendances.*',
-            ])
-            ->get();
+        if ($request->device_id == 0) {
+            $device_name = "All Devices";
+            $att_user_details = DeviceAttendance::leftjoin('users', 'device_attendances.employee_id', '=', 'users.employee_id')
+                ->where('date_time', 'LIKE', $attendance_date . '%')
+                ->select([
+                    'users.employee_id',
+                    'users.name',
+                    'users.employee_type',
+                    'device_attendances.*',
+                ])
+                ->get();
+
+        } else {
+            $device_name = Device::where('id', $request->device_id)->first();
+            $att_user_details = DeviceAttendance::leftjoin('users', 'device_attendances.employee_id', '=', 'users.employee_id')
+                ->where('date_time', 'LIKE', $attendance_date . '%')
+                ->where('device_id', $request->device_id)
+                ->select([
+                    'users.employee_id',
+                    'users.name',
+                    'users.employee_type',
+                    'device_attendances.*',
+                ])
+                ->get();
+
+        }
+
         $date = $request->date;
 
         //grouping the data for each employee
@@ -58,7 +74,7 @@ class AttendanceController extends Controller
         });
 
         $past_att = Attendance::where('attendance_date', $attendance_date)->first();
-        if (empty($past_att)) {
+        if (is_null($past_att->check_out)) {
             foreach ($groupedAttendance as $att) {
                 $check_in = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $att[0]->date_time);
                 if (sizeof($att) > 1) {
@@ -83,8 +99,12 @@ class AttendanceController extends Controller
                 $result = Attendance::create($data + ['created_by' => auth()->user()->id]);
             }
         }
+        if (count($groupedAttendance) == 0) {
+            return redirect()->back()->with('exception', 'No data available');
+        } else {
+            return view('administrator.hrm.attendance.set_attendance', compact('attendance_date', 'groupedAttendance', 'date', 'device_name', 'deviceId'));
 
-        return view('administrator.hrm.attendance.set_attendance', compact('attendance_date', 'groupedAttendance', 'date', 'device_name'));
+        }
 
     }
 
@@ -408,6 +428,12 @@ class AttendanceController extends Controller
                 'attendances.check_out',
             ])
             ->get();
+
+        //grouping the data for each employee
+        $groupedAttendance = $att_user_details->mapToGroups(function ($item, $key) {
+            return [$item['employee_id'] => $item];
+        });
+        dd($att_user_details);
         return view('administrator.hrm.attendance.attendance_chart', compact('att_user_details', 'date'));
 
     }

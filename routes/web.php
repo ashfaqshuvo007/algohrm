@@ -52,7 +52,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/hrm/leave_application/create', 'LeaveAppController@create');
     Route::post('/hrm/leave_application/store', 'LeaveAppController@store');
     Route::get('/hrm/leave_application/{id}', 'LeaveAppController@show');
-    Route::get('/hrm/leave-reports', 'LeaveAppController@reports');
+    Route::get('/hrm/leave-reports', 'LeaveAppController@newReports');
+    Route::post('/hrm/leave-reports/show', 'LeaveAppController@showReport');
     Route::get('/hrm/leave-reports/pdf-reports', 'LeaveAppController@pdf_reports');
 
     // Designations Section //
