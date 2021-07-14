@@ -433,7 +433,6 @@ class AttendanceController extends Controller
         $groupedAttendance = $att_user_details->mapToGroups(function ($item, $key) {
             return [$item['employee_id'] => $item];
         });
-        dd($att_user_details);
         return view('administrator.hrm.attendance.attendance_chart', compact('att_user_details', 'date'));
 
     }
