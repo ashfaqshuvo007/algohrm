@@ -186,13 +186,13 @@ class DeviceAttendanceController extends Controller
                 $device_att->save();
             }
 
-            // Clear Attendance from Device
-            $zklib = new ZKLib($ip, $port, 'TCP');
-            $zklib->connect();
-            $zklib->disableDevice();
-            $attendances = $zklib->clearAttendance();
-            $zklib->enableDevice();
-            $zklib->disconnect();
+            // // Clear Attendance from Device
+            // $zklib = new ZKLib($ip, $port, 'TCP');
+            // $zklib->connect();
+            // $zklib->disableDevice();
+            // $attendances = $zklib->clearAttendance();
+            // $zklib->enableDevice();
+            // $zklib->disconnect();
 
             return redirect('/hrm/attendance/manage')->with('message', 'Data Saved Successfully!');
         } else {

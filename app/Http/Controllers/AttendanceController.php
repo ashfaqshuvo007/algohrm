@@ -74,7 +74,7 @@ class AttendanceController extends Controller
         });
 
         $past_att = Attendance::where('attendance_date', $attendance_date)->first();
-        if (is_null($past_att->check_out)) {
+        if (is_null($past_att) || is_null($past_att->check_out)) {
             foreach ($groupedAttendance as $att) {
                 $check_in = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $att[0]->date_time);
                 if (sizeof($att) > 1) {
