@@ -78,18 +78,18 @@
     'normal' => $rootDir . '/lib/fonts/DejaVuSerif',
   ),
   'glyphicons halflings' => array(
-    'normal' => $fontDir . '/glyphicons-halflings-normal_ca3761c8da1d72e97701712e24ede3a3',
+    'normal' => $fontDir . '/glyphicons-halflings-normal_e1a8834bc5145beb0bbc9af462604eb5',
   ),
   'fontawesome' => array(
-    'normal' => $fontDir . '/fontawesome-normal_38870b19e710517c86a5352edd66d3ad',
+    'normal' => $fontDir . '/fontawesome-normal_db5496da0c2da5a0fda59526ed327236',
   ),
   'ionicons' => array(
     'normal' => $fontDir . '/ionicons-normal_41296513993a8adbc20ab96e28642421',
   ),
   'source sans pro' => array(
-    '300_italic' => $fontDir . '/source-sans-pro-300-italic_101d847444e6535bbf3b44a473353f09',
-    'italic' => $fontDir . '/source-sans-pro-italic_120f826d42ce02c5331340b891f821ef',
-    '600_italic' => $fontDir . '/source-sans-pro-600-italic_473199b23c70064325218bd62ece4547',
+    '300_italic' => $fontDir . '/source-sans-pro-300-italic_e6ee238fa222bf632216f0b387897dab',
+    'italic' => $fontDir . '/source-sans-pro-italic_d4e9fac0d3244ad3bc9607f6bc2cac47',
+    '600_italic' => $fontDir . '/source-sans-pro-600-italic_2132d076e338fc048b4b0656bb679537',
     '300' => $fontDir . '/source-sans-pro-300_891cae020a7dc5d2aa8254f4fb770830',
     'normal' => $fontDir . '/source-sans-pro-normal_b93742b4fdc85f7c597b89467e1a88ee',
     '600' => $fontDir . '/source-sans-pro-600_fdc4420d6f6b2ecd7747c1b388d0dabd',

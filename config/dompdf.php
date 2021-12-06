@@ -260,6 +260,13 @@ return array(
         "DOMPDF_ENABLE_HTML5PARSER" => false,
 
 
+
+        /**
+         * Using to autoload php-font-lib
+         */
+        "DOMPDF_ENABLE_AUTOLOAD" => false
+
+
     ),
 
 

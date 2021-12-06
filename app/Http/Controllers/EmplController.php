@@ -581,7 +581,5 @@ class EmplController extends Controller
             return $pdf->stream($file_name);
 //        return $pdf->download($file_name);
         }
-
     }
-
 }
